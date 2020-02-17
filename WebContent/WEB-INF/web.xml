@@ -9,40 +9,34 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
-  
-  	<servlet>
-		<servlet-name>dispatcher</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-		<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/springConfig.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>dispatcher</servlet-name>
-		<url-pattern>/view/index.html</url-pattern>
-	</servlet-mapping>
-	<login-config>
-  <auth-method>FORM</auth-method>
-</login-config>
-<security-constraint>
-  <web-resource-collection>
-    <web-resource-name>Protected Area</web-resource-name>
-    <url-pattern>/index.jsp</url-pattern>
-    <url-pattern>/a2asso.jsp</url-pattern>
-  </web-resource-collection>
-  <auth-constraint>
-    <!-- Role Everyone will not be assignable -->
-    <role-name>Everyone</role-name>
+  <servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/springConfig.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/view/index.html</url-pattern>
+  </servlet-mapping>
+  <login-config>
+    <auth-method>FORM</auth-method>
+  </login-config>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Protected Area</web-resource-name>
+      <url-pattern>/index.jsp</url-pattern>
+      <url-pattern>/a2asso.jsp</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>Everyone</role-name>
     </auth-constraint>
-</security-constraint>
-<security-role>
-  <description>All SAP Cloud Platform users</description>
-  <role-name>Everyone</role-name>
-</security-role>
+  </security-constraint>
+  <security-role>
+    <description>All SAP Cloud Platform users</description>
+    <role-name>Everyone</role-name>
+  </security-role>
 </web-app>
-
-	
