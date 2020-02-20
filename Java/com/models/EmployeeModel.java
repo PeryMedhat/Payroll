@@ -44,6 +44,26 @@ public class EmployeeModel {
 	public EmployeeModel() {
 		
 	}
+	
+
+	public EmployeeModel(
+			@NotNull(message = "is required !") @Size(min = 1, max = 45, message = "is required !") Date startDate,
+			@NotNull(message = "is required !") @Size(min = 1, max = 45, message = "is required !") Date endDate,
+			@NotNull(message = "is required !") @Size(min = 1, max = 45, message = "is required !") String code,
+			@NotNull(message = "is required !") @Size(min = 1, max = 45, message = "is required !") String name,
+			Boolean hasParent,
+			@NotNull(message = "is required !") @Size(min = 1, max = 45, message = "is required !") String parentCode,
+			Boolean hasChild, EmployeeModel childModel) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.code = code;
+		this.name = name;
+		this.hasParent = hasParent;
+		this.parentCode = parentCode;
+		this.hasChild = hasChild;
+		this.childModel = childModel;
+	}
+
 
 	public Date getStartDate() {
 		return startDate;

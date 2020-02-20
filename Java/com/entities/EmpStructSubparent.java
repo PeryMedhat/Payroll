@@ -3,6 +3,7 @@ package com.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="emp-struct-subparent")
+@Table(name="emp_struct_subparent")
 public class EmpStructSubparent {
 
 	@Id
@@ -31,12 +32,16 @@ public class EmpStructSubparent {
 	@Column(name="parent_code")
 	private String parentCode;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "commonID_id")
 	private CommonID commID;
 	
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST,
+			  CascadeType.MERGE,
+			  CascadeType.REFRESH,
+			  CascadeType.DETACH },
+			  fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_id")
 	private EmpStructParent parent;
 		
@@ -44,8 +49,12 @@ public class EmpStructSubparent {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@OneToMany(mappedBy = "emp-struct-subparent"
-			,fetch =FetchType.EAGER)
+	@OneToMany(mappedBy = "emp_struct_subparent" ,
+			  cascade = {CascadeType.PERSIST,
+			  CascadeType.MERGE,
+			  CascadeType.REFRESH,
+			  CascadeType.DETACH },
+			  fetch = FetchType.EAGER)
 	private List<EmpStructChild> children;
 	
 	

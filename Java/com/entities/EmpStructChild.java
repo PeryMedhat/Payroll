@@ -1,7 +1,9 @@
 package com.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="emp-struct-child")
+@Table(name ="emp_struct_child")
 public class EmpStructChild {
 	
 	@Id
@@ -19,16 +21,24 @@ public class EmpStructChild {
 	@Column(name="child_id")
 	private int id;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "commonID_id")
 	private CommonID commID;
 	
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST,
+			  CascadeType.MERGE,
+			  CascadeType.REFRESH,
+			  CascadeType.DETACH },
+			  fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_id")
 	private EmpStructParent parent;
 	
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST,
+			  CascadeType.MERGE,
+			  CascadeType.REFRESH,
+			  CascadeType.DETACH },
+			  fetch = FetchType.EAGER)
 	@JoinColumn(name="subparent_id")
 	private EmpStructSubparent subParent;
 	
