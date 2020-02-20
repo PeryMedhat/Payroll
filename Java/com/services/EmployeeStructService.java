@@ -4,6 +4,6 @@ import com.models.EmployeeModel;
 
 public interface EmployeeStructService {
 
-	public void processTheIncommingModel(EmployeeModel employee);
+	public Boolean processTheIncommingModel(EmployeeModel employee);
 
 }
