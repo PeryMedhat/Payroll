@@ -73,6 +73,6 @@
 	<mvc:resources location="/resources/"
 		mapping="/resources/**"></mvc:resources>
 
-
+	<mvc:default-servlet-handler />
 
 </beans>

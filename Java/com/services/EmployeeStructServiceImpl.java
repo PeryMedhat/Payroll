@@ -22,36 +22,51 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Transactional
 	public Boolean processTheIncommingModel(EmployeeModel employee) {
 		
+		//commonID data
 		CommonID commId = new CommonID(employee.getStartDate(),
 										employee.getEndDate(),
 										employee.getCode(),
 										employee.getName());
-								
+		
+		//check if this model has parent and type of his parent
 		Boolean hisParentIsParent = employeeDAO.isParent(employee.getParentCode());
 		Boolean hisParentIsSubParent = employeeDAO.isSubParent(employee.getParentCode());
+		
+		//flag to save boolean value to check if the data successfully added to our database or not
 		Boolean missionIsDone = false;
+		
 		//Process the model to know weather it is a parent/SubParent/Child
 		if(!employee.getHasParent() && employee.getHasChild()) {
+			
+			//the model has no parent but has a child ==> save as parent
 			EmpStructParent parent = new EmpStructParent(commId);
 			missionIsDone = employeeDAO.addParent(parent);
 		
 		}else if(employee.getHasParent() && employee.getHasChild()
 				 && hisParentIsParent) {
+			
+			//the model has parent also has child and his parent is parent ==> save as subParent 
 			EmpStructSubparent subParent = new EmpStructSubparent(0,null,commId);
 			missionIsDone =employeeDAO.addSubParentToParent(subParent, employee.getParentCode());
 			
 		}else if( employee.getHasParent() && employee.getHasChild()
 				 && hisParentIsSubParent) {
+			
+			//the model has parent also has child and his parent is subParent ==> save as subParent 
 			EmpStructSubparent subParent = new EmpStructSubparent(1,employee.getParentCode(),commId);
 			missionIsDone =employeeDAO.addSubParentToSubParent(subParent, employee.getParentCode());
 		
 		}else if(employee.getHasParent() && !employee.getHasChild()
 				 && hisParentIsParent) {
+			
+			//the model has parent and has no child and his parent is parent ==>save as child to parent
 			EmpStructChild child = new EmpStructChild(commId);
 			missionIsDone =employeeDAO.addChildToParent(child, employee.getParentCode());
 			
 		}else if(employee.getHasParent() && !employee.getHasChild()
 				 && hisParentIsSubParent) {
+			
+			//the model has parent and has no child and his parent is subParent ==>save as child to subParent
 			EmpStructChild child = new EmpStructChild(commId);
 			missionIsDone =employeeDAO.addChildToSubParent(child,  employee.getParentCode());
 			
@@ -62,9 +77,6 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			missionIsDone =employeeDAO.addParent(parent);
 		}
 		return missionIsDone;
-		
-		
-	
 		
 		
 	}

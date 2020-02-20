@@ -13,15 +13,12 @@ import com.entities.EmpStructChild;
 import com.entities.EmpStructParent;
 import com.entities.EmpStructSubparent;
 
-
-
 @Repository
 public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	
 	@Override
 	public Boolean addParent(EmpStructParent parent) {
 		// get the session 
