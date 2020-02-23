@@ -1,5 +1,9 @@
 package com.services;
 
-public class EmployeeStructService {
+import com.models.EmployeeModel;
+
+public interface EmployeeStructService {
+
+	public Boolean processTheIncommingModel(EmployeeModel employee);
 
 }
