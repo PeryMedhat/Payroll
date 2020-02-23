@@ -46,10 +46,10 @@ public class EmpStructSubparent {
 	private EmpStructParent parent;
 		
 	public EmpStructSubparent() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
-	@OneToMany(mappedBy = "emp_struct_subparent" ,
+	@OneToMany(mappedBy = "subParent" ,
 			  cascade = {CascadeType.PERSIST,
 			  CascadeType.MERGE,
 			  CascadeType.REFRESH,

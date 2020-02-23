@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,20 +28,18 @@ public class EmpStructParent {
 	@JoinColumn(name = "commonID_id")
 	private CommonID commID;
 	
-	@OneToMany(mappedBy = "emp_struct_parent",
+	@OneToMany(mappedBy = "parent",
 			cascade = {CascadeType.PERSIST,
 					  CascadeType.MERGE,
 					  CascadeType.REFRESH,
-					  CascadeType.DETACH },
-					  fetch = FetchType.EAGER)
+					  CascadeType.DETACH })
 	private List<EmpStructSubparent> subParents;
 	
-	@OneToMany(mappedBy = "emp_struct_parent"
+	@OneToMany(mappedBy = "parent"
 				,cascade = {CascadeType.PERSIST,
 						  CascadeType.MERGE,
 						  CascadeType.REFRESH,
-						  CascadeType.DETACH },
-						  fetch = FetchType.EAGER)
+						  CascadeType.DETACH })
 	private List<EmpStructChild> children;
 	
 	
