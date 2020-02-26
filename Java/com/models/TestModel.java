@@ -1,17 +1,12 @@
 package com.models;
 
-import java.util.Date;
 
-import javax.enterprise.inject.Model;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-@Model
 public class TestModel {
 	
-	
+	private String startDate;
+	private String endDate;
+	private String code;
+	private String name;
 	
 
 	public String getCode() {
@@ -40,8 +35,4 @@ public class TestModel {
 		this.endDate = endDate;
 	}
 
-	private String startDate;
-	private String endDate;
-	private String code;
-	private String name;
 }

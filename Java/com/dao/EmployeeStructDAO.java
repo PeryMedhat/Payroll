@@ -39,6 +39,8 @@ public interface EmployeeStructDAO {
 	//try to find out if this employee is a parent/subParent
 	public Boolean isParent(String parentCode);
 	public Boolean isSubParent(String parentCode);
+
+	Boolean addSubParentToSubParent(EmpStructSubparent subParent);
 	
 	
 	

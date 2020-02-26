@@ -1,9 +1,9 @@
 package com.services;
 
-import com.models.EmployeeModel;
+import com.models.EmployeeStructModel;
 
 public interface EmployeeStructService {
 
-	public Boolean processTheIncommingModel(EmployeeModel employee);
+	public String processTheIncommingModel(EmployeeStructModel employee) throws Exception;
 
 }
