@@ -13,7 +13,7 @@ public interface EmployeeStructDAO {
 	
 	//get the parent/subParent and use addSubParent method then save it to DB
 	public Boolean addSubParentToParent(EmpStructSubparent subParent , String parentCode);
-	public Boolean addSubParentToSubParent(EmpStructSubparent subParent , String parentCode);
+	public Boolean addSubParentToSubParent(EmpStructSubparent subParent);
 	
 	//get the parent/subParent and use addChild method then save it to DB
 	public Boolean addChildToParent(EmpStructChild child,String parentCode );
@@ -40,7 +40,7 @@ public interface EmployeeStructDAO {
 	public Boolean isParent(String parentCode);
 	public Boolean isSubParent(String parentCode);
 
-	Boolean addSubParentToSubParent(EmpStructSubparent subParent);
+	
 	
 	
 	

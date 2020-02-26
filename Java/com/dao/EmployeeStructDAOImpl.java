@@ -78,14 +78,48 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 
 	@Override
 	public Boolean addChildToParent(EmpStructChild child, String parentCode) {
-		// TODO Auto-generated method stub
-		return null;
+		// get the session 
+		Session session = sessionFactory.getCurrentSession();
+						
+		try {
+			//get the parent using parent code
+			Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
+			query.setParameter("code", parentCode);
+			EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+			
+			//Add the subParent to this parent 
+			parent.addChild(child);
+			session.saveOrUpdate(child);
+			return true;
+		}catch(Exception e) {
+			//clear session and return false
+			session.clear(); 
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public Boolean addChildToSubParent(EmpStructChild child, String parentCode) {
-		// TODO Auto-generated method stub
-		return null;
+		// get the session 
+		Session session = sessionFactory.getCurrentSession();
+								
+		try {
+			//get the parent using subParet code
+			Query<EmpStructSubparent> query = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
+			query.setParameter("code", parentCode);
+			EmpStructSubparent subParent = (EmpStructSubparent) query.getSingleResult();
+					
+			//Add the subParent to this parent 
+			subParent.addChild(child);
+			session.saveOrUpdate(child);
+			return true;
+		}catch(Exception e) {
+			//clear session and return false
+			session.clear(); 
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
@@ -132,20 +166,54 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 
 	@Override
 	public Boolean isParent(String parentCode) {
-		// TODO Auto-generated method stub
-		return null;
+		Boolean isParent;
+		
+		// get the session 
+		Session session = sessionFactory.getCurrentSession();
+								
+		try {
+			//get the parent using parent code
+			Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
+			query.setParameter("code", parentCode);
+			EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+			if(parent!=null) {
+				isParent= true;
+			}else{
+				isParent= false;
+			}
+		}catch(Exception e) {
+			//clear session and return false
+			session.clear(); 
+			e.printStackTrace();
+			return false;
+		}
+		return isParent;
 	}
 
 	@Override
 	public Boolean isSubParent(String parentCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean addSubParentToSubParent(EmpStructSubparent subParent, String parentCode) {
-		// TODO Auto-generated method stub
-		return null;
+		Boolean isSubParent;
+		
+		// get the session 
+		Session session = sessionFactory.getCurrentSession();
+								
+		try {
+			//get the parent using parent code
+			Query<EmpStructSubparent> query = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
+			query.setParameter("code", parentCode);
+			EmpStructSubparent subParent = (EmpStructSubparent) query.getSingleResult();
+			if(subParent!=null) {
+				isSubParent= true;
+			}else{
+				isSubParent= false;
+			}
+		}catch(Exception e) {
+			//clear session and return false
+			session.clear(); 
+			e.printStackTrace();
+			return false;
+		}
+		return isSubParent;
 	}
 
 	
