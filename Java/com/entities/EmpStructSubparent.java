@@ -37,11 +37,11 @@ public class EmpStructSubparent {
 	private CommonID commID;
 	
 
-	@ManyToOne(cascade = {CascadeType.PERSIST,
-			  CascadeType.MERGE,
-			  CascadeType.REFRESH,
-			  CascadeType.DETACH },
-			  fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE,
+					CascadeType.REFRESH,
+					CascadeType.DETACH })
 	@JoinColumn(name = "parent_id")
 	private EmpStructParent parent;
 		

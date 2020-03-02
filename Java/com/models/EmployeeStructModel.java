@@ -17,14 +17,13 @@ public class EmployeeStructModel {
 	}
 	
 	public EmployeeStructModel(String startDate, String endDate, String code, String name, Boolean hasParent,
-			String parentCode, Boolean hasChild, EmployeeStructModel childModel) {
+			String parentCode, Boolean hasChild) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.code = code;
 		this.name = name;
 		this.hasParent = hasParent;
 		this.parentCode = parentCode;
-		this.hasChild = hasChild;
 	}
 
 	public String getStartDate() {

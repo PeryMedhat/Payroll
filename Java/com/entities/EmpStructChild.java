@@ -3,7 +3,6 @@ package com.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,16 +28,23 @@ public class EmpStructChild {
 	@ManyToOne(cascade = {CascadeType.PERSIST,
 			  CascadeType.MERGE,
 			  CascadeType.REFRESH,
-			  CascadeType.DETACH },
-			  fetch = FetchType.EAGER)
+			  CascadeType.DETACH })
 	@JoinColumn(name = "parent_id")
 	private EmpStructParent parent;
 	
+	public EmpStructParent getParent() {
+		return parent;
+	}
+
+
+	public void setParent(EmpStructParent parent) {
+		this.parent = parent;
+	}
+
 	@ManyToOne(cascade = {CascadeType.PERSIST,
 			  CascadeType.MERGE,
 			  CascadeType.REFRESH,
-			  CascadeType.DETACH },
-			  fetch = FetchType.EAGER)
+			  CascadeType.DETACH })
 	@JoinColumn(name="subparent_id")
 	private EmpStructSubparent subParent;
 	
@@ -68,13 +74,6 @@ public class EmpStructChild {
 		this.commID = commID;
 	}
 
-	public EmpStructParent getParent() {
-		return parent;
-	}
-
-	public void setParent(EmpStructParent parent) {
-		this.parent = parent;
-	}
 
 	public EmpStructSubparent getSubParent() {
 		return subParent;
