@@ -2,6 +2,7 @@ package com.services;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -111,25 +112,29 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	public Map<String,Object> getTheSubParentsOfSubParent(String parentCode){
 		List<EmpStructSubparent> subParents =employeeDAO.getSubParentsOfSubParents(parentCode);
 		Map<String,Object> subParentsModel =new HashMap<String,Object>();
-		for(Integer i = 0;i<subParents.size();i++) {
-			
-			//create a model
-			EmployeeStructModel model = new EmployeeStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
-			boolean hasParent = (subParents.get(i).getHasParent()==0)?false:true;
-			String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
-			String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
-			model.setStartDate(startDate);
-			model.setEndDate(endDate);
-			model.setHasParent(hasParent);
-			model.setCode(subParents.get(i).getCommID().getCode());
-			model.setName(subParents.get(i).getCommID().getName());
-			model.setParentCode(subParents.get(i).getParentCode());
+		
+		List<EmployeeStructModel> listOfSubParents = new ArrayList<EmployeeStructModel>();		
+		if(subParents!=null) {
+			for(Integer i = 0;i<subParents.size();i++) {
+				//create a model
+				EmployeeStructModel model = new EmployeeStructModel();
+				DateFormat dateFormat = new SimpleDateFormat();
+
+				String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
+				String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
 				
-			subParentsModel.put("sub-parent of sub-parent number:"+(i).toString(),model);
-		
+				model.setParentCode(parentCode);
+				model.setHasChild(true);
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
+				model.setHasParent(true);
+				
+				model.setCode(subParents.get(i).getCommID().getCode());
+				model.setName(subParents.get(i).getCommID().getName());
+				listOfSubParents.add(model);								
+			}
+			subParentsModel.put("subparents:",listOfSubParents);
 		}
-		
 		return subParentsModel;
 	
 	}
@@ -145,6 +150,9 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		String startDate = dateFormat.format(parent.getCommID().getStartDate());
 		String endDate = dateFormat.format(parent.getCommID().getEndDate());
 		
+		model.setHasChild(true);
+		model.setHasParent(false);
+		model.setParentCode(null);
 		model.setStartDate(startDate);
 		model.setEndDate(endDate);
 		model.setCode(parent.getCommID().getCode());
@@ -162,26 +170,29 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		List<EmpStructSubparent> subParentsOfParent = parent.getSubParents();
 		Map<String,Object> subParentsModel =new HashMap<String,Object>();
 		
-		for(Integer i=0;i<subParentsOfParent.size();i++) {
-			
-		
-			EmployeeStructModel model = new EmployeeStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
-			boolean hasParent = (subParentsOfParent.get(i).getHasParent()==0)?false:true;
-			
-			String startDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getStartDate());
-			String endDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getEndDate());
-			
-			model.setStartDate(startDate);
-			model.setEndDate(endDate);
-			model.setHasParent(hasParent);
-			model.setCode(subParentsOfParent.get(i).getCommID().getCode());
-			model.setName(subParentsOfParent.get(i).getCommID().getName());
-			model.setParentCode(subParentsOfParent.get(i).getParentCode());
-
-			subParentsModel.put("sub-parent of parent number:"+(i).toString(),model);
+		List<EmployeeStructModel> listOfSubParents = new ArrayList<EmployeeStructModel>();		
+		if(subParentsOfParent!=null) {
+			for(Integer i=0;i<subParentsOfParent.size();i++) {
+				EmployeeStructModel model = new EmployeeStructModel();
+				DateFormat dateFormat = new SimpleDateFormat();
+				boolean hasParent = (subParentsOfParent.get(i).getHasParent()==0)?false:true;
+				
+				String startDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getStartDate());
+				String endDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getEndDate());
+				
+				model.setHasParent(true);
+				model.setParentCode(code);
+				model.setHasChild(true);
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
+				model.setHasParent(hasParent);
+				model.setCode(subParentsOfParent.get(i).getCommID().getCode());
+				model.setName(subParentsOfParent.get(i).getCommID().getName());
+	
+				listOfSubParents.add(model);
+			}
+			subParentsModel.put("subparents:",listOfSubParents);
 		}
-		
 		return subParentsModel;
 	}
 		
@@ -190,21 +201,30 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	public Map<String,Object> getTheChildrenOfSubParent(String subCode){
 		EmpStructSubparent subParent = employeeDAO.getSubParent(subCode);
 		List<EmpStructChild> childrenOfSub = subParent.getChildren();
+		List<EmployeeStructModel> listOfChildren = new ArrayList<EmployeeStructModel>() ; 
 		Map<String,Object> childrenModel =new HashMap<String,Object>();
+		//if(childrenOfSub!=null) {
+			for(Integer i=0;i<childrenOfSub.size();i++) {
+				EmployeeStructModel model = new EmployeeStructModel();
+				DateFormat dateFormat = new SimpleDateFormat();
+				
+				String startDate = dateFormat.format(childrenOfSub.get(i).getCommID().getStartDate());
+				String endDate = dateFormat.format(childrenOfSub.get(i).getCommID().getEndDate());
+				
+				model.setHasParent(true);
+				model.setParentCode(subCode);
+				model.setHasChild(false);
+				
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
+				model.setCode(childrenOfSub.get(i).getCommID().getCode());
+				model.setName(childrenOfSub.get(i).getCommID().getName());
+				
+				listOfChildren.add(model);
+			}
+		childrenModel.put("children:",listOfChildren);
+		//}
 		
-		for(Integer i=0;i<childrenOfSub.size();i++) {
-			EmployeeStructModel model = new EmployeeStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
-			
-			String startDate = dateFormat.format(childrenOfSub.get(i).getCommID().getStartDate());
-			String endDate = dateFormat.format(childrenOfSub.get(i).getCommID().getEndDate());
-			
-			model.setStartDate(startDate);
-			model.setEndDate(endDate);
-			model.setCode(childrenOfSub.get(i).getCommID().getCode());
-			model.setName(childrenOfSub.get(i).getCommID().getName());
-			childrenModel.put("child number:"+(i).toString(),model);
-		}
 		return childrenModel;
 		
 	}
@@ -215,6 +235,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		EmpStructParent parent = employeeDAO.getParent(parentCode);
 		List<EmpStructChild> childrenOfParent = parent.getChildren();
 		Map<String,Object> childrenModel =new HashMap<String,Object>();
+		
+		List<EmployeeStructModel> listOfChildren = new ArrayList<EmployeeStructModel>() ; 
 		if(childrenOfParent!=null) {
 			for(Integer i=0;i<childrenOfParent.size();i++) {
 				EmployeeStructModel model = new EmployeeStructModel();
@@ -223,12 +245,16 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				String startDate = dateFormat.format(childrenOfParent.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(childrenOfParent.get(i).getCommID().getEndDate());
 				
+				model.setHasParent(true);
+				model.setParentCode(parentCode);
+				model.setHasChild(false);
 				model.setStartDate(startDate);
 				model.setEndDate(endDate);
 				model.setCode(childrenOfParent.get(i).getCommID().getCode());
 				model.setName(childrenOfParent.get(i).getCommID().getName());
-				childrenModel.put("child number:"+(i).toString(),model);
+				listOfChildren.add(model);
 			}
+			childrenModel.put("children:",listOfChildren);
 		}
 		return childrenModel;
 		

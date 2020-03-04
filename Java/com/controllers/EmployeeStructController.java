@@ -54,13 +54,12 @@ public class EmployeeStructController {
 			Map<String,Object> subOfSub = empService.getTheSubParentsOfSubParent(subOfParentObject.get(i).getCommID().getCode());
 			Map<String,Object> childrenOfSubMap = empService.getTheChildrenOfSubParent(subOfParentObject.get(i).getCommID().getCode());
 			
-			
-			myMap.put("ChildrenOfSubOfParen for sub no:"+i, childrenOfSubMap);
-			myMap.put("SubOfSubOfSubOfParen for sub no:"+i, subOfSub);
+			myMap.putAll(childrenOfSubMap);
+			myMap.putAll(subOfSub);
 		}
-		myMap.put("parent",parent);
-		myMap.put("subOfParent",subOfParent);
-		myMap.put("ChildrenOfParent",childrenOfParent);
+		myMap.putAll(parent);
+		myMap.putAll(subOfParent);
+		myMap.putAll(childrenOfParent);
 		
 		return myMap;
 	
