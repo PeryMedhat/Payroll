@@ -40,9 +40,8 @@ public interface EmployeeStructDAO {
 	public Boolean isParent(String parentCode);
 	public Boolean isSubParent(String parentCode);
 
-	
-	
-	
-	
-	
+	public EmpStructParent getParentById(int id);
+	public EmpStructChild getChildById(int id);
+	public EmpStructSubparent getSubById(int id);
+
 }

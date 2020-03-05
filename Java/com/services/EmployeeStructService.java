@@ -2,6 +2,7 @@ package com.services;
 
 import java.util.Map;
 
+import com.entities.EmpStructChild;
 import com.entities.EmpStructParent;
 import com.entities.EmpStructSubparent;
 import com.models.EmployeeStructModel;
@@ -14,14 +15,22 @@ public interface EmployeeStructService {
 
 	public Map<String, Object> getTheParent(String code);
 
-	Map<String, Object> getTheSubParentsOfParent(String code);
+	public Map<String, Object> getTheSubParentsOfParent(String code);
 
-	Map<String, Object> getTheChildrenOfSubParent(String subCode);
+	public Map<String, Object> getTheChildrenOfSubParent(String subCode);
 
-	Map<String, Object> getTheChildrenOfParent(String parentCode);
+	public Map<String, Object> getTheChildrenOfParent(String parentCode);
 
-	EmpStructParent getParent(String code);
+	public EmpStructParent getParent(String code);
 
-	EmpStructSubparent getSubParent(String code);
+	public EmpStructSubparent getSubParent(String code);
+
+	public Boolean isParent(String parentCode);
+
+	public Boolean isSubParent(String parentCode);
+
+	public Map<String, Object> getParentOfSub(EmpStructSubparent sub);
+
+	public Map<String, Object> getParentOfChild(EmpStructChild child);
 
 }

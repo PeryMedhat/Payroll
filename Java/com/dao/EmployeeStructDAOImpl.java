@@ -59,8 +59,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 			return false;
 		}
 	}
-
-	@Override
 	public Boolean addSubParentToSubParent(EmpStructSubparent subParent) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
@@ -98,8 +96,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 			return false;
 		}
 	}
-
-	@Override
 	public Boolean addChildToSubParent(EmpStructChild child, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
@@ -135,8 +131,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 						
 		return parent;
 	}
-
-	@Override
 	public EmpStructSubparent getSubParent(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
@@ -149,8 +143,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 								
 		return subParent;
 	}
-
-	@Override
 	public EmpStructChild getChild(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
@@ -165,6 +157,25 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 	}
 
 	@Override
+	public EmpStructParent getParentById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		EmpStructParent parent = session.get(EmpStructParent.class,id);
+		return parent;
+	}
+	@Override
+	public EmpStructChild getChildById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		EmpStructChild child = session.get(EmpStructChild.class, id);
+		return child;	
+	}
+	@Override
+	public EmpStructSubparent getSubById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		EmpStructSubparent sub = session.get(EmpStructSubparent.class, id);
+		return sub;
+	}
+		
+	@Override
 	public List<EmpStructSubparent> getSubParentsOfSubParents(String parentCode) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
@@ -177,8 +188,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 				
 		return empStructSubParents;
 	}
-
-	@Override
 	public List<EmpStructSubparent> getSubParentsOfParent(String parentCode) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
@@ -197,14 +206,10 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 						
 		return empStructSubParents;
 	}
-
-	@Override
 	public List<EmpStructChild> getChildrenOfParent(String parentCode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
 	public List<EmpStructChild> getChildrenOfSubParent(String parentCode) {
 		// TODO Auto-generated method stub
 		return null;
@@ -235,8 +240,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		}
 		return isParent;
 	}
-
-	@Override
 	public Boolean isSubParent(String parentCode) {
 		Boolean isSubParent;
 		
@@ -261,7 +264,5 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		}
 		return isSubParent;
 	}
-
-	
 
 }

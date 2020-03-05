@@ -23,16 +23,17 @@ public class EmployeeStructController {
 	
 	@Autowired
 	EmployeeStructService empService;
-		
+	
 	@RequestMapping(value = { "/addEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String addEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) {
-		String flag = "false";
+	public String[] addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
+		String[] flag= new String[employeeModel.size()];
 		try {
-			flag = empService.processTheIncommingModel(employeeModel);
+			for(Integer i =0;i<employeeModel.size();i++) {
+				flag[i] = empService.processTheIncommingModel(employeeModel.get(i));
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} 
 		return flag;
 	}
 	
@@ -40,30 +41,61 @@ public class EmployeeStructController {
 	@ResponseBody
 	public Map<String,Object>  showEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) {
 		Map<String,Object> myMap = new HashMap<String,Object>();
+		String code =employeeModel.getCode();
 		
+		Boolean isParent = empService.isParent(code);
+		Boolean isSub = empService.isSubParent(code);
+		
+		try {
+			if(isParent) {
+				myMap.putAll(getParentChain(code));
+			}
+			else if(isSub) {
+				myMap.putAll(getSubParentChain(code));
+			}else {
+				//myMap.putAll(getChildChain(code));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+		return myMap;
+	}
+	
+	//To be removed to service class ***
+	public Map<String,Object> getParentChain(String code){
+		Map<String,Object> parentMap = new HashMap<String,Object>();
 		//getting parent
-		Map<String,Object> parent = empService.getTheParent(employeeModel.getCode());
+		Map<String,Object> parent = empService.getTheParent(code);
 		
-		EmpStructParent parentObject = empService.getParent(employeeModel.getCode());
+		EmpStructParent parentObject = empService.getParent(code);
 		
 		Map<String,Object> subOfParent = empService.getTheSubParentsOfParent(parentObject.getCommID().getCode());
 		Map<String,Object> childrenOfParent =empService.getTheChildrenOfParent(parentObject.getCommID().getCode());
-		
 		List<EmpStructSubparent> subOfParentObject = parentObject.getSubParents();
+		
 		for(Integer i = 0; i<subOfParentObject.size();i++) {
 			Map<String,Object> subOfSub = empService.getTheSubParentsOfSubParent(subOfParentObject.get(i).getCommID().getCode());
 			Map<String,Object> childrenOfSubMap = empService.getTheChildrenOfSubParent(subOfParentObject.get(i).getCommID().getCode());
 			
-			myMap.putAll(childrenOfSubMap);
-			myMap.putAll(subOfSub);
+			parentMap.putAll(childrenOfSubMap);
+			parentMap.putAll(subOfSub);
 		}
-		myMap.putAll(parent);
-		myMap.putAll(subOfParent);
-		myMap.putAll(childrenOfParent);
-		
-		return myMap;
-	
+		parentMap.putAll(parent);
+		parentMap.putAll(subOfParent);
+		parentMap.putAll(childrenOfParent);
+		return parentMap;		
 	}
+	
+	public Map<String,Object> getSubParentChain(String code){
+		Map<String,Object> subparentChainMap = new HashMap<String,Object>();
+		
+		Map<String,Object> subParents = empService.getTheSubParentsOfSubParent(code);
+		
+		
+		subparentChainMap.putAll(subParents);
+		return subparentChainMap;
+	}
+	
 	
 	
 }

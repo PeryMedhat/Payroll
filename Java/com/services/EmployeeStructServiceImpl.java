@@ -110,9 +110,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Override
 	@Transactional
 	public Map<String,Object> getTheSubParentsOfSubParent(String parentCode){
-		List<EmpStructSubparent> subParents =employeeDAO.getSubParentsOfSubParents(parentCode);
-		Map<String,Object> subParentsModel =new HashMap<String,Object>();
-		
+		List<EmpStructSubparent> subParents = employeeDAO.getSubParentsOfSubParents(parentCode);
+		Map<String,Object> subParentsModel = new HashMap<String,Object>();
 		List<EmployeeStructModel> listOfSubParents = new ArrayList<EmployeeStructModel>();		
 		if(subParents!=null) {
 			for(Integer i = 0;i<subParents.size();i++) {
@@ -125,15 +124,15 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				
 				model.setParentCode(parentCode);
 				model.setHasChild(true);
+				model.setHasParent(true);
+
 				model.setStartDate(startDate);
 				model.setEndDate(endDate);
-				model.setHasParent(true);
-				
 				model.setCode(subParents.get(i).getCommID().getCode());
 				model.setName(subParents.get(i).getCommID().getName());
-				listOfSubParents.add(model);								
+				listOfSubParents.add(model);
 			}
-			subParentsModel.put("subparents:",listOfSubParents);
+			subParentsModel.put("subparents of sub:",listOfSubParents);
 		}
 		return subParentsModel;
 	
@@ -158,7 +157,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		model.setCode(parent.getCommID().getCode());
 		model.setName(parent.getCommID().getName());
 		Map<String,Object> parentModel =new HashMap<String,Object>();
-		parentModel.put("the parent",model);
+		parentModel.put("parent",model);
 		return parentModel;
 		}
 
@@ -175,7 +174,6 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			for(Integer i=0;i<subParentsOfParent.size();i++) {
 				EmployeeStructModel model = new EmployeeStructModel();
 				DateFormat dateFormat = new SimpleDateFormat();
-				boolean hasParent = (subParentsOfParent.get(i).getHasParent()==0)?false:true;
 				
 				String startDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getEndDate());
@@ -183,9 +181,9 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setHasParent(true);
 				model.setParentCode(code);
 				model.setHasChild(true);
+				
 				model.setStartDate(startDate);
 				model.setEndDate(endDate);
-				model.setHasParent(hasParent);
 				model.setCode(subParentsOfParent.get(i).getCommID().getCode());
 				model.setName(subParentsOfParent.get(i).getCommID().getName());
 	
@@ -203,7 +201,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		List<EmpStructChild> childrenOfSub = subParent.getChildren();
 		List<EmployeeStructModel> listOfChildren = new ArrayList<EmployeeStructModel>() ; 
 		Map<String,Object> childrenModel =new HashMap<String,Object>();
-		//if(childrenOfSub!=null) {
+		if(childrenOfSub!=null) {
 			for(Integer i=0;i<childrenOfSub.size();i++) {
 				EmployeeStructModel model = new EmployeeStructModel();
 				DateFormat dateFormat = new SimpleDateFormat();
@@ -219,11 +217,10 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setEndDate(endDate);
 				model.setCode(childrenOfSub.get(i).getCommID().getCode());
 				model.setName(childrenOfSub.get(i).getCommID().getName());
-				
 				listOfChildren.add(model);
 			}
-		childrenModel.put("children:",listOfChildren);
-		//}
+		childrenModel.put("children of sub:",listOfChildren);
+		}
 		
 		return childrenModel;
 		
@@ -248,6 +245,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setHasParent(true);
 				model.setParentCode(parentCode);
 				model.setHasChild(false);
+				
 				model.setStartDate(startDate);
 				model.setEndDate(endDate);
 				model.setCode(childrenOfParent.get(i).getCommID().getCode());
@@ -262,6 +260,36 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	
 	@Override
 	@Transactional
+	public Map<String,Object> getParentOfSub(EmpStructSubparent sub) {
+		Map<String,Object> myMap = new HashMap<String,Object>();		
+		if(sub.getHasParent()==0) {
+			EmpStructParent parent = sub.getParent();
+		myMap.put("parent:",parent);
+		}
+		else {
+			EmpStructSubparent subParent =employeeDAO.getSubParent(sub.getParentCode());	
+			myMap.put("subParent:",subParent);
+		}
+		return myMap;
+	}
+	
+	@Override
+	@Transactional
+	public Map<String,Object> getParentOfChild(EmpStructChild child){
+		Map<String,Object> myMap = new HashMap<String,Object>();
+		if(child.getParent()!=null) {
+			EmpStructParent parent =child.getParent();
+			myMap.put("parent:", parent);
+		}else if(child.getSubParent()!=null) {
+			EmpStructSubparent sub=child.getSubParent();
+			myMap.put("subParent:", sub);
+		}
+		
+		return myMap;
+	}
+	
+	@Override
+	@Transactional
 	public EmpStructParent getParent(String code) {
 		EmpStructParent parent = employeeDAO.getParent(code);
 		return parent;
@@ -272,6 +300,20 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	public EmpStructSubparent getSubParent(String code){
 		EmpStructSubparent subParent = employeeDAO.getSubParent(code);
 		return subParent;	
+	}
+	
+	@Override
+	@Transactional
+	public Boolean isSubParent(String parentCode) {
+		Boolean isSub = employeeDAO.isSubParent(parentCode);
+		return isSub;
+	}
+	
+	@Override
+	@Transactional
+	public Boolean isParent(String parentCode) {
+		Boolean isParent = employeeDAO.isParent(parentCode);
+		return isParent;
 	}
 	
 }
