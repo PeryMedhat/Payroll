@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.query.*;
@@ -177,15 +178,18 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		
 	@Override
 	public List<EmpStructSubparent> getSubParentsOfSubParents(String parentCode) {
+		List<EmpStructSubparent> empStructSubParents = new ArrayList<EmpStructSubparent>();
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
-
-		// get all subParents with that parent code
-		Query<EmpStructSubparent> theQuery = session.createQuery("from EmpStructSubparent s where s.parentCode =:parentCode", EmpStructSubparent.class);
-		theQuery.setParameter("parentCode", parentCode);
+		try {
+			// get all subParents with that parent code
+			Query<EmpStructSubparent> theQuery = session.createQuery("from EmpStructSubparent s where s.parentCode =:parentCode", EmpStructSubparent.class);
+			theQuery.setParameter("parentCode", parentCode);
+			
+			empStructSubParents = theQuery.getResultList();
+					
+		}catch(Exception e) {return null;}
 		
-		List<EmpStructSubparent> empStructSubParents = theQuery.getResultList();
-				
 		return empStructSubParents;
 	}
 	public List<EmpStructSubparent> getSubParentsOfParent(String parentCode) {
@@ -235,7 +239,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		}catch(Exception e) {
 			//clear session and return false
 			session.clear(); 
-			e.printStackTrace();
 			return false;
 		}
 		return isParent;
@@ -259,7 +262,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		}catch(Exception e) {
 			//clear session and return false
 			session.clear(); 
-			e.printStackTrace();
 			return false;
 		}
 		return isSubParent;

@@ -11,7 +11,6 @@ public interface EmployeeStructService {
 
 	public String processTheIncommingModel(EmployeeStructModel employee) throws Exception;
 
-	public Map<String, Object> getTheSubParentsOfSubParent(String parentCode);
 
 	public Map<String, Object> getTheParent(String code);
 
@@ -32,5 +31,11 @@ public interface EmployeeStructService {
 	public Map<String, Object> getParentOfSub(EmpStructSubparent sub);
 
 	public Map<String, Object> getParentOfChild(EmpStructChild child);
+
+	public Map<String, Object> getTheSubParentsOfSubParent(String parentCode);
+
+	public Map<String, Object> getParentChain(String code);
+
+	public Map<String, Object> getSubParentChain(String code);
 
 }
