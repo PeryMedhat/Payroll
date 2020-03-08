@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +16,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -33,6 +34,7 @@ public class EmpStructParent {
 	@JoinColumn(name = "commonID_id")
 	private CommonID commID;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "parent",
 			cascade = {CascadeType.PERSIST,
 					  CascadeType.MERGE,
@@ -41,6 +43,7 @@ public class EmpStructParent {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<EmpStructSubparent> subParents;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "parent"
 				,cascade = {CascadeType.PERSIST,
 						  CascadeType.MERGE,

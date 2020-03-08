@@ -169,7 +169,57 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		return parentModel;
 		}
 	
-
+	@Override
+	@Transactional
+	public Map<String,Object> getTheSubParent(String code){
+		EmpStructSubparent subParent = employeeDAO.getSubParent(code);		
+		EmployeeStructModel model = new EmployeeStructModel();
+		DateFormat dateFormat = new SimpleDateFormat();
+				
+		String startDate = dateFormat.format(subParent.getCommID().getStartDate());
+		String endDate = dateFormat.format(subParent.getCommID().getEndDate());
+		
+		model.setHasChild(true);
+		model.setHasParent(true);
+		model.setParentCode(subParent.getParentCode());
+		model.setStartDate(startDate);
+		model.setEndDate(endDate);
+		model.setCode(subParent.getCommID().getCode());
+		model.setName(subParent.getCommID().getName());
+		Map<String,Object> parentModel =new HashMap<String,Object>();
+		parentModel.put("Subparent"+number++,model);
+		return parentModel;
+		}
+	
+	@Override
+	@Transactional
+	public Map<String,Object> getTheChild(String code){
+		EmpStructChild child = employeeDAO.getChild(code);	
+		EmployeeStructModel model = new EmployeeStructModel();
+		DateFormat dateFormat = new SimpleDateFormat();
+				
+		String startDate = dateFormat.format(child.getCommID().getStartDate());
+		String endDate = dateFormat.format(child.getCommID().getEndDate());
+		
+		EmpStructParent hisParentIsParent =child.getParent();
+		EmpStructSubparent hisParentIsSub=child.getSubParent();
+		model.setHasChild(false);
+		model.setHasParent(true);
+		if(hisParentIsParent!=null) {
+		model.setParentCode(child.getParent().getCommID().getCode());
+		}else if (hisParentIsSub!=null) {
+			model.setParentCode(child.getSubParent().getCommID().getCode());
+		}
+		
+		model.setStartDate(startDate);
+		model.setEndDate(endDate);
+		model.setCode(child.getCommID().getCode());
+		model.setName(child.getCommID().getName());
+		Map<String,Object> childModel =new HashMap<String,Object>();
+		childModel.put("Child"+number++,model);
+		return childModel;
+		}
+	
 	@Override
 	@Transactional
 	public Map<String,Object> getTheSubParentsOfParent(String code){
@@ -273,11 +323,11 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		Map<String,Object> myMap = new HashMap<String,Object>();		
 		if(sub.getHasParent()==0) {
 			EmpStructParent parent = sub.getParent();
-		myMap.put("parent:",parent);
+			myMap.putAll(getTheParent(parent.getCommID().getCode()));
 		}
 		else {
 			EmpStructSubparent subParent =employeeDAO.getSubParent(sub.getParentCode());	
-			myMap.put("subParent:",subParent);
+			myMap.putAll(getTheSubParent(subParent.getCommID().getCode()));
 		}
 		return myMap;
 	}
@@ -359,27 +409,47 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Transactional
 	public Map<String,Object> getSubParentChain(String code){
 		Map<String,Object> subparentChainMap = new HashMap<String,Object>();
-		EmpStructSubparent subParent = employeeDAO.getSubParent(code);	
+		Map<String, Object> subParent = getTheSubParent(code);
+		EmpStructSubparent subObject = employeeDAO.getSubParent(code);
+		subparentChainMap.putAll(subParent);
+		
 		subparentChainMap.putAll(getTheChildrenOfSubParent(code));
-		List<EmpStructSubparent> subOfSubObject =employeeDAO.getSubParentsOfSubParents(code);
-		if(subOfSubObject!=null) {
-			for(Integer i = 0; i<subOfSubObject.size();i++) {
-				Map<String,Object> subOfSub =getTheSubParentsOfSubParent(subOfSubObject.get(i).getCommID().getCode());
-				Map<String,Object> childrenOfSubMap =getTheChildrenOfSubParent(subOfSubObject.get(i).getCommID().getCode());
-					
-				subparentChainMap.putAll(childrenOfSubMap);
-				subparentChainMap.putAll(subOfSub);
-			}
+		  
+		Map<String,Object> subOfSub	=getTheSubParentsOfSubParent(subObject.getCommID().getCode());
+		subparentChainMap.putAll(subOfSub);
+		  
+		while(subObject.getHasParent()!=0) {
+		subparentChainMap.putAll(getParentOfSub(subObject)); 
+		subObject =	employeeDAO.getSubParent(subObject.getParentCode());
 		}
-		while(subParent.getHasParent()!=0){
-			subparentChainMap.putAll(getParentOfSub(subParent));
-			subParent = employeeDAO.getSubParent(subParent.getParentCode());
-		}
-		subparentChainMap.putAll(getParentOfSub(subParent));
+		subparentChainMap.putAll(getParentOfSub(subObject));
 		
 		return subparentChainMap;
 	}
-		
-		
 
+	@Override
+	@Transactional
+	public Map<String,Object> getChildChain(String code){
+		Map<String,Object> childChainMap = new HashMap<String,Object>();
+		
+		//getting child
+		Map<String,Object> child = getTheChild(code);
+		childChainMap.putAll(child);
+		EmpStructChild childObject = employeeDAO.getChild(code);
+		EmpStructParent hisParent=childObject.getParent();
+		EmpStructSubparent hisSubParent= childObject.getSubParent();
+		if(hisParent!=null) {
+			childChainMap.putAll(getTheChild(childObject.getParent().getCommID().getCode()));
+		}else if(hisSubParent!=null) {
+			childChainMap.putAll(getTheSubParent(hisSubParent.getCommID().getCode()));
+			while(hisSubParent.getHasParent()!=0) {
+				childChainMap.putAll(getParentOfSub(hisSubParent)); 
+				hisSubParent =	employeeDAO.getSubParent(hisSubParent.getParentCode());
+			}childChainMap.putAll(getParentOfSub(hisSubParent));
+		}
+		
+		return childChainMap;
+	
+	}
+	
 }

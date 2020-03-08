@@ -38,4 +38,11 @@ public interface EmployeeStructService {
 
 	public Map<String, Object> getSubParentChain(String code);
 
+	public Map<String, Object> getTheSubParent(String code);
+
+	public Map<String, Object> getChildChain(String code);
+
+	public Map<String, Object> getTheChild(String code);
+
+
 }

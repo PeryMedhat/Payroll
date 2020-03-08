@@ -135,12 +135,14 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 	public EmpStructSubparent getSubParent(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
-
-		// get all subParents with that parent code
-		Query<EmpStructSubparent> theQuery = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
-		theQuery.setParameter("code",code);
-				
-		EmpStructSubparent subParent = (EmpStructSubparent) theQuery.getSingleResult();
+		EmpStructSubparent subParent ;
+		try {
+			// get all subParents with that parent code
+			Query<EmpStructSubparent> theQuery = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
+			theQuery.setParameter("code",code);
+					
+			subParent = (EmpStructSubparent) theQuery.getSingleResult();
+		}catch(Exception e) {return null;}
 								
 		return subParent;
 	}

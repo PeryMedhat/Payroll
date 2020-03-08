@@ -51,10 +51,10 @@ public class EmployeeStructController {
 			else if(isSub) {
 				myMap.putAll(empService.getSubParentChain(code));
 			}else {
-				//myMap.putAll(getChildChain(code));
+				myMap.putAll(empService.getChildChain(code));
 			}
 		}catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("something went wrong!!");
 		}		
 		return myMap;
 	}

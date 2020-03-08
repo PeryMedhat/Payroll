@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="emp_struct_subparent")
 public class EmpStructSubparent {
@@ -49,6 +51,7 @@ public class EmpStructSubparent {
 		
 	}
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "subParent" ,
 			  cascade = {CascadeType.PERSIST,
 			  CascadeType.MERGE,
