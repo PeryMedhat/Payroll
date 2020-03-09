@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,12 +36,10 @@ public class EmployeeStructController {
 		return flag;
 	}
 	
-	@RequestMapping(value = { "/showEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = { "/showEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String,Object>  showEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) {
+	public Map<String,Object>  showEmployeeStructure(@RequestParam("code") String code) {
 		Map<String,Object> myMap = new HashMap<String,Object>();
-		String code =employeeModel.getCode();
-		
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
@@ -54,13 +53,10 @@ public class EmployeeStructController {
 				myMap.putAll(empService.getChildChain(code));
 			}
 		}catch(Exception e) {
-			System.out.println("something went wrong!!");
-		}		
+			myMap.put("Code is not as an employee group code",null);
+		}
 		return myMap;
 	}
-	
-	
-	
 }
 		
 		

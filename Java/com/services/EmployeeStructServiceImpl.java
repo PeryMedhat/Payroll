@@ -375,8 +375,6 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		return isParent;
 	}
 	
-
-
 	/*
 	 * Getting The Chain 
 	 * */

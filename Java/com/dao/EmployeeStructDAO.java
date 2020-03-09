@@ -30,12 +30,6 @@ public interface EmployeeStructDAO {
 	//get the parent then use the getSubParents method 
 	public List<EmpStructSubparent> getSubParentsOfParent(String parentCode);
 	
-	//get the parent then use the getChildren method 
-	public List<EmpStructChild> getChildrenOfParent(String parentCode);
-	
-	//get the subParent then use the getChildren method
-	public List<EmpStructChild> getChildrenOfSubParent(String parentCode);
-	
 	//try to find out if this employee is a parent/subParent
 	public Boolean isParent(String parentCode);
 	public Boolean isSubParent(String parentCode);
