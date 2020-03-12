@@ -4,10 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,9 +41,10 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			
 			//commonID data
 			CommonID commId = new CommonID(startDate,
-										endDate,
-									employee.getCode(),
-								employee.getName());
+											endDate,
+											employee.getCode(),
+											employee.getName());
+			commId.setDeleted(0);
 			
 			String parentCode =employee.getParentCode();
 			
@@ -92,15 +90,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				EmpStructChild child = new EmpStructChild(commId);
 				savedEmployeeStruct =employeeDAO.addChildToSubParent(child,parentCode);
 				
-			}else {
-				
-				//has no Parent and no children
-				EmpStructParent parent = new EmpStructParent(commId);
-				savedEmployeeStruct =employeeDAO.addParent(parent);
 			}
 			return savedEmployeeStruct.toString();
-			
-			
 		}
 		else {
 			return "values is missing for saving the employee struct";
@@ -110,45 +101,47 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getTheSubParentsOfSubParent(String parentCode){
-		List<EmpStructSubparent> subParents = employeeDAO.getSubParentsOfSubParents(parentCode);
-		Map<String,Object> subParentsModel = new HashMap<String,Object>();
+	public List<EmployeeStructModel> getTheSubParentsOfSubParent(String parentCode){
+		EmpStructSubparent subParent = employeeDAO.getSubParent(parentCode);
 		List<EmployeeStructModel> listOfSubParents = new ArrayList<EmployeeStructModel>();
-		
-		if(subParents!=null) {
-			for(Integer i = 0;i<subParents.size();i++) {
-				//create a model
-				EmployeeStructModel model = new EmployeeStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
+		if(subParent.getCommID().getDeleted()==0){
+			List<EmpStructSubparent> subParents = employeeDAO.getSubParentsOfSubParents(parentCode);
+			
+			if(subParents!=null) {
+				for(Integer i = 0;i<subParents.size();i++) {
+					//create a model
+					EmployeeStructModel model = new EmployeeStructModel();
+					DateFormat dateFormat = new SimpleDateFormat();
 
-				String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
-				String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
-				
-				model.setParentCode(parentCode);
-				model.setHasChild(true);
-				model.setHasParent(true);
-				model.setStartDate(startDate);
-				model.setEndDate(endDate);
-				model.setCode(subParents.get(i).getCommID().getCode());
-				model.setName(subParents.get(i).getCommID().getName());				
-				listOfSubParents.add(model);
-				
-				if(subParents.get(i).getChildren()!=null) {
-					subParentsModel.putAll(getTheChildrenOfSubParent(subParents.get(i).getCommID().getCode()));
-				}
-				
-				if(employeeDAO.getSubParentsOfSubParents(subParents.get(i).getCommID().getCode())!=null) {
+					String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
+					String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
+					
+					model.setParentCode(parentCode);
+					model.setHasChild(true);
+					model.setHasParent(true);
+					model.setStartDate(startDate);
+					model.setEndDate(endDate);
+					model.setCode(subParents.get(i).getCommID().getCode());
+					model.setName(subParents.get(i).getCommID().getName());				
+					listOfSubParents.add(model);
+					
+					if(subParents.get(i).getChildren()!=null) {
+						listOfSubParents.addAll(getTheChildrenOfSubParent(subParents.get(i).getCommID().getCode()));
+					}
+					
+					if(employeeDAO.getSubParentsOfSubParents(subParents.get(i).getCommID().getCode())!=null) {
 
-					subParentsModel.putAll(getTheSubParentsOfSubParent(subParents.get(i).getCommID().getCode()));
+						listOfSubParents.addAll(getTheSubParentsOfSubParent(subParents.get(i).getCommID().getCode()));
+					}
 				}
-			}	subParentsModel.put("subparents--:"+number++,listOfSubParents);		
+			}
 		}
-		return subParentsModel;
+		return listOfSubParents;
 	}
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getTheParent(String code){
+	public EmployeeStructModel getTheParent(String code){
 		EmpStructParent parent = employeeDAO.getParent(code);
 		
 		EmployeeStructModel model = new EmployeeStructModel();
@@ -164,14 +157,14 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		model.setEndDate(endDate);
 		model.setCode(parent.getCommID().getCode());
 		model.setName(parent.getCommID().getName());
-		Map<String,Object> parentModel =new HashMap<String,Object>();
-		parentModel.put("parent",model);
-		return parentModel;
+	
+		return model;
 		}
+	
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getTheSubParent(String code){
+	public EmployeeStructModel getTheSubParent(String code){
 		EmpStructSubparent subParent = employeeDAO.getSubParent(code);		
 		EmployeeStructModel model = new EmployeeStructModel();
 		DateFormat dateFormat = new SimpleDateFormat();
@@ -186,14 +179,13 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		model.setEndDate(endDate);
 		model.setCode(subParent.getCommID().getCode());
 		model.setName(subParent.getCommID().getName());
-		Map<String,Object> parentModel =new HashMap<String,Object>();
-		parentModel.put("Subparent"+number++,model);
-		return parentModel;
+		
+		return model;
 		}
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getTheChild(String code){
+	public EmployeeStructModel getTheChild(String code){
 		EmpStructChild child = employeeDAO.getChild(code);	
 		EmployeeStructModel model = new EmployeeStructModel();
 		DateFormat dateFormat = new SimpleDateFormat();
@@ -205,6 +197,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		EmpStructSubparent hisParentIsSub=child.getSubParent();
 		model.setHasChild(false);
 		model.setHasParent(true);
+		
 		if(hisParentIsParent!=null) {
 		model.setParentCode(child.getParent().getCommID().getCode());
 		}else if (hisParentIsSub!=null) {
@@ -215,19 +208,16 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		model.setEndDate(endDate);
 		model.setCode(child.getCommID().getCode());
 		model.setName(child.getCommID().getName());
-		Map<String,Object> childModel =new HashMap<String,Object>();
-		childModel.put("Child"+number++,model);
-		return childModel;
+		
+		return model;
 		}
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getTheSubParentsOfParent(String code){
+	public List<EmployeeStructModel> getTheSubParentsOfParent(String code){
 		EmpStructParent parent =employeeDAO.getParent(code);
 		
 		List<EmpStructSubparent> subParentsOfParent = parent.getSubParents();
-		Map<String,Object> subParentsModel =new HashMap<String,Object>();
-		
 		List<EmployeeStructModel> listOfSubParents = new ArrayList<EmployeeStructModel>();		
 		if(subParentsOfParent!=null) {
 			for(Integer i=0;i<subParentsOfParent.size();i++) {
@@ -248,18 +238,16 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	
 				listOfSubParents.add(model);
 			}
-			subParentsModel.put("subparents:",listOfSubParents);
 		}
-		return subParentsModel;
+		return listOfSubParents;
 	}
 		
 	@Override
 	@Transactional
-	public Map<String,Object> getTheChildrenOfSubParent(String subCode){
+	public List<EmployeeStructModel> getTheChildrenOfSubParent(String subCode){
 		EmpStructSubparent subParent = employeeDAO.getSubParent(subCode);
 		List<EmpStructChild> childrenOfSub = subParent.getChildren();
 		List<EmployeeStructModel> listOfChildren = new ArrayList<EmployeeStructModel>() ; 
-		Map<String,Object> childrenModel =new HashMap<String,Object>();
 		if(childrenOfSub!=null) {
 			for(Integer i=0;i<childrenOfSub.size();i++) {
 				EmployeeStructModel model = new EmployeeStructModel();
@@ -278,20 +266,18 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setName(childrenOfSub.get(i).getCommID().getName());
 				listOfChildren.add(model);
 			}
-		childrenModel.put("children--:"+number++,listOfChildren);
 		}
 		
-		return childrenModel;
+		return listOfChildren;
 		
 	}
 	
+
 	@Override
 	@Transactional
-	public Map<String,Object> getTheChildrenOfParent(String parentCode){
+	public List<EmployeeStructModel> getTheChildrenOfParent(String parentCode){
 		EmpStructParent parent = employeeDAO.getParent(parentCode);
 		List<EmpStructChild> childrenOfParent = parent.getChildren();
-		Map<String,Object> childrenModel =new HashMap<String,Object>();
-		
 		List<EmployeeStructModel> listOfChildren = new ArrayList<EmployeeStructModel>() ; 
 		if(childrenOfParent!=null) {
 			for(Integer i=0;i<childrenOfParent.size();i++) {
@@ -311,40 +297,39 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setName(childrenOfParent.get(i).getCommID().getName());
 				listOfChildren.add(model);
 			}
-			childrenModel.put("children:",listOfChildren);
 		}
-		return childrenModel;
+		return listOfChildren;
 		
 	}
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getParentOfSub(EmpStructSubparent sub) {
-		Map<String,Object> myMap = new HashMap<String,Object>();		
+	public EmployeeStructModel getParentOfSub(EmpStructSubparent sub) {
+		EmployeeStructModel parentOfSub;		
 		if(sub.getHasParent()==0) {
 			EmpStructParent parent = sub.getParent();
-			myMap.putAll(getTheParent(parent.getCommID().getCode()));
+			parentOfSub = (getTheParent(parent.getCommID().getCode()));
 		}
 		else {
 			EmpStructSubparent subParent =employeeDAO.getSubParent(sub.getParentCode());	
-			myMap.putAll(getTheSubParent(subParent.getCommID().getCode()));
+			parentOfSub = (getTheSubParent(subParent.getCommID().getCode()));
 		}
-		return myMap;
+		return parentOfSub;
 	}
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getParentOfChild(EmpStructChild child){
-		Map<String,Object> myMap = new HashMap<String,Object>();
+	public EmployeeStructModel getParentOfChild(EmpStructChild child){
+		EmployeeStructModel parentOfChild = null;
 		if(child.getParent()!=null) {
-			EmpStructParent parent =child.getParent();
-			myMap.put("parent:", parent);
+			EmployeeStructModel parent =getTheParent(child.getParent().getCommID().getCode());
+			parentOfChild= parent;
 		}else if(child.getSubParent()!=null) {
-			EmpStructSubparent sub=child.getSubParent();
-			myMap.put("subParent:", sub);
+			EmployeeStructModel sub= getTheSubParent(child.getSubParent().getCommID().getCode());
+			parentOfChild = sub;
 		}
 		
-		return myMap;
+		return parentOfChild;
 	}
 	
 	@Override
@@ -380,74 +365,161 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	 * */
 	@Override
 	@Transactional
-	public Map<String,Object> getParentChain(String code){
-		Map<String,Object> parentMap = new HashMap<String,Object>();
+	public List<EmployeeStructModel> getParentChain(String code){
+		List<EmployeeStructModel> parentMap = new ArrayList<EmployeeStructModel>();
 		//getting parent
-		Map<String,Object> parent = getTheParent(code);
+		EmployeeStructModel parent = getTheParent(code);
 		EmpStructParent parentObject = getParent(code);
 		
-		Map<String,Object> subOfParent =getTheSubParentsOfParent(parentObject.getCommID().getCode());
-		Map<String,Object> childrenOfParent =getTheChildrenOfParent(parentObject.getCommID().getCode());
+		List<EmployeeStructModel> subOfParent =getTheSubParentsOfParent(parentObject.getCommID().getCode());
+		List<EmployeeStructModel> childrenOfParent =getTheChildrenOfParent(parentObject.getCommID().getCode());
 		List<EmpStructSubparent> subOfParentObject = parentObject.getSubParents();
 		
 		for(Integer i = 0; i<subOfParentObject.size();i++) {
-			Map<String,Object> subOfSub =getTheSubParentsOfSubParent(subOfParentObject.get(i).getCommID().getCode());
-			Map<String,Object> childrenOfSubMap =getTheChildrenOfSubParent(subOfParentObject.get(i).getCommID().getCode());
+			List<EmployeeStructModel> subOfSub =getTheSubParentsOfSubParent(subOfParentObject.get(i).getCommID().getCode());
+			List<EmployeeStructModel> childrenOfSubMap =getTheChildrenOfSubParent(subOfParentObject.get(i).getCommID().getCode());
 				
-			parentMap.putAll(childrenOfSubMap);
-			parentMap.putAll(subOfSub);
+			parentMap.addAll(childrenOfSubMap);
+			parentMap.addAll(subOfSub);
 		}			
-		parentMap.putAll(parent);
-		parentMap.putAll(subOfParent);
-		parentMap.putAll(childrenOfParent);
+		parentMap.add(parent);
+		parentMap.addAll(subOfParent);
+		parentMap.addAll(childrenOfParent);
 		return parentMap;		
 	}
 	
 	@Override
 	@Transactional
-	public Map<String,Object> getSubParentChain(String code){
-		Map<String,Object> subparentChainMap = new HashMap<String,Object>();
-		Map<String, Object> subParent = getTheSubParent(code);
+	public List<EmployeeStructModel> getSubParentChain(String code){
+		List<EmployeeStructModel>subparentChainMap = new ArrayList<EmployeeStructModel>();
+		EmployeeStructModel subParent = getTheSubParent(code);
 		EmpStructSubparent subObject = employeeDAO.getSubParent(code);
-		subparentChainMap.putAll(subParent);
+		subparentChainMap.add(subParent);
 		
-		subparentChainMap.putAll(getTheChildrenOfSubParent(code));
+		subparentChainMap.addAll(getTheChildrenOfSubParent(code));
 		  
-		Map<String,Object> subOfSub	=getTheSubParentsOfSubParent(subObject.getCommID().getCode());
-		subparentChainMap.putAll(subOfSub);
+		List<EmployeeStructModel> subOfSub	=getTheSubParentsOfSubParent(subObject.getCommID().getCode());
+		subparentChainMap.addAll(subOfSub);
 		  
 		while(subObject.getHasParent()!=0) {
-		subparentChainMap.putAll(getParentOfSub(subObject)); 
+		subparentChainMap.add(getParentOfSub(subObject)); 
 		subObject =	employeeDAO.getSubParent(subObject.getParentCode());
 		}
-		subparentChainMap.putAll(getParentOfSub(subObject));
+		subparentChainMap.add(getParentOfSub(subObject));
 		
 		return subparentChainMap;
 	}
 
 	@Override
 	@Transactional
-	public Map<String,Object> getChildChain(String code){
-		Map<String,Object> childChainMap = new HashMap<String,Object>();
+	public List<EmployeeStructModel> getChildChain(String code){
+		List<EmployeeStructModel> childChainMap = new ArrayList<EmployeeStructModel>();
 		
 		//getting child
-		Map<String,Object> child = getTheChild(code);
-		childChainMap.putAll(child);
+		EmployeeStructModel child = getTheChild(code);
+		childChainMap.add(child);
 		EmpStructChild childObject = employeeDAO.getChild(code);
 		EmpStructParent hisParent=childObject.getParent();
 		EmpStructSubparent hisSubParent= childObject.getSubParent();
 		if(hisParent!=null) {
-			childChainMap.putAll(getTheChild(childObject.getParent().getCommID().getCode()));
+			childChainMap.add(getTheChild(childObject.getParent().getCommID().getCode()));
 		}else if(hisSubParent!=null) {
-			childChainMap.putAll(getTheSubParent(hisSubParent.getCommID().getCode()));
+			childChainMap.add(getTheSubParent(hisSubParent.getCommID().getCode()));
 			while(hisSubParent.getHasParent()!=0) {
-				childChainMap.putAll(getParentOfSub(hisSubParent)); 
+				childChainMap.add(getParentOfSub(hisSubParent)); 
 				hisSubParent =	employeeDAO.getSubParent(hisSubParent.getParentCode());
-			}childChainMap.putAll(getParentOfSub(hisSubParent));
+			}childChainMap.add(getParentOfSub(hisSubParent));
 		}
 		
 		return childChainMap;
 	
 	}
 	
+	/*
+	 * process the update employeeStructure
+	 * 
+	 * */
+	@Override
+	@Transactional
+	public String updateEmployeeStructure(EmployeeStructModel employee,int id ) {
+		Boolean updateTheEmpStruct = false;
+		try {
+			//process to check the model(parent/sub/child)
+			if (employee.getName()!= null && 
+					employee.getCode()!=null&&
+						employee.getEndDate()!=null&&
+							employee.getStartDate()!=null&&
+								employee.getHasParent()!=null&&
+									employee.getHasChild()!=null){
+				//conversion of dates 
+				Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getStartDate());  
+				Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getEndDate());
+				String parentCode =employee.getParentCode();
+				
+				//check if this model has parent and type of his parent
+				Boolean hisParentIsParent = employeeDAO.isParent(parentCode);
+				Boolean hisParentIsSubParent = employeeDAO.isSubParent(parentCode);
+				
+				if(!employee.getHasParent() && employee.getHasChild()) {
+					//the model has no parent but has a child ==> save as parent
+					EmpStructParent parent = employeeDAO.getParent(employee.getCode());
+					parent.getCommID().setCode(employee.getCode());
+					parent.getCommID().setName(employee.getName());
+					parent.getCommID().setStartDate(startDate);
+					parent.getCommID().setEndDate(endDate);
+					updateTheEmpStruct = employeeDAO.addParent(parent);
+				}else if(employee.getHasParent() && employee.getHasChild()
+						 && hisParentIsParent) {
+					//the model has parent also has child and his parent is parent ==> save as subParent 
+					EmpStructSubparent subParent = employeeDAO.getSubById(id);
+					List<EmpStructSubparent> subs=employeeDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
+					for(int i =0; i<subs.size();i++) {
+						subs.get(i).setParentCode(employee.getCode());
+					}
+					subParent.setId(id);
+					subParent.getCommID().setCode(employee.getCode());
+					subParent.getCommID().setName(employee.getName());
+					subParent.getCommID().setStartDate(startDate);
+					subParent.getCommID().setEndDate(endDate);
+					updateTheEmpStruct = employeeDAO.addSubParentToParent(subParent, parentCode);
+				}else if( employee.getHasParent() && employee.getHasChild()
+						 && hisParentIsSubParent) {
+					EmpStructSubparent subParent = employeeDAO.getSubById(id);
+					List<EmpStructSubparent> subs=employeeDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
+					for(int i =0; i<subs.size();i++) {
+						subs.get(i).setParentCode(employee.getCode());
+					}
+					subParent.setId(id);
+					subParent.getCommID().setCode(employee.getCode());
+					subParent.getCommID().setName(employee.getName());
+					subParent.getCommID().setStartDate(startDate);
+					subParent.getCommID().setEndDate(endDate);
+					updateTheEmpStruct = employeeDAO.addSubParentToSubParent(subParent);
+				}else if(employee.getHasParent() && !employee.getHasChild()
+						 && hisParentIsParent) {
+					//the model has parent and has no child and his parent is parent ==>save as child to parent
+					EmpStructChild child =employeeDAO.getChildById(id);
+					child.setId(id);
+					child.getCommID().setCode(employee.getCode());
+					child.getCommID().setName(employee.getName());
+					child.getCommID().setStartDate(startDate);
+					child.getCommID().setEndDate(endDate);
+					updateTheEmpStruct = employeeDAO.addChildToParent(child, parentCode);
+				}else if(employee.getHasParent() && !employee.getHasChild()
+						 && hisParentIsSubParent) {
+					//the model has parent and has no child and his parent is subParent ==>save as child to subParent
+					EmpStructChild child =employeeDAO.getChildById(id);
+					child.setId(id);
+					child.getCommID().setCode(employee.getCode());
+					child.getCommID().setName(employee.getName());
+					child.getCommID().setStartDate(startDate);
+					child.getCommID().setEndDate(endDate);
+					updateTheEmpStruct =employeeDAO.addChildToSubParent(child,parentCode);
+				}
+			}
+			return updateTheEmpStruct.toString();
+		}catch(Exception e) {return "false";}
+			
+	}
+
 }

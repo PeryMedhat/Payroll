@@ -38,18 +38,19 @@ public class CommonID {
 	@Column(name="name")
 	private String name;
 	
+	@NotNull(message = "is required")
+	@Column(name="deleted")
+	private int deleted;
+	
 	public CommonID() {
-		
 	}
 	
-
 	public CommonID(Date startDate, Date endDate, String code, String name) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.code = code;
 		this.name = name;
 	}
-
 
 	public int getId() {
 		return id;
@@ -89,6 +90,14 @@ public class CommonID {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getDeleted() {
+		return deleted;
+	}
+	
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
 	}
 
 }

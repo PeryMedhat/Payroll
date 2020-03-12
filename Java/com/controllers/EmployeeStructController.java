@@ -1,5 +1,6 @@
 package com.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class EmployeeStructController {
 				flag[i] = empService.processTheIncommingModel(employeeModel.get(i));
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		} 
 		return flag;
 	}
@@ -40,23 +42,34 @@ public class EmployeeStructController {
 	@ResponseBody
 	public Map<String,Object>  showEmployeeStructure(@RequestParam("code") String code) {
 		Map<String,Object> myMap = new HashMap<String,Object>();
+		List<EmployeeStructModel> myList = new ArrayList<EmployeeStructModel>();
+		
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
 		try {
 			if(isParent) {
-				myMap.putAll(empService.getParentChain(code));
+				myList.addAll(empService.getParentChain(code));
 			}
 			else if(isSub) {
-				myMap.putAll(empService.getSubParentChain(code));
+				myList.addAll(empService.getSubParentChain(code));
 			}else {
-				myMap.putAll(empService.getChildChain(code));
+				myList.addAll(empService.getChildChain(code));
 			}
+			myMap.put("theChain",myList);
 		}catch(Exception e) {
 			myMap.put("Code is not as an employee group code",null);
 		}
 		return myMap;
 	}
+
+	@RequestMapping(value = { "/updateEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String updateEmployeeStructure(@RequestBody EmployeeStructModel employeeModel,@RequestParam("id") int id ) {
+		return empService.updateEmployeeStructure(employeeModel,id);
+	}
+
+
 }
 		
 		
