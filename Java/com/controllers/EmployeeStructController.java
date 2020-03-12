@@ -63,10 +63,16 @@ public class EmployeeStructController {
 		return myMap;
 	}
 
-	@RequestMapping(value = { "/updateEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = { "/updateEmployeeStructure" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String updateEmployeeStructure(@RequestBody EmployeeStructModel employeeModel,@RequestParam("id") int id ) {
-		return empService.updateEmployeeStructure(employeeModel,id);
+	public String[] updateEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
+		String[] flag = new String[employeeModel.size()];
+		try {
+			for(int i=0;i<employeeModel.size();i++) {
+				flag[i]= empService.updateEmployeeStructure(employeeModel.get(i));
+				}
+		}catch(Exception e) {}
+		return flag;
 	}
 
 

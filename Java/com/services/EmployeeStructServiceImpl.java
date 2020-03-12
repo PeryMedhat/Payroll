@@ -441,7 +441,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	 * */
 	@Override
 	@Transactional
-	public String updateEmployeeStructure(EmployeeStructModel employee,int id ) {
+	public String updateEmployeeStructure(EmployeeStructModel employee) {
 		Boolean updateTheEmpStruct = false;
 		try {
 			//process to check the model(parent/sub/child)
@@ -461,9 +461,9 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				Boolean hisParentIsSubParent = employeeDAO.isSubParent(parentCode);
 				
 				if(!employee.getHasParent() && employee.getHasChild()) {
-					//the model has no parent but has a child ==> save as parent
+					//the model has no parent but has a child ==> update parent
 					EmpStructParent parent = employeeDAO.getParent(employee.getCode());
-					parent.getCommID().setCode(employee.getCode());
+					
 					parent.getCommID().setName(employee.getName());
 					parent.getCommID().setStartDate(startDate);
 					parent.getCommID().setEndDate(endDate);
@@ -471,26 +471,16 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				}else if(employee.getHasParent() && employee.getHasChild()
 						 && hisParentIsParent) {
 					//the model has parent also has child and his parent is parent ==> save as subParent 
-					EmpStructSubparent subParent = employeeDAO.getSubById(id);
-					List<EmpStructSubparent> subs=employeeDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
-					for(int i =0; i<subs.size();i++) {
-						subs.get(i).setParentCode(employee.getCode());
-					}
-					subParent.setId(id);
-					subParent.getCommID().setCode(employee.getCode());
+					EmpStructSubparent subParent = employeeDAO.getSubParent(employee.getCode());
+					
 					subParent.getCommID().setName(employee.getName());
 					subParent.getCommID().setStartDate(startDate);
 					subParent.getCommID().setEndDate(endDate);
 					updateTheEmpStruct = employeeDAO.addSubParentToParent(subParent, parentCode);
 				}else if( employee.getHasParent() && employee.getHasChild()
 						 && hisParentIsSubParent) {
-					EmpStructSubparent subParent = employeeDAO.getSubById(id);
-					List<EmpStructSubparent> subs=employeeDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
-					for(int i =0; i<subs.size();i++) {
-						subs.get(i).setParentCode(employee.getCode());
-					}
-					subParent.setId(id);
-					subParent.getCommID().setCode(employee.getCode());
+					EmpStructSubparent subParent = employeeDAO.getSubParent(employee.getCode());
+					
 					subParent.getCommID().setName(employee.getName());
 					subParent.getCommID().setStartDate(startDate);
 					subParent.getCommID().setEndDate(endDate);
@@ -498,9 +488,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				}else if(employee.getHasParent() && !employee.getHasChild()
 						 && hisParentIsParent) {
 					//the model has parent and has no child and his parent is parent ==>save as child to parent
-					EmpStructChild child =employeeDAO.getChildById(id);
-					child.setId(id);
-					child.getCommID().setCode(employee.getCode());
+					EmpStructChild child =employeeDAO.getChild(employee.getCode());
+					
 					child.getCommID().setName(employee.getName());
 					child.getCommID().setStartDate(startDate);
 					child.getCommID().setEndDate(endDate);
@@ -508,9 +497,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				}else if(employee.getHasParent() && !employee.getHasChild()
 						 && hisParentIsSubParent) {
 					//the model has parent and has no child and his parent is subParent ==>save as child to subParent
-					EmpStructChild child =employeeDAO.getChildById(id);
-					child.setId(id);
-					child.getCommID().setCode(employee.getCode());
+					EmpStructChild child =employeeDAO.getChild(employee.getCode());
+					
 					child.getCommID().setName(employee.getName());
 					child.getCommID().setStartDate(startDate);
 					child.getCommID().setEndDate(endDate);

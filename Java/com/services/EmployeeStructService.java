@@ -42,7 +42,6 @@ public interface EmployeeStructService {
 
 	public EmployeeStructModel getTheChild(String code);
 
-	public String updateEmployeeStructure(EmployeeStructModel employee,int id);
-
+	public String updateEmployeeStructure(EmployeeStructModel employee);
 
 }
