@@ -81,10 +81,23 @@ function NextOrSubmit(){
 		var lastParentValue = lastParent.code;
 		addEmpObject(true,lastParentValue,false,codeValue,nameValue,startDateValue,endDateValue);
 		//send to XHR
-		var x = 0;
+		console.log(empObjectsArray);
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var x = 0;
 		 empObjectsArray = Array();
 		 localStorage.removeItem('items');
-		 console.log(empObjectsArray);
+		 
+			}
+		  };
+
+		  xhttp.open("POST", "http://localhost:8080/Payroll/employeeStructure/addEmployeeStructure", true);
+		  xhttp.setRequestHeader("Content-type", "application/json");
+
+		  xhttp.send(JSON.stringify(empObjectsArray));
+		
+		  console.log(empObjectsArray);
 	}
 }
 
