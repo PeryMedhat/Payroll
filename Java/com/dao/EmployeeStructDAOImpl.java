@@ -56,18 +56,15 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		}catch(Exception e) {
 			//clear session and return false
 			session.clear(); 
-			e.printStackTrace();
 			return false;
 		}
 	}
 	public Boolean addSubParentToSubParent(EmpStructSubparent subParent) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-						
 		try {
 			session.saveOrUpdate(subParent);
 			return true;
-							
 		}catch(Exception e) {
 			//clear session and return false
 			session.clear(); 
@@ -79,7 +76,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 	public Boolean addChildToParent(EmpStructChild child, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-						
 		try {
 			//get the parent using parent code
 			Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
@@ -113,8 +109,7 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 			return true;
 		}catch(Exception e) {
 			//clear session and return false
-			session.clear(); 
-			e.printStackTrace();
+			session.clear();
 			return false;
 		}
 	}
@@ -123,56 +118,73 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 	public EmpStructParent getParent(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
-
-		// get all subParents with that parent code
-		Query<EmpStructParent> theQuery = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
-		theQuery.setParameter("code",code);
-		
-		EmpStructParent parent = (EmpStructParent) theQuery.getSingleResult();
-						
+		EmpStructParent parent;
+		try {
+			// get all subParents with that parent code
+			Query<EmpStructParent> theQuery = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
+			theQuery.setParameter("code",code);
+			
+			parent = (EmpStructParent) theQuery.getSingleResult();
+				
+		}catch(Exception e) {return null;}
+					
 		return parent;
 	}
 	public EmpStructSubparent getSubParent(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
-
-		// get all subParents with that parent code
-		Query<EmpStructSubparent> theQuery = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
-		theQuery.setParameter("code",code);
-				
-		EmpStructSubparent subParent = (EmpStructSubparent) theQuery.getSingleResult();
+		EmpStructSubparent subParent ;
+		try {
+			// get all subParents with that parent code
+			Query<EmpStructSubparent> theQuery = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
+			theQuery.setParameter("code",code);
+					
+			subParent = (EmpStructSubparent) theQuery.getSingleResult();
+		}catch(Exception e) {return null;}
 								
 		return subParent;
 	}
 	public EmpStructChild getChild(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
-
-		// get all subParents with that parent code
-		Query<EmpStructChild> theQuery = session.createQuery("from EmpStructChild where commID=(select id from CommonID where code =:code)", EmpStructChild.class);
-		theQuery.setParameter("code",code);
-						
-		EmpStructChild child = (EmpStructChild) theQuery.getSingleResult();
-										
+		EmpStructChild child;
+		try {
+			// get all subParents with that parent code
+			Query<EmpStructChild> theQuery = session.createQuery("from EmpStructChild where commID=(select id from CommonID where code =:code)", EmpStructChild.class);
+			theQuery.setParameter("code",code);
+			
+			child = (EmpStructChild) theQuery.getSingleResult();
+					
+		}catch(Exception e) {return null;}						
 		return child;
 	}
 
 	@Override
 	public EmpStructParent getParentById(int id) {
 		Session session = sessionFactory.getCurrentSession();
-		EmpStructParent parent = session.get(EmpStructParent.class,id);
+		EmpStructParent parent;
+		try {
+			parent = session.get(EmpStructParent.class,id);
+		}catch(Exception e) {return null;}
+		
 		return parent;
 	}
 	@Override
 	public EmpStructChild getChildById(int id) {
 		Session session = sessionFactory.getCurrentSession();
-		EmpStructChild child = session.get(EmpStructChild.class, id);
+		EmpStructChild child;
+		try {
+			child = session.get(EmpStructChild.class, id);
+		}catch(Exception e) {return null;}
 		return child;	
 	}
 	@Override
 	public EmpStructSubparent getSubById(int id) {
 		Session session = sessionFactory.getCurrentSession();
-		EmpStructSubparent sub = session.get(EmpStructSubparent.class, id);
+		EmpStructSubparent sub;
+		try {
+			sub = session.get(EmpStructSubparent.class, id);
+		}catch(Exception e) {return null;}
 		return sub;
 	}
 		
@@ -209,14 +221,6 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		List<EmpStructSubparent> empStructSubParents = query.getResultList();
 						
 		return empStructSubParents;
-	}
-	public List<EmpStructChild> getChildrenOfParent(String parentCode) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public List<EmpStructChild> getChildrenOfSubParent(String parentCode) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.services;
 
-import java.util.Map;
-
+import java.util.List;
 import com.entities.EmpStructChild;
 import com.entities.EmpStructParent;
 import com.entities.EmpStructSubparent;
@@ -11,14 +10,13 @@ public interface EmployeeStructService {
 
 	public String processTheIncommingModel(EmployeeStructModel employee) throws Exception;
 
+	public EmployeeStructModel getTheParent(String code);
 
-	public Map<String, Object> getTheParent(String code);
+	public List<EmployeeStructModel> getTheSubParentsOfParent(String code);
 
-	public Map<String, Object> getTheSubParentsOfParent(String code);
+	public List<EmployeeStructModel> getTheChildrenOfSubParent(String subCode);
 
-	public Map<String, Object> getTheChildrenOfSubParent(String subCode);
-
-	public Map<String, Object> getTheChildrenOfParent(String parentCode);
+	public List<EmployeeStructModel> getTheChildrenOfParent(String parentCode);
 
 	public EmpStructParent getParent(String code);
 
@@ -28,14 +26,22 @@ public interface EmployeeStructService {
 
 	public Boolean isSubParent(String parentCode);
 
-	public Map<String, Object> getParentOfSub(EmpStructSubparent sub);
+	public EmployeeStructModel getParentOfSub(EmpStructSubparent sub);
 
-	public Map<String, Object> getParentOfChild(EmpStructChild child);
+	public EmployeeStructModel getParentOfChild(EmpStructChild child);
 
-	public Map<String, Object> getTheSubParentsOfSubParent(String parentCode);
+	public List<EmployeeStructModel> getTheSubParentsOfSubParent(String parentCode);
 
-	public Map<String, Object> getParentChain(String code);
+	public List<EmployeeStructModel> getParentChain(String code);
 
-	public Map<String, Object> getSubParentChain(String code);
+	public List<EmployeeStructModel> getSubParentChain(String code);
+
+	public EmployeeStructModel getTheSubParent(String code);
+
+	public List<EmployeeStructModel> getChildChain(String code);
+
+	public EmployeeStructModel getTheChild(String code);
+
+	public String updateEmployeeStructure(EmployeeStructModel employee);
 
 }

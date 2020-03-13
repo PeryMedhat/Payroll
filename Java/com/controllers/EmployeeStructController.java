@@ -1,5 +1,6 @@
 package com.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,36 +33,49 @@ public class EmployeeStructController {
 				flag[i] = empService.processTheIncommingModel(employeeModel.get(i));
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		} 
 		return flag;
 	}
 	
-	@RequestMapping(value = { "/showEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = { "/showEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String,Object>  showEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) {
+	public Map<String,Object>  showEmployeeStructure(@RequestParam("code") String code) {
 		Map<String,Object> myMap = new HashMap<String,Object>();
-		String code =employeeModel.getCode();
+		List<EmployeeStructModel> myList = new ArrayList<EmployeeStructModel>();
 		
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
 		try {
 			if(isParent) {
-				myMap.putAll(empService.getParentChain(code));
+				myList.addAll(empService.getParentChain(code));
 			}
 			else if(isSub) {
-				myMap.putAll(empService.getSubParentChain(code));
+				myList.addAll(empService.getSubParentChain(code));
 			}else {
-				//myMap.putAll(getChildChain(code));
+				myList.addAll(empService.getChildChain(code));
 			}
+			myMap.put("theChain",myList);
 		}catch(Exception e) {
-			e.printStackTrace();
-		}		
+			myMap.put("Code is not as an employee group code",null);
+		}
 		return myMap;
 	}
-	
-	
-	
+
+	@RequestMapping(value = { "/updateEmployeeStructure" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String[] updateEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
+		String[] flag = new String[employeeModel.size()];
+		try {
+			for(int i=0;i<employeeModel.size();i++) {
+				flag[i]= empService.updateEmployeeStructure(employeeModel.get(i));
+				}
+		}catch(Exception e) {}
+		return flag;
+	}
+
+
 }
 		
 		
