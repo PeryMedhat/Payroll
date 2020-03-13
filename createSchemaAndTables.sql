@@ -6,10 +6,11 @@ CREATE TABLE `commonID` (
   `end_date` datetime NOT NULL,
   `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
+  `deleted` int(11) NOT NULL,
   PRIMARY KEY (`commonID_id`),
   UNIQUE KEY `commonID_id_UNIQUE` (`commonID_id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=big5;
 
 CREATE TABLE `emp_struct_child` (
   `child_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -21,11 +22,10 @@ CREATE TABLE `emp_struct_child` (
   KEY `fk_emp-struct-child_3_idx` (`commonID_id`),
   KEY `fk_emp_struct_child_2_idx` (`parent_id`),
   KEY `fk_emp_struct_child_3_idx` (`subparent_id`),
-  CONSTRAINT `fk_emp_struct_child_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_emp_struct_child_2` FOREIGN KEY (`parent_id`) REFERENCES `emp_struct_parent` (`parent_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_emp_struct_child_3` FOREIGN KEY (`subparent_id`) REFERENCES `emp_struct_subparent` (`subparent_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=big5;
-
+  CONSTRAINT `fk_emp_struct_child_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_emp_struct_child_2` FOREIGN KEY (`parent_id`) REFERENCES `emp_struct_parent` (`parent_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_emp_struct_child_3` FOREIGN KEY (`subparent_id`) REFERENCES `emp_struct_subparent` (`subparent_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=big5;
 
 CREATE TABLE `emp_struct_parent` (
   `parent_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -33,8 +33,8 @@ CREATE TABLE `emp_struct_parent` (
   PRIMARY KEY (`parent_id`),
   UNIQUE KEY `parent_id_UNIQUE` (`parent_id`),
   KEY `fk_emp-struct-parent_1_idx` (`commonID_id`),
-  CONSTRAINT `fk_emp_struct_parent_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=big5;
+  CONSTRAINT `fk_emp_struct_parent_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=big5;
 
 CREATE TABLE `emp_struct_subparent` (
   `subparent_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -46,6 +46,7 @@ CREATE TABLE `emp_struct_subparent` (
   UNIQUE KEY `subparent_id_UNIQUE` (`subparent_id`),
   KEY `parent_id_idx` (`parent_id`),
   KEY `fk_emp-struct-subparent_1_idx` (`commonID_id`),
-  CONSTRAINT `fk_emp_struct_subparent_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `fk_emp_struct_subparent_2` FOREIGN KEY (`parent_id`) REFERENCES `emp_struct_parent` (`parent_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=big5;
+  CONSTRAINT `fk_emp_struct_subparent_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_emp_struct_subparent_2` FOREIGN KEY (`parent_id`) REFERENCES `emp_struct_parent` (`parent_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=big5;
+
