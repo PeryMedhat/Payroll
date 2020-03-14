@@ -53,10 +53,7 @@ public class EmpStructSubparent {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "subParent" ,
-			  cascade = {CascadeType.PERSIST,
-			  CascadeType.MERGE,
-			  CascadeType.REFRESH,
-			  CascadeType.DETACH },
+			cascade = CascadeType.ALL,
 			  fetch = FetchType.EAGER)
 	private List<EmpStructChild> children;
 	

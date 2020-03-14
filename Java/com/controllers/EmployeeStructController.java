@@ -75,6 +75,53 @@ public class EmployeeStructController {
 		return flag;
 	}
 
+	@RequestMapping(value = { "/deleteEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String deleteEmployeeStructure(@RequestParam("code") String code) {
+		String isDeleted = "false";
+		Boolean isParent = empService.isParent(code);
+		Boolean isSub = empService.isSubParent(code);
+		
+		try {
+			if(isParent) {
+				isDeleted = empService.deleteParent(code);
+			}
+			else if(isSub) {
+				isDeleted = empService.deleteSubParent(code);				
+			}else {
+				isDeleted = empService.deleteChild(code);
+			}
+		}catch(Exception e) {
+			isDeleted = "Cannot delete non saved code!";		
+		}
+		return isDeleted;
+	}
+	
+	
+	@RequestMapping(value = { "/delemitEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String delemitEmployeeStructure(@RequestParam("code") String code) {
+		String isDelemited = "false";
+		Boolean isParent = empService.isParent(code);
+		Boolean isSub = empService.isSubParent(code);
+		
+		try {
+			if(isParent) {
+				empService.delmitParent(code);
+			}
+			else if(isSub) {
+				empService.delmitSubParent(code);			
+			}else {
+				empService.delmitChild(code);
+			}
+			isDelemited = "true";
+		}catch(Exception e) {
+			isDelemited = "false";
+		}
+		return isDelemited;
+	}
+
+
 
 }
 		

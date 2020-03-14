@@ -271,4 +271,51 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		return isSubParent;
 	}
 
+	@Override
+	public String deleteParent(String code) {
+		Session session = sessionFactory.getCurrentSession();
+		Boolean isDeleted =false;
+		try {
+			EmpStructParent parent=getParent(code);
+			session.delete(parent);
+			isDeleted=true;
+		}catch(Exception e) {
+			isDeleted =false;
+			return isDeleted.toString();
+		}
+		return isDeleted.toString();
+	}
+
+	@Override
+	public String deleteSubParent(String code) {
+		Session session = sessionFactory.getCurrentSession();
+		Boolean isDeleted =false;
+		try {
+			EmpStructSubparent sub = getSubParent(code);
+			session.delete(sub);
+			isDeleted=true;
+		}catch(Exception e) {
+			isDeleted =false;
+			return isDeleted.toString();
+		}
+		return isDeleted.toString();
+	}
+
+	@Override
+	public String deleteChild(String code) {
+		Session session = sessionFactory.getCurrentSession();
+		Boolean isDeleted =false;
+		try {
+			EmpStructChild child = getChild(code);
+			session.delete(child);
+			isDeleted=true;
+		}catch(Exception e) {
+			isDeleted =false;
+			return isDeleted.toString();
+		}
+		return isDeleted.toString();
+	}
+	
+	
+	
 }
