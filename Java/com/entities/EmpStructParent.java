@@ -36,19 +36,13 @@ public class EmpStructParent {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "parent",
-			cascade = {CascadeType.PERSIST,
-					  CascadeType.MERGE,
-					  CascadeType.REFRESH,
-					  CascadeType.DETACH })
+			cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<EmpStructSubparent> subParents;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "parent"
-				,cascade = {CascadeType.PERSIST,
-						  CascadeType.MERGE,
-						  CascadeType.REFRESH,
-						  CascadeType.DETACH })
+				,cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<EmpStructChild> children;
 	

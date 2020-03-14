@@ -44,4 +44,17 @@ public interface EmployeeStructService {
 
 	public String updateEmployeeStructure(EmployeeStructModel employee);
 
+	public String deleteParent(String code);
+	public String deleteSubParent(String code);
+	public String deleteChild(String code);
+
+	public List<EmpStructSubparent> getSubOfSub(String code);
+
+	public void delmitParent(String code);
+	public void delmitSubParent(String code);
+	public void delmitChild(String code);
+	
+	
+	
+
 }
