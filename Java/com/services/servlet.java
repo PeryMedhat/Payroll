@@ -31,7 +31,7 @@ public class servlet extends HttpServlet {
 		// setup connection variables
 				String user = "springstudent";
 				String pass = "springstudent";
-				String jdbcUrl = "jdbc:mysql://localhost:3306/payroll_schema?useSSL=false";
+				String jdbcUrl = "jdbc:mysql://localhost:3306/payroll-schema?useSSL=false";
 				//String driver = "com.mysql.jdbc.Driver";
 				
 				//get connection to database
