@@ -1,6 +1,7 @@
 package com.services;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,25 +106,26 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		List<EmployeeStructModel> listOfSubParents = new ArrayList<EmployeeStructModel>();
 		if(subParent.getCommID().getDeleted()==0){
 			List<EmpStructSubparent> subParents = employeeDAO.getSubParentsOfSubParents(parentCode);
-			
 			if(subParents!=null) {
 				for(Integer i = 0;i<subParents.size();i++) {
-					//create a model
-					EmployeeStructModel model = new EmployeeStructModel();
-					DateFormat dateFormat = new SimpleDateFormat();
+					if(subParents.get(i).getCommID().getDeleted()==0) {
+						//create a model
+						EmployeeStructModel model = new EmployeeStructModel();
+						DateFormat dateFormat = new SimpleDateFormat();
 
-					String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
-					String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
-					
-					model.setParentCode(parentCode);
-					model.setHasChild(true);
-					model.setHasParent(true);
-					model.setStartDate(startDate);
-					model.setEndDate(endDate);
-					model.setCode(subParents.get(i).getCommID().getCode());
-					model.setName(subParents.get(i).getCommID().getName());				
-					listOfSubParents.add(model);
-					
+						String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
+						String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
+						
+						model.setParentCode(parentCode);
+						model.setHasChild(true);
+						model.setHasParent(true);
+						model.setStartDate(startDate);
+						model.setEndDate(endDate);
+						model.setCode(subParents.get(i).getCommID().getCode());
+						model.setName(subParents.get(i).getCommID().getName());				
+						listOfSubParents.add(model);
+						
+					}
 					if(subParents.get(i).getChildren()!=null) {
 						listOfSubParents.addAll(getTheChildrenOfSubParent(subParents.get(i).getCommID().getCode()));
 					}
@@ -574,33 +576,40 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 	@Override
 	@Transactional
-	public void delmitParent(String code) {
+	public void delmitParent(String code,String endDate ) throws ParseException {
+		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
 		EmpStructParent parent =employeeDAO.getParent(code);
+		parent.getCommID().setEndDate(enddate);
 		parent.getCommID().setDeleted(1);
 		List<EmpStructSubparent> subParents = parent.getSubParents();
 		List<EmpStructChild> children =parent.getChildren();
 		for(int i=0;i<subParents.size();i++) {
-			delmitSubParent(subParents.get(i).getCommID().getCode());
+			delmitSubParent(subParents.get(i).getCommID().getCode(),endDate);
 		}
 		for(int i=0;i<children.size();i++) {
-			delmitChild(children.get(i).getCommID().getCode());
+			delmitChild(children.get(i).getCommID().getCode(),endDate);
 		}
 	}
 
 	@Override
 	@Transactional
-	public void delmitSubParent(String code) {
+	public void delmitSubParent(String code,String endDate ) throws ParseException {
+		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
 		EmpStructSubparent sub = employeeDAO.getSubParent(code);
+		sub.getCommID().setEndDate(enddate);
 		sub.getCommID().setDeleted(1);
 		List<EmpStructChild> child = sub.getChildren();
 		for(int i=0;i<child.size();i++) {
+			child.get(i).getCommID().setEndDate(enddate);
 			child.get(i).getCommID().setDeleted(1);
 		}
 		List<EmpStructSubparent> subParents = getSubOfSub(code);
 		for(int i=0;i<subParents.size();i++) {
+			subParents.get(i).getCommID().setEndDate(enddate);
 			subParents.get(i).getCommID().setDeleted(1);
 			List<EmpStructChild> children = subParents.get(i).getChildren();
 			for(int j=0;j<children.size();j++) {
+				children.get(j).getCommID().setEndDate(enddate);
 				children.get(j).getCommID().setDeleted(1);
 			}
 		}
@@ -608,8 +617,10 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 	@Override
 	@Transactional
-	public void delmitChild(String code) {
+	public void delmitChild(String code,String endDate ) throws ParseException {
+		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
 		EmpStructChild child =employeeDAO.getChild(code);
+		child.getCommID().setEndDate(enddate);
 		child.getCommID().setDeleted(1);
 	}
 	

@@ -1,5 +1,6 @@
 package com.services;
 
+import java.text.ParseException;
 import java.util.List;
 import com.entities.EmpStructChild;
 import com.entities.EmpStructParent;
@@ -50,10 +51,10 @@ public interface EmployeeStructService {
 
 	public List<EmpStructSubparent> getSubOfSub(String code);
 
-	public void delmitParent(String code);
-	public void delmitSubParent(String code);
-	public void delmitChild(String code);
-	
+	public void delmitParent(String code, String endDate) throws ParseException;
+	public void delmitSubParent(String code, String endDate) throws ParseException;
+	public void delmitChild(String code, String endDate) throws ParseException;
+
 	
 	
 

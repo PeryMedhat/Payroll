@@ -100,28 +100,40 @@ public class EmployeeStructController {
 	
 	@RequestMapping(value = { "/delemitEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delemitEmployeeStructure(@RequestParam("code") String code) {
+	public String delemitEmployeeStructure(@RequestParam("code") String code,@RequestParam("endDate") String endDate) {
 		String isDelemited = "false";
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
 		try {
 			if(isParent) {
-				empService.delmitParent(code);
+				empService.delmitParent(code,endDate);
 			}
 			else if(isSub) {
-				empService.delmitSubParent(code);			
+				empService.delmitSubParent(code,endDate);			
 			}else {
-				empService.delmitChild(code);
+				empService.delmitChild(code,endDate);
 			}
 			isDelemited = "true";
 		}catch(Exception e) {
+			e.printStackTrace();
 			isDelemited = "false";
 		}
 		return isDelemited;
 	}
 
-
+	
+	@RequestMapping(value = { "/copyEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String[] copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
+		String[] flag = new String[employeeModel.size()];
+		try {
+			for(int i=0;i<employeeModel.size();i++) {
+				flag[i]= empService.updateEmployeeStructure(employeeModel.get(i));
+				}
+		}catch(Exception e) {}
+		return flag;
+	}
 
 }
 		
