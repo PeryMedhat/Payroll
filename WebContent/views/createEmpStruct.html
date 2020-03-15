@@ -24,14 +24,14 @@
 	            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee Structure</a>
 	            <ul class="collapse list-unstyled" id="EmpStructSubMenu">
                 <li>
-                    <a href="">Create Employee Structure</a>
-                </li>
-                <li>
-                    <a href="#">Edit Employee Structure</a>
-                </li>
-                <li>
-                    <a href="#">Assign Paytype to Employee Structure</a>
-                </li>
+                  <a href="createEmpStruct.html">Create Employee Structure</a>
+              </li>
+              <li>
+                  <a href="editEmpStruct.html">Edit Employee Structure</a>
+              </li>
+              <li>
+                  <a href="assignPayTypeToEmpStruct.html">Assign Paytype to Employee Structure</a>
+              </li>
 	            </ul>
 	          </li>
 	       
@@ -39,14 +39,14 @@
               <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company Structure</a>
               <ul class="collapse list-unstyled" id="compStructSubmenu">
                 <li>
-                    <a href="http://localhost:8080/Payroll">Create Company Structure</a>
-                </li>
-                <li>
-                    <a href="#">Edit Company Structure</a>
-                </li>
-                <li>
-                    <a href="#">Assign Paytype to Company Structure</a>
-                </li>
+                  <a href="#">Create Company Structure</a>
+              </li>
+              <li>
+                  <a href="#">Edit Company Structure</a>
+              </li>
+              <li>
+                  <a href="#">Assign Paytype to Company Structure</a>
+              </li>
               </ul>
 	          </li>
           
@@ -120,13 +120,13 @@
                           <div class="col-4">
                               <div class="input-group">
                                   <label class="label">Code</label>
-                                  <input class="input--style-4"  maxlength="6" type="text" id="empstruct_code" name="empstruct_code">
+                                  <input class="input--style-4" required  maxlength="6" type="text" id="empstruct_code" name="empstruct_code">
                               </div>
                           </div>
                           <div class="col-8">
                               <div class="input-group">
                                   <label class="label">Name</label>
-                                  <input class="input--style-4" maxlength="20" type="text" id="empstruct_name" name="empstruct_name">
+                                  <input class="input--style-4" maxlength="20"  requiredtype="text" id="empstruct_name" name="empstruct_name">
                               </div>
                           </div>
                       </div>
@@ -173,13 +173,32 @@
                       </div>
                       <div class="p-t-127">
                      
-                        <button   id="buttonSubmit" class="btn  submitbtn btn-primary" onclick="NextOrSubmit();">Next</button>
+                        <button  type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary" onclick="NextOrSubmit();">Next</button>
                      
                     </div>
                       </div>
                   
                     </div>
                 </div>
+            </div>
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Child</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                  Do you want to add new child ?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onClick="javascript:sendToDB();" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" onClick="javascript:resetForm();" data-dismiss="modal">Yes, I want to</button>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
       </div>
@@ -201,6 +220,6 @@
     <script src="../resources/JS/moment.min.js"></script>
     <script src="../resources/JS/daterangepicker.js"></script>
 
-    <script src="../resources/JS/global.js"></script>
+    <script src="../resources/JS/createEmpStructService.js"></script>
   </body>
 </html>
