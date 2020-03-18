@@ -65,15 +65,40 @@ public class EmployeeStructController {
 		return myMap;
 	}
 
+	
+	@RequestMapping(value = { "/getEmployeeStructureElement" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String,Object>  getEmployeeStructureElement(@RequestParam("code") String code) {
+		Map<String,Object> myMap = new HashMap<String,Object>();
+		EmployeeStructModel model= new EmployeeStructModel(); 
+		Boolean isParent = empService.isParent(code);
+		Boolean isSub = empService.isSubParent(code);
+		
+		try {
+			if(isParent) {
+				model =empService.getTheParent(code);
+			}
+			else if(isSub) {
+				model =empService.getTheSubParent(code);
+			}else {
+				model =empService.getTheChild(code);
+			}
+			myMap.put("theModel",model);
+		}catch(Exception e) {
+			myMap.put("Code is not as an employee group code",null);
+		}
+		return myMap;
+	}
+
+	
+	
 	@RequestMapping(value = { "/updateEmployeeStructure" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String[] updateEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
-		String[] flag = new String[employeeModel.size()];
+	public String updateEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) {
+		String flag ="false";
 		try {
-			for(int i=0;i<employeeModel.size();i++) {
-				flag[i]= empService.updateEmployeeStructure(employeeModel.get(i));
-				}
-		}catch(Exception e) {}
+			flag= empService.updateEmployeeStructure(employeeModel);
+		}catch(Exception e) {flag ="false";}
 		return flag;
 	}
 

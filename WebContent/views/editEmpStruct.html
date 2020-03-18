@@ -4,7 +4,21 @@
   	<title>Edit Employee Structure Payroll</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
+    <!-- jQuery library -->
+    <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script
+    src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
  
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link href="../resources/CSS/select2.min.css" rel="stylesheet" media="all">
@@ -112,7 +126,7 @@
         </nav>
       
 
-        <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+        <div class="page-wrapper editEmp bg-gra-02 p-t-130 p-b-100 font-poppins">
           <div class="wrapper wrapper--w800">
               <div class="card card-4">
                   <div class="card-body">
@@ -121,11 +135,11 @@
                         <div class="col-8">
                             <div class="input-group">
                                 <label class="label">Code</label>
-                                <input class="input--style-4" required  maxlength="6" type="text" id="empstruct_code" name="empstruct_code">
+                                <input class="input--style-4" required  maxlength="9" type="text" id="empstruct_code" name="empstruct_code">
                             </div>
                         </div>
                         <div class="col-4">
-                           <button style="position: relative;top: 30%;" type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary" onclick="NextOrSubmit();">Send</button>
+                           <button style="position: relative;top: 30%;" type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary" >Send</button>
                         </div>
                     </div>
                      
@@ -134,6 +148,7 @@
                     </div>
                 </div>
             </div>
+
             
         </div>
       </div>
@@ -144,16 +159,13 @@
 
 
 		</div>
-
-     <script src="../resources/JS/jquery.min.js"></script>
-    <script src="../resources/JS/popper.js"></script>
-    <script src="../resources/JS/bootstrap.min.js"></script>
     <script src="../resources/JS/main.js"></script>
-
+    
 
     <script src="../resources/JS/select2.min.js"></script>
     <script src="../resources/JS/moment.min.js"></script>
     <script src="../resources/JS/daterangepicker.js"></script>
+    <script src="../resources/JS/editEmpStruct.js"></script>
 
   </body>
 </html>

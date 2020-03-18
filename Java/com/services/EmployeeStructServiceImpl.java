@@ -177,8 +177,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			model.setHasChild(true);
 			model.setHasParent(true);
 			model.setParentCode(subParent.getParentCode());
-			model.setStartDate(startDate);
-			model.setEndDate(endDate);
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
 			model.setCode(subParent.getCommID().getCode());
 			model.setName(subParent.getCommID().getName());
 		}
