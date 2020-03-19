@@ -44,10 +44,13 @@ var controller = (function () {
                 cell3.innerHTML =sortedArray[index].name;
                 cell4.innerHTML =sortedArray[index].startDate;
                 cell5.innerHTML =sortedArray[index].endDate;
-                var theHref = 'editEmpStructData.html?code='+sortedArray[index].code;
-                cell6.innerHTML="<a href="+theHref+">Edit</a>";
+                var theHrefForEdit = 'editEmpStructData.html?code='+sortedArray[index].code;
+                var theHrefFordelemit = 'delemitEmpStructData.html?code='+sortedArray[index].code;
+                var theHrefFordelete =  'deleteEmpStructData.html?code='+sortedArray[index].code;
+                cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
+                                +"<a href="+theHrefFordelemit+">   Delemit</a>"
+                                +"<a href="+theHrefFordelete+">   Delete</a>";
             } 
-            
         },
         error: function (xhr) {
             console.log(xhr);

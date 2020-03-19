@@ -119,6 +119,7 @@ public class EmployeeStructController {
 				isDeleted = empService.deleteChild(code);
 			}
 		}catch(Exception e) {
+			e.printStackTrace();
 			isDeleted = "Cannot delete non saved code!";		
 		}
 		return isDeleted;

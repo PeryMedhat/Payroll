@@ -68,33 +68,10 @@
     
 
 })(jQuery);
-
 var controller = (function () {
     queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
-    var model;
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "get",
-        url: "http://localhost:8080/Payroll/employeeStructure/getEmployeeStructureElement",
-        data: {
-            code:code
-        },
-        success: function (response) {
-            model=response.theModel;  
-            $("#empstruct_code").val(model.code);    
-            $("#empstruct_name").val(model.name); 
-            $("#start_date").val(model.startDate); 
-            $("#end_date").val(model.endDate); 
-        },
-        error: function (xhr) {
-            console.log(xhr);
-        }
-    });
     
     jQuery(document).ready(function ($) {
         $("#buttonSubmit").mouseenter(function () {
@@ -108,36 +85,44 @@ var controller = (function () {
         });
 
         $("#buttonSubmit").click(function (e) {
-            var empObject = {
-                "code" :model.code,
-                "name" :$("#empstruct_name").val(),
-                "startDate" :$("#start_date").val(),
-                "endDate":$("#end_date").val(),
-                "hasParent":model.hasParent,
-                "parentCode":model.parentCode,
-                "hasChild":model.hasChild}
-            var formData=JSON.stringify(empObject);
+            var endDate = $("#end_date").val();
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                type: "put",
-                url:"http://localhost:8080/Payroll/employeeStructure/updateEmployeeStructure",
-                data :formData,
+                type: "get", 
+                url: "http://localhost:8080/Payroll/employeeStructure/delemitEmployeeStructure",
+                data: {
+                    code: code,
+                    endDate:endDate
+                },
                 success: function (response) {
                     if(response==true){
                         $('#success_msg').removeAttr('hidden');
                     }else{
                         $('#fail_msg').removeAttr('hidden');
                     }
+                    
                 },
                 error: function (xhr) {
+                    $('#fail_msg').removeAttr('hidden');
                     console.log(xhr);
                 }
             });
             
+        
+        
         });
 
+        
+        
+
+        
     });
 })();
+
+
+
+
+

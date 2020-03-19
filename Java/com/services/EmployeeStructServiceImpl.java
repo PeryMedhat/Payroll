@@ -571,6 +571,14 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Transactional
 	public String deleteChild(String code) {
 		String isDeleted ="false";
+		EmpStructChild child = employeeDAO.getChild(code);
+		EmpStructSubparent sub = child.getSubParent();
+		EmpStructParent parent = child.getParent();
+		List<EmpStructChild> childrenList = new ArrayList<EmpStructChild>();
+		if(parent!=null) {
+			childrenList = parent.getChildren();
+		}else {childrenList = sub.getChildren();}
+		childrenList.remove(child);
 		isDeleted =employeeDAO.deleteChild(code);
 		return isDeleted;
 	}
