@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -119,8 +120,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 						model.setParentCode(parentCode);
 						model.setHasChild(true);
 						model.setHasParent(true);
-						model.setStartDate(startDate);
-						model.setEndDate(endDate);
+						model.setStartDate(startDate.substring(0, 6));
+						model.setEndDate(endDate.substring(0, 6));
 						model.setCode(subParents.get(i).getCommID().getCode());
 						model.setName(subParents.get(i).getCommID().getName());				
 						listOfSubParents.add(model);
@@ -154,8 +155,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			model.setHasChild(true);
 			model.setHasParent(false);
 			model.setParentCode(null);
-			model.setStartDate(startDate);
-			model.setEndDate(endDate);
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
 			model.setCode(parent.getCommID().getCode());
 			model.setName(parent.getCommID().getName());
 			}
@@ -176,8 +177,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			model.setHasChild(true);
 			model.setHasParent(true);
 			model.setParentCode(subParent.getParentCode());
-			model.setStartDate(startDate);
-			model.setEndDate(endDate);
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
 			model.setCode(subParent.getCommID().getCode());
 			model.setName(subParent.getCommID().getName());
 		}
@@ -206,8 +207,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setParentCode(child.getSubParent().getCommID().getCode());
 			}
 			
-			model.setStartDate(startDate);
-			model.setEndDate(endDate);
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
 			model.setCode(child.getCommID().getCode());
 			model.setName(child.getCommID().getName());
 			}
@@ -234,8 +235,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 					model.setParentCode(code);
 					model.setHasChild(true);
 					
-					model.setStartDate(startDate);
-					model.setEndDate(endDate);
+					model.setStartDate(startDate.substring(0, 6));
+					model.setEndDate(endDate.substring(0, 6));
 					model.setCode(subParentsOfParent.get(i).getCommID().getCode());
 					model.setName(subParentsOfParent.get(i).getCommID().getName());
 		
@@ -264,8 +265,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 					model.setParentCode(subCode);
 					model.setHasChild(false);
 					
-					model.setStartDate(startDate);
-					model.setEndDate(endDate);
+					model.setStartDate(startDate.substring(0, 6));
+					model.setEndDate(endDate.substring(0, 6));
 					model.setCode(childrenOfSub.get(i).getCommID().getCode());
 					model.setName(childrenOfSub.get(i).getCommID().getName());
 					listOfChildren.add(model);}
@@ -295,8 +296,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 					model.setParentCode(parentCode);
 					model.setHasChild(false);
 					
-					model.setStartDate(startDate);
-					model.setEndDate(endDate);
+					model.setStartDate(startDate.substring(0, 6));
+					model.setEndDate(endDate.substring(0, 6));
 					model.setCode(childrenOfParent.get(i).getCommID().getCode());
 					model.setName(childrenOfParent.get(i).getCommID().getName());
 					listOfChildren.add(model);}
@@ -570,6 +571,14 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Transactional
 	public String deleteChild(String code) {
 		String isDeleted ="false";
+		EmpStructChild child = employeeDAO.getChild(code);
+		EmpStructSubparent sub = child.getSubParent();
+		EmpStructParent parent = child.getParent();
+		List<EmpStructChild> childrenList = new ArrayList<EmpStructChild>();
+		if(parent!=null) {
+			childrenList = parent.getChildren();
+		}else {childrenList = sub.getChildren();}
+		childrenList.remove(child);
 		isDeleted =employeeDAO.deleteChild(code);
 		return isDeleted;
 	}
@@ -624,7 +633,27 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		child.getCommID().setDeleted(1);
 	}
 	
-	
-	
+	@Override
+	@Transactional
+	public String copyEmployeeStructure(EmployeeStructModel employeeStructModel,String todayDate) {
+		String isCopied="false";
+		EmployeeStructModel newModel = new EmployeeStructModel();
+		try {	
+			newModel.setCode(employeeStructModel.getCode().concat("-"+todayDate));
+			newModel.setEndDate(employeeStructModel.getEndDate());
+			newModel.setStartDate(todayDate);
+			newModel.setName(employeeStructModel.getName());
+			newModel.setHasParent(employeeStructModel.getHasParent());
+			newModel.setHasChild(employeeStructModel.getHasChild());
+			if(employeeStructModel.getHasParent()==false) {
+				newModel.setParentCode(null);
+			}else {
+				newModel.setParentCode(employeeStructModel.getParentCode().concat("-"+todayDate));
+			}
+			isCopied=processTheIncommingModel(newModel);
+			employeeStructModel.setEndDate(todayDate);
+		}catch(Exception e) {isCopied="false";}
+		return isCopied;
+	}
 
 }

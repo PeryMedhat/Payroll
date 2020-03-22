@@ -55,6 +55,7 @@ public interface EmployeeStructService {
 	public void delmitSubParent(String code, String endDate) throws ParseException;
 	public void delmitChild(String code, String endDate) throws ParseException;
 
+	public String copyEmployeeStructure(EmployeeStructModel employeeStructModel, String todayDate);
 	
 	
 
