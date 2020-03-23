@@ -515,8 +515,6 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 					updateTheEmpStruct =employeeDAO.addChildToSubParent(child,parentCode);
 				}
 			}
-			System.out.println("EEEEEEEEEEEEEEEEEEE");
-
 			return updateTheEmpStruct.toString();
 		}catch(Exception e) {
 				e.printStackTrace();
