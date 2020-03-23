@@ -10,7 +10,7 @@ CREATE TABLE `commonID` (
   PRIMARY KEY (`commonID_id`),
   UNIQUE KEY `commonID_id_UNIQUE` (`commonID_id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=615 DEFAULT CHARSET=big5;
 
 CREATE TABLE `emp_struct_child` (
   `child_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -21,11 +21,10 @@ CREATE TABLE `emp_struct_child` (
   UNIQUE KEY `child_id_UNIQUE` (`child_id`),
   KEY `fk_emp-struct-child_3_idx` (`commonID_id`),
   KEY `fk_emp_struct_child_2_idx` (`parent_id`),
-  KEY `fk_emp_struct_child_3_idx` (`subparent_id`),
+  KEY `fk_emp_struct_child_3_idx` (`subparent_id`,`parent_id`),
   CONSTRAINT `fk_emp_struct_child_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_emp_struct_child_2` FOREIGN KEY (`parent_id`) REFERENCES `emp_struct_parent` (`parent_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_emp_struct_child_3` FOREIGN KEY (`subparent_id`) REFERENCES `emp_struct_subparent` (`subparent_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=big5;
+  CONSTRAINT `fk_emp_struct_child_2` FOREIGN KEY (`parent_id`) REFERENCES `emp_struct_parent` (`parent_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=big5;
 
 CREATE TABLE `emp_struct_parent` (
   `parent_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -34,7 +33,7 @@ CREATE TABLE `emp_struct_parent` (
   UNIQUE KEY `parent_id_UNIQUE` (`parent_id`),
   KEY `fk_emp-struct-parent_1_idx` (`commonID_id`),
   CONSTRAINT `fk_emp_struct_parent_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=big5;
 
 CREATE TABLE `emp_struct_subparent` (
   `subparent_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -48,5 +47,4 @@ CREATE TABLE `emp_struct_subparent` (
   KEY `fk_emp-struct-subparent_1_idx` (`commonID_id`),
   CONSTRAINT `fk_emp_struct_subparent_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_emp_struct_subparent_2` FOREIGN KEY (`parent_id`) REFERENCES `emp_struct_parent` (`parent_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=big5;
-
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=big5;
