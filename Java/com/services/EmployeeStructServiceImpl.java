@@ -596,14 +596,14 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		EmpStructParent parent =employeeDAO.getParent(code);
 		parent.getCommID().setEndDate(enddate);
 		parent.getCommID().setDeleted(1);
-		List<EmpStructSubparent> subParents = parent.getSubParents();
-		List<EmpStructChild> children =parent.getChildren();
-		for(int i=0;i<subParents.size();i++) {
-			delmitSubParent(subParents.get(i).getCommID().getCode(),endDate);
-		}
-		for(int i=0;i<children.size();i++) {
-			delmitChild(children.get(i).getCommID().getCode(),endDate);
-		}
+		//List<EmpStructSubparent> subParents = parent.getSubParents();
+		//List<EmpStructChild> children =parent.getChildren();
+		//for(int i=0;i<subParents.size();i++) {
+			//delmitSubParent(subParents.get(i).getCommID().getCode(),endDate);
+		//}
+		//for(int i=0;i<children.size();i++) {
+		//	delmitChild(children.get(i).getCommID().getCode(),endDate);
+		//}
 	}
 
 	@Override
@@ -613,21 +613,17 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		EmpStructSubparent sub = employeeDAO.getSubParent(code);
 		sub.getCommID().setEndDate(enddate);
 		sub.getCommID().setDeleted(1);
-		List<EmpStructChild> child = sub.getChildren();
-		for(int i=0;i<child.size();i++) {
-			child.get(i).getCommID().setEndDate(enddate);
-			child.get(i).getCommID().setDeleted(1);
-		}
-		List<EmpStructSubparent> subParents = getSubOfSub(code);
-		for(int i=0;i<subParents.size();i++) {
-			subParents.get(i).getCommID().setEndDate(enddate);
-			subParents.get(i).getCommID().setDeleted(1);
-			List<EmpStructChild> children = subParents.get(i).getChildren();
-			for(int j=0;j<children.size();j++) {
-				children.get(j).getCommID().setEndDate(enddate);
-				children.get(j).getCommID().setDeleted(1);
-			}
-		}
+		/*
+		 * List<EmpStructChild> child = sub.getChildren(); for(int
+		 * i=0;i<child.size();i++) { child.get(i).getCommID().setEndDate(enddate);
+		 * child.get(i).getCommID().setDeleted(1); } List<EmpStructSubparent> subParents
+		 * = getSubOfSub(code); for(int i=0;i<subParents.size();i++) {
+		 * subParents.get(i).getCommID().setEndDate(enddate);
+		 * subParents.get(i).getCommID().setDeleted(1); List<EmpStructChild> children =
+		 * subParents.get(i).getChildren(); for(int j=0;j<children.size();j++) {
+		 * children.get(j).getCommID().setEndDate(enddate);
+		 * children.get(j).getCommID().setDeleted(1); } }
+		 */
 	}
 
 	@Override
