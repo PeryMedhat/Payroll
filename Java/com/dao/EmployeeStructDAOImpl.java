@@ -55,6 +55,7 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 			return true;
 		}catch(Exception e) {
 			//clear session and return false
+			e.printStackTrace();
 			session.clear(); 
 			return false;
 		}

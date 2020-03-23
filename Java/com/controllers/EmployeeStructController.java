@@ -98,7 +98,7 @@ public class EmployeeStructController {
 		String flag ="false";
 		try {
 			flag= empService.updateEmployeeStructure(employeeModel);
-		}catch(Exception e) {flag ="false";}
+		}catch(Exception e) {e.printStackTrace();flag ="false";}
 		return flag;
 	}
 

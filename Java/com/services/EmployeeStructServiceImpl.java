@@ -173,10 +173,13 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 					
 			String startDate = dateFormat.format(subParent.getCommID().getStartDate());
 			String endDate = dateFormat.format(subParent.getCommID().getEndDate());
-			
+			EmpStructParent parent =subParent.getParent();
 			model.setHasChild(true);
 			model.setHasParent(true);
-			model.setParentCode(subParent.getParentCode());
+			if(parent!=null) {
+				model.setParentCode(parent.getCommID().getCode());
+			}else {
+				model.setParentCode(subParent.getParentCode());}
 			model.setStartDate(startDate.substring(0, 6));
 			model.setEndDate(endDate.substring(0, 6));
 			model.setCode(subParent.getCommID().getCode());
@@ -512,8 +515,12 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 					updateTheEmpStruct =employeeDAO.addChildToSubParent(child,parentCode);
 				}
 			}
+			System.out.println("EEEEEEEEEEEEEEEEEEE");
+
 			return updateTheEmpStruct.toString();
-		}catch(Exception e) {return "false";}
+		}catch(Exception e) {
+				e.printStackTrace();
+				return "false";}
 			
 	}
 	
@@ -557,6 +564,11 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Transactional
 	public String deleteSubParent(String code) {
 		EmpStructSubparent sub =employeeDAO.getSubParent(code);
+		EmpStructParent parent =sub.getParent();
+		if(parent!=null) {
+			List<EmpStructSubparent> subList = parent.getSubParents();
+			subList.remove(sub);
+		}
 		String isDeleted ="false";
 		List<EmpStructSubparent> subParents = getSubOfSub(code);
 		isDeleted = employeeDAO.deleteSubParent(sub.getCommID().getCode());
