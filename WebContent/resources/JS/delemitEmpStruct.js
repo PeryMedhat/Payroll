@@ -85,6 +85,9 @@ var controller = (function () {
         });
 
         $("#buttonSubmit").click(function (e) {
+            $('#success_msg').attr('hidden','');
+            $('#fail_msg').attr('hidden','');
+
             var endDate = $("#end_date").val();
             $.ajax({
                 headers: {

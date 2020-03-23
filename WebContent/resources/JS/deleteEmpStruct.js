@@ -16,6 +16,9 @@ var controller = (function () {
         });
 
         $("#buttonSubmit").click(function (e) {
+            $('#success_msg').attr('hidden','');
+            $('#fail_msg').attr('hidden','');
+
             $.ajax({
                 headers: {
                     'Accept': 'application/json',

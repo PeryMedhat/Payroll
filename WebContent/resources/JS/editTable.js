@@ -52,7 +52,7 @@ var controller = (function () {
                 var theHrefFordelemit = 'delemitEmpStructData.html?code='+sortedArray[index].code;
                 var theHrefFordelete =  'deleteEmpStructData.html?code='+sortedArray[index].code;
                 cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
-                                +"<a href="+theHrefFordelemit+">   Delemit</a>"
+                                +"<a href="+theHrefFordelemit+">   Delimit</a>"
                                 +"<a href="+theHrefFordelete+">   Delete</a>";
             } 
             }
