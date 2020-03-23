@@ -60,7 +60,7 @@ public class EmployeeStructController {
 			}
 			myMap.put("theChain",myList);
 		}catch(Exception e) {
-			myMap.put("Code is not as an employee group code",null);
+			myMap.put("theChain",null);
 		}
 		return myMap;
 	}
@@ -85,7 +85,7 @@ public class EmployeeStructController {
 			}
 			myMap.put("theModel",model);
 		}catch(Exception e) {
-			myMap.put("Code is not as an employee group code",null);
+			myMap.put("theChain",null);
 		}
 		return myMap;
 	}

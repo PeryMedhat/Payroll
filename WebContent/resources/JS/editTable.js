@@ -14,7 +14,11 @@ var controller = (function () {
             code: code
         },
         success: function (response) {
-            arrayOfTotalChain = response.theChain;
+            if(response.theChain==null){
+                $('.theEmpStruct').attr('hidden','');
+                alert("There is no employee structture with that code ="+code);
+            }else{
+                arrayOfTotalChain = response.theChain;
             var table = document.getElementById("EmpStructTable");
             var sortedArray=new Array();
             var children=new Array();
@@ -51,6 +55,8 @@ var controller = (function () {
                                 +"<a href="+theHrefFordelemit+">   Delemit</a>"
                                 +"<a href="+theHrefFordelete+">   Delete</a>";
             } 
+            }
+            
         },
         error: function (xhr) {
             console.log(xhr);
