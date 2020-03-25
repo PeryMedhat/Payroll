@@ -553,7 +553,6 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		return isDeleted;
 	}
 
-	
 	@Override
 	@Transactional
 	public String deleteSubParent(String code) {
@@ -572,7 +571,6 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		return isDeleted;		
 	}
 	
-
 	@Override
 	@Transactional
 	public String deleteChild(String code) {
@@ -641,19 +639,20 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		String isCopied="false";
 		EmployeeStructModel newModel = new EmployeeStructModel();
 		try {	
-			newModel.setCode(employeeStructModel.getCode().concat("-"+todayDate));
+			newModel.setCode(employeeStructModel.getCode());
 			newModel.setEndDate(employeeStructModel.getEndDate());
-			newModel.setStartDate(todayDate);
+			newModel.setStartDate(employeeStructModel.getStartDate());
 			newModel.setName(employeeStructModel.getName());
 			newModel.setHasParent(employeeStructModel.getHasParent());
 			newModel.setHasChild(employeeStructModel.getHasChild());
 			if(employeeStructModel.getHasParent()==false) {
 				newModel.setParentCode(null);
-			}else {
-				newModel.setParentCode(employeeStructModel.getParentCode().concat("-"+todayDate));
+				delmitParent(employeeStructModel.getCode(),todayDate);
+			}else{
+				newModel.setParentCode(employeeStructModel.getParentCode()); 	
 			}
 			isCopied=processTheIncommingModel(newModel);
-			employeeStructModel.setEndDate(todayDate);
+			
 		}catch(Exception e) {isCopied="false";}
 		return isCopied;
 	}

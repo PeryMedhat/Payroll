@@ -155,16 +155,13 @@ public class EmployeeStructController {
 	@ResponseBody
 	public String[] copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
 		String[] flag = new String[employeeModel.size()];
-		EmployeeStructModel parent = null ;
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String todayDate=dtf.format(now);
 		try {
 			for(int i=0;i<employeeModel.size();i++) {
-				if(employeeModel.get(i).getHasParent()==false) {parent=employeeModel.get(i);}
 				flag[i]= empService.copyEmployeeStructure(employeeModel.get(i),todayDate);
 			}
-			delemitEmployeeStructure(parent.getCode(),todayDate);
 		}catch(Exception e) {e.printStackTrace();}
 		return flag;
 	}

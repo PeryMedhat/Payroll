@@ -32,6 +32,9 @@ var controller = (function () {
             }
             sortedArray = sortedArray.concat(subs).concat(children);
             for (index = 0; index < sortedArray.length; index++) { 
+                var theHrefForEdit = 'editEmpStructData.html?code='+sortedArray[index].code;
+                var theHrefFordelemit = 'delemitEmpStructData.html?code='+sortedArray[index].code;
+                var theHrefFordelete =  'deleteEmpStructData.html?code='+sortedArray[index].code;
                 var row = table.insertRow(-1);
                 var cell1=row.insertCell(0);
                 var cell2=row.insertCell(1);
@@ -41,19 +44,27 @@ var controller = (function () {
                 var cell6=row.insertCell(5);
                 if(sortedArray[index].hasParent==false){
                     cell1.innerHTML="Parent";
+                    var theHrefForCopy = 'copyEmpStructData.html?code='+sortedArray[index].code;
+                    cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
+                    +"<a href="+theHrefFordelemit+">   Delimit</a>"
+                    +"<a href="+theHrefFordelete+">   Delete</a>"
+                    +"<a href="+theHrefForCopy+">   Copy</a>";
                 }else if(sortedArray[index].hasChild==true){
                     cell1.innerHTML="SubParent";
-                }else{ cell1.innerHTML="Child";}
+                    cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
+                    +"<a href="+theHrefFordelemit+">   Delimit</a>"
+                    +"<a href="+theHrefFordelete+">   Delete</a>";
+                }else{ 
+                    cell1.innerHTML="Child";
+                    cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
+                      +"<a href="+theHrefFordelemit+">   Delimit</a>"
+                    +"<a href="+theHrefFordelete+">   Delete</a>";}
                 cell2.innerHTML =sortedArray[index].code;
                 cell3.innerHTML =sortedArray[index].name;
                 cell4.innerHTML =sortedArray[index].startDate;
                 cell5.innerHTML =sortedArray[index].endDate;
-                var theHrefForEdit = 'editEmpStructData.html?code='+sortedArray[index].code;
-                var theHrefFordelemit = 'delemitEmpStructData.html?code='+sortedArray[index].code;
-                var theHrefFordelete =  'deleteEmpStructData.html?code='+sortedArray[index].code;
-                cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
-                                +"<a href="+theHrefFordelemit+">   Delimit</a>"
-                                +"<a href="+theHrefFordelete+">   Delete</a>";
+                
+               
             } 
             }
             
