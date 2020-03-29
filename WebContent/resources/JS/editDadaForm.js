@@ -73,6 +73,7 @@ var controller = (function () {
     queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
+    const theCode = urlParams.get('theCode');
     var model;
     $.ajax({
         headers: {
@@ -107,10 +108,13 @@ var controller = (function () {
             $(this).addClass('btn-primary');
         });
 
-        $("#buttonSubmit").click(function (e) {
-            $('#success_msg').attr('hidden','');
-            $('#fail_msg').attr('hidden','');
+        $("#modalOkButton").click(function (e) {
+            location='showEditTable.html?code='+theCode;
+        });
+       
 
+        $("#buttonSubmit").click(function (e) {
+           
             var empObject = {
                 "code" :model.code,
                 "name" :$("#empstruct_name").val(),

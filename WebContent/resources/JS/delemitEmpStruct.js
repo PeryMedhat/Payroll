@@ -72,7 +72,7 @@ var controller = (function () {
     queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
-    
+    const theCode = urlParams.get('theCode');
     jQuery(document).ready(function ($) {
         $("#buttonSubmit").mouseenter(function () {
             $(this).removeClass('btn-primary');
@@ -83,6 +83,7 @@ var controller = (function () {
             $(this).removeClass('bg-success');
             $(this).addClass('btn-primary');
         });
+
 
         $("#buttonSubmit").click(function (e) {
             $('#success_msg').attr('hidden','');
@@ -103,6 +104,9 @@ var controller = (function () {
                 success: function (response) {
                     if(response==true){
                         $('#success_msg').removeAttr('hidden');
+                        $("#modalOkButton").click(function (e) {
+                            location='showEditTable.html?code='+theCode;
+                        });
                     }else{
                         $('#fail_msg').removeAttr('hidden');
                     }
@@ -114,13 +118,7 @@ var controller = (function () {
                 }
             });
             
-        
-        
         });
-
-        
-        
-
         
     });
 })();

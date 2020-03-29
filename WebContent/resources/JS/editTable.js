@@ -16,7 +16,7 @@ var controller = (function () {
         success: function (response) {
             if(response.theChain==null){
                 $('.theEmpStruct').attr('hidden','');
-                alert("There is no employee structture with that code ="+code);
+                $('#employeeStructModal').modal('show');
             }else{
                 arrayOfTotalChain = response.theChain;
             var table = document.getElementById("EmpStructTable");
@@ -32,9 +32,10 @@ var controller = (function () {
             }
             sortedArray = sortedArray.concat(subs).concat(children);
             for (index = 0; index < sortedArray.length; index++) { 
-                var theHrefForEdit = 'editEmpStructData.html?code='+sortedArray[index].code;
-                var theHrefFordelemit = 'delemitEmpStructData.html?code='+sortedArray[index].code;
-                var theHrefFordelete =  'deleteEmpStructData.html?code='+sortedArray[index].code;
+                var theCode = code;
+                var theHrefForEdit = 'editEmpStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
+                var theHrefFordelemit = 'delemitEmpStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
+                var theHrefFordelete =  'deleteEmpStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
                 var row = table.insertRow(-1);
                 var cell1=row.insertCell(0);
                 var cell2=row.insertCell(1);
@@ -44,7 +45,7 @@ var controller = (function () {
                 var cell6=row.insertCell(5);
                 if(sortedArray[index].hasParent==false){
                     cell1.innerHTML="Parent";
-                    var theHrefForCopy = 'copyEmpStructData.html?code='+sortedArray[index].code;
+                    var theHrefForCopy = 'copyEmpStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
                     cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
                     +"<a href="+theHrefFordelemit+">   Delimit</a>"
                     +"<a href="+theHrefFordelete+">   Delete</a>"
@@ -76,7 +77,9 @@ var controller = (function () {
 
     
     jQuery(document).ready(function ($) {
-
+        $("#modalOkButton").click(function (e) {
+            location='editEmpStruct.html';
+        });
         
     });
 })();
