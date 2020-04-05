@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Edit Employee Structure Payroll</title>
+  <title>Edit Company Structure Payroll</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Latest compiled and minified CSS -->
@@ -17,7 +17,6 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
   <link href="../resources/CSS/select2.min.css" rel="stylesheet" media="all">
   <link href="../resources/CSS/daterangepicker.css" rel="stylesheet" media="all">
@@ -31,7 +30,7 @@
   <div class="sidebarContainer wrapper d-flex align-items-stretch">
     <nav id="sidebar">
       <div class="p-4 pt-5">
-        <a hef="#" class="img logo rounded-circle mb-5" style="background-image: url(../logo.jpg);"></a>
+        <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(../logo.jpg);"></a>
         <ul class="list-unstyled components mb-5">
           <li class="active">
             <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee
@@ -133,94 +132,55 @@
         </div>
       </nav>
 
-
-      <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
-        <div class="wrapper wrapper--w800">
-          <div class="card card-4">
-            <div class="card-body">
-              <h2 class="title">Edit Employee Structure</h2>
-
-              <div class="row row-space paddingtop">
-                <div class="col-4">
-                  <div class="input-group">
-                    <label class="label">Code</label>
-                    <input class="input--style-4" disabled maxlength="9" type="text" id="empstruct_code"
-                      name="empstruct_code">
-                  </div>
-                </div>
-                <div class="col-8">
-                  <div class="input-group">
-                    <label class="label">Name</label>
-                    <input class="input--style-4" maxlength="20" requiredtype="text" id="empstruct_name"
-                      name="empstruct_name">
-                  </div>
-                </div>
-              </div>
-
-              <div class="row row-space paddingtop">
-
-                <div class="col-5">
-                  <div class="input-group">
-                    <label class="label">Start Date</label>
-                    <div class="input-group-icon">
-                      <input readonly='true' class="input--style-4 js-datepicker " id="start_date" type="text"
-                        name="start_date">
-                      <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-5">
-                  <div class="input-group">
-                    <label class="label">End Date</label>
-                    <div class="input-group-icon">
-                      <input readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
-                        name="birthday">
-                      <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="modal fade" id="employeeStructModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Edit Employee Structure Payroll</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="alert alert-success " id="success_msg" hidden>
-                        <strong>Success!</strong>The Employee structure is updated successfully.
-                      </div>
-                      <div class="alert alert-danger " id="fail_msg" hidden>
-                        <strong>Fail!</strong>The Employee structure can't be updated.
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" id="modalOkButton" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              
-              <div class="p-t-127">
-
-                <button style="position:relative;left:80%;top:-70px;" type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary"data-toggle="modal" data-target="#employeeStructModal">Edit</button>
-
+      <div class="modal fade" id="employeeStructModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Company Structure Payroll</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger " id="fail_msg">
+                <strong>Fail!</strong>There is no Company structure with that code.
               </div>
             </div>
-
+            <div class="modal-footer">
+              <button type="button" id="modalOkButton" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
           </div>
         </div>
       </div>
+      <div class="theCompanyStruct">
+        <h1>The Company Structure</h1>
+          <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
+            <table class="table table-hover table-bordered" id="CompanyStructTable">
+              <thead style="background-color:#f8b739;">
+                <tr>
+                  <th style="text-align:center;">Type</th>
+                  <th style="text-align:center;">Code</th>
+                  <th style="text-align:center;">Name</th>
+                  <th style="text-align:center;">Start Date</th>
+                  <th style="text-align:center;">End Date</th>
+                  <th style="width: 30%;text-align:center;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+               
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+        </div>
+      </div>
 
-    </div>
+
+
+   
   </div>
 
 
@@ -229,14 +189,14 @@
 
 
   </div>
-
   <script src="../resources/JS/main.js"></script>
 
 
   <script src="../resources/JS/select2.min.js"></script>
   <script src="../resources/JS/moment.min.js"></script>
   <script src="../resources/JS/daterangepicker.js"></script>
-  <script src="../resources/JS/editDadaForm.js"></script>
+  <script src="../resources/JS/editCompanyStructTable.js"></script>
+
 </body>
 
 </html>

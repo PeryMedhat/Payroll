@@ -91,10 +91,10 @@ function NextOrSubmit(){
 	// in case of the next condition
 
 	if (document.getElementById('yesCheck').checked) {    	
-		var code =document.getElementById("empstruct_code");
+		var code =document.getElementById("companystruct_code");
 		var codeValue = code.value;
 
-		var name =document.getElementById("empstruct_name");
+		var name =document.getElementById("companystruct_name");
 		var nameValue = name.value;
 
 
@@ -120,10 +120,10 @@ function NextOrSubmit(){
 	if (document.getElementById('noCheck').checked) {
 		var lastParent;
 		var lastParentValue
-		var code =document.getElementById("empstruct_code");
+		var code =document.getElementById("companystruct_code");
 		var codeValue = code.value;
 
-		var name =document.getElementById("empstruct_name");
+		var name =document.getElementById("companystruct_name");
 		var nameValue = name.value;
 
 
@@ -182,8 +182,8 @@ var endDate = endDate;
 }
 empObjectsArray[x] = empObject;
 	x++;
-document.getElementById("empstruct_code").value="";
-document.getElementById("empstruct_name").value="";
+document.getElementById("companystruct_code").value="";
+document.getElementById("companystruct_name").value="";
 document.getElementById("start_date").value="";
 document.getElementById("end_date").value="";
 console.log(empObjectsArray);
@@ -210,8 +210,8 @@ function sendToDB(){
 
 
 function resetForm(){
-	document.getElementById("empstruct_code").value="";
-	document.getElementById("empstruct_name").value="";
+	document.getElementById("companystruct_code").value="";
+	document.getElementById("companystruct_name").value="";
 	document.getElementById("start_date").value="";
 	document.getElementById("end_date").value="";
  newChildInSameLevel = true;
