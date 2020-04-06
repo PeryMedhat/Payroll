@@ -200,6 +200,11 @@ function sendToDB(){
 	 localStorage.removeItem('items');
 	 
 		}
+
+		else{
+			document.getElementById('buttonSubmit').setAttribute("data-toggle","modal");
+			document.getElementById('buttonSubmit').setAttribute("data-target","#errorUniqueModal");
+		}
 	  };
 
 	  xhttp.open("POST", "http://localhost:8080/Payroll/employeeStructure/addEmployeeStructure", true);
