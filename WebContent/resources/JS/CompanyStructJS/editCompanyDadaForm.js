@@ -68,11 +68,35 @@
     
 
 })(jQuery);
+
 var controller = (function () {
     queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
     const theCode = urlParams.get('theCode');
+    var model;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "get",
+        url: "http://localhost:8080/Payroll/companyStructure/getCompanyStructureElement",
+        data: {
+            code:code
+        },
+        success: function (response) {
+            model=response.theModel;  
+            $("#companystruct_code").val(model.code);    
+            $("#companystruct_name").val(model.name); 
+            $("#start_date").val(model.startDate); 
+            $("#end_date").val(model.endDate); 
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        }
+    });
+    
     jQuery(document).ready(function ($) {
         $("#buttonSubmit").mouseenter(function () {
             $(this).removeClass('btn-primary');
@@ -84,46 +108,42 @@ var controller = (function () {
             $(this).addClass('btn-primary');
         });
 
-
+        $("#modalOkButton").click(function (e) {
+            location='CompanyStructViews/showEditTableCompany.html?code='+theCode;
+        });
+       
         $("#buttonSubmit").click(function (e) {
-            $('#success_msg').attr('hidden','');
-            $('#fail_msg').attr('hidden','');
-
-            var endDate = $("#end_date").val();
+           
+            var empObject = {
+                "code" :model.code,
+                "name" :$("#companystruct_name").val(),
+                "startDate" :$("#start_date").val(),
+                "endDate":$("#end_date").val(),
+                "hasParent":model.hasParent,
+                "parentCode":model.parentCode,
+                "hasChild":model.hasChild}
+            var formData=JSON.stringify(empObject);
             $.ajax({
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                type: "get", 
-                url: "http://localhost:8080/Payroll/companyStructure/delemitCompanyStructure",
-                data: {
-                    code: code,
-                    endDate:endDate
-                },
+                type: "put",
+                url:"http://localhost:8080/Payroll/companyStructure/updateCompanyStructure",
+                data :formData,
                 success: function (response) {
                     if(response==true){
                         $('#success_msg').removeAttr('hidden');
-                        $("#modalOkButton").click(function (e) {
-                            location='showEditTableCompany.html?code='+theCode;
-                        });
                     }else{
                         $('#fail_msg').removeAttr('hidden');
                     }
-                    
                 },
                 error: function (xhr) {
-                    $('#fail_msg').removeAttr('hidden');
                     console.log(xhr);
                 }
             });
             
         });
-        
+
     });
 })();
-
-
-
-
-

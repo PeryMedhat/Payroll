@@ -14,7 +14,7 @@ var controller = (function () {
 
         $("#buttonSubmit").click(function (e) {
             code = $(".input--style-4").val();
-            window.location = 'showEditTableCompany.html?code='+code;
+            window.location = 'CompanyStructViews/showEditTableCompany.html?code='+code;
             
         });
 
