@@ -109,7 +109,7 @@ var controller = (function () {
         });
 
         $("#modalOkButton").click(function (e) {
-            location='CompanyStructViews/showEditTableCompany.html?code='+theCode;
+            location='showEditTableCompany.html?code='+theCode;
         });
        
         $("#buttonSubmit").click(function (e) {

@@ -105,7 +105,7 @@ var controller = (function () {
                     if(response==true){
                         $('#success_msg').removeAttr('hidden');
                         $("#modalOkButton").click(function (e) {
-                            location='CompanyStructViews/showEditTableCompany.html?code='+theCode;
+                            location='showEditTableCompany.html?code='+theCode;
                         });
                     }else{
                         $('#fail_msg').removeAttr('hidden');

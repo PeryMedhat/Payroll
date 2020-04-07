@@ -33,9 +33,9 @@ var controller = (function () {
             sortedArray = sortedArray.concat(subs).concat(children);
             for (index = 0; index < sortedArray.length; index++) { 
                 var theCode = code;
-                var theHrefForEdit = 'CompanyStructViews/editCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
-                var theHrefFordelemit = 'CompanyStructViews/delemitCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
-                var theHrefFordelete =  'CompanyStructViews/deleteCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
+                var theHrefForEdit = 'editCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
+                var theHrefFordelemit = 'delemitCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
+                var theHrefFordelete =  'deleteCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
                 var row = table.insertRow(-1);
                 var cell1=row.insertCell(0);
                 var cell2=row.insertCell(1);
@@ -45,7 +45,7 @@ var controller = (function () {
                 var cell6=row.insertCell(5);
                 if(sortedArray[index].hasParent==false){
                     cell1.innerHTML="Parent";
-                    var theHrefForCopy = 'CompanyStructViews/copyCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
+                    var theHrefForCopy = 'copyCompanyStructData.html?code='+sortedArray[index].code+'&theCode='+theCode;
                     cell6.innerHTML="<a href="+theHrefForEdit+">Edit    </a>"
                     +"<a href="+theHrefFordelemit+">   Delimit</a>"
                     +"<a href="+theHrefFordelete+">   Delete</a>"
@@ -78,7 +78,7 @@ var controller = (function () {
     
     jQuery(document).ready(function ($) {
         $("#modalOkButton").click(function (e) {
-            location='CompanyStructViews/editCompanyStruct.html';
+            location='editCompanyStruct.html';
         });
         
     });

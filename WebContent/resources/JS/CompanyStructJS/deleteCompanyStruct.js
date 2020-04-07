@@ -15,7 +15,7 @@ var controller = (function () {
             $(this).addClass('btn-primary');
         });
         $("#modalOkButton").click(function (e) {
-            location='CompanyStructViews/showEditTableCompany.html?code='+theCode;
+            location='showEditTableCompany.html?code='+theCode;
         });
         $("#buttonSubmit").click(function (e) {
             $('#success_msg').attr('hidden','');
