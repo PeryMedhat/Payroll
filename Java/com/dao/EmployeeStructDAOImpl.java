@@ -24,95 +24,66 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 		
-		try {			
-			//then save the parent
-			session.saveOrUpdate(parent);
-			return true;
-			
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear(); 
-			e.printStackTrace();
-			return false;
-		}
 		
+		session.saveOrUpdate(parent);
+		return true;
 	}
 
 	@Override
 	public Boolean addSubParentToParent(EmpStructSubparent subParent, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-				
-		try {
-			//get the parent using parent code
-			Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
-			query.setParameter("code", parentCode);
-			EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+		
+		//get the parent using parent code
+		Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
+		query.setParameter("code", parentCode);
+		EmpStructParent parent = (EmpStructParent) query.getSingleResult();
 			
-			//Add the subParent to this parent 
-			parent.addSubParent(subParent);
-			session.saveOrUpdate(subParent);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			e.printStackTrace();
-			session.clear(); 
-			return false;
-		}
+		//Add the subParent to this parent 
+		parent.addSubParent(subParent);
+		session.saveOrUpdate(subParent);
+		return true;
+		
 	}
 	public Boolean addSubParentToSubParent(EmpStructSubparent subParent) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-		try {
-			session.saveOrUpdate(subParent);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear(); 
-			return false;
-		}
+		
+		session.saveOrUpdate(subParent);
+		return true;
+
 	}
 
 	@Override
 	public Boolean addChildToParent(EmpStructChild child, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-		try {
-			//get the parent using parent code
-			Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
-			query.setParameter("code", parentCode);
-			EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+		
+		//get the parent using parent code
+		Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
+		query.setParameter("code", parentCode);
+		EmpStructParent parent = (EmpStructParent) query.getSingleResult();
 			
-			//Add the subParent to this parent 
-			parent.addChild(child);
-			session.saveOrUpdate(child);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear(); 
-			e.printStackTrace();
-			return false;
-		}
+		//Add the subParent to this parent 
+		parent.addChild(child);
+		session.saveOrUpdate(child);
+		return true;
+		
 	}
 	public Boolean addChildToSubParent(EmpStructChild child, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-								
-		try {
-			//get the parent using subParet code
-			Query<EmpStructSubparent> query = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
-			query.setParameter("code", parentCode);
-			EmpStructSubparent subParent = (EmpStructSubparent) query.getSingleResult();
+		
+		//get the parent using subParet code
+		Query<EmpStructSubparent> query = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
+		query.setParameter("code", parentCode);
+		EmpStructSubparent subParent = (EmpStructSubparent) query.getSingleResult();
 					
-			//Add the subParent to this parent 
-			subParent.addChild(child);
-			session.saveOrUpdate(child);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear();
-			return false;
-		}
+		//Add the subParent to this parent 
+		subParent.addChild(child);
+		session.saveOrUpdate(child);
+		return true;
+		
 	}
 
 	@Override

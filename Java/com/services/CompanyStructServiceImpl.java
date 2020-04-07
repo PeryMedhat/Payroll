@@ -26,20 +26,29 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 
 	@Override
 	@Transactional
-	public String processTheIncommingModel(CompanyStructModel company) throws Exception {
+	public String processTheIncommingModel(CompanyStructModel company) {
 
 		if (company.getName() != null && company.getCode() != null && company.getEndDate() != null
 				&& company.getStartDate() != null && company.getHasParent() != null
 				&& company.getHasChild() != null) {
 
 			// conversion of dates
-			Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getStartDate());
-			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getEndDate());
+			Date startDate;
+			Date endDate;
+			CompanyCommonID commId = new CompanyCommonID();
+			try {
+				startDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getStartDate());
+				endDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getEndDate());
 
-			// commonID data
-			CompanyCommonID commId = new CompanyCommonID(startDate, endDate, company.getCode(), company.getName());
-			commId.setDeleted(0);
+				// commonID data
+				commId = new CompanyCommonID(startDate, endDate, company.getCode(), company.getName());
+				commId.setDeleted(0);
 
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			String parentCode = company.getParentCode();
 
 			// check if this model has parent and type of his parent

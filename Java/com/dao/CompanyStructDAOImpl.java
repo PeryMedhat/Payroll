@@ -23,95 +23,67 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 	public Boolean addParent(CompanyStructParent parent) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-		
-		try {			
-			//then save the parent
-			session.saveOrUpdate(parent);
-			return true;
+		//then save the parent
+		session.saveOrUpdate(parent);
+		return true;
 			
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear(); 
-			e.printStackTrace();
-			return false;
-		}
-		
 	}
 	@Override
 	public Boolean addSubParentToParent(CompanyStructSubparent subParent, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 				
-		try {
-			//get the parent using parent code
-			Query<CompanyStructParent> query = session.createQuery("from CompanyStructParent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructParent.class);
-			query.setParameter("code", parentCode);
-			CompanyStructParent parent = (CompanyStructParent) query.getSingleResult();
+		//get the parent using parent code
+		Query<CompanyStructParent> query = session.createQuery("from CompanyStructParent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructParent.class);
+		query.setParameter("code", parentCode);
+		CompanyStructParent parent = (CompanyStructParent) query.getSingleResult();
 			
-			//Add the subParent to this parent 
-			parent.addSubParent(subParent);
-			session.saveOrUpdate(subParent);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			e.printStackTrace();
-			session.clear(); 
-			return false;
+		//Add the subParent to this parent 
+		parent.addSubParent(subParent);
+		session.saveOrUpdate(subParent);
+		return true;
+		
 		}
-	}
 	public Boolean addSubParentToSubParent(CompanyStructSubparent subParent) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-		try {
-			session.saveOrUpdate(subParent);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear(); 
-			return false;
-		}
+		
+		session.saveOrUpdate(subParent);
+		return true;
+		
+		
 	}
 
 	@Override
 	public Boolean addChildToParent(CompanyStructChild child, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
-		try {
-			//get the parent using parent code
-			Query<CompanyStructParent> query = session.createQuery("from CompanyStructParent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructParent.class);
-			query.setParameter("code", parentCode);
-			CompanyStructParent parent = (CompanyStructParent) query.getSingleResult();
+		
+		//get the parent using parent code
+		Query<CompanyStructParent> query = session.createQuery("from CompanyStructParent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructParent.class);
+		query.setParameter("code", parentCode);
+		CompanyStructParent parent = (CompanyStructParent) query.getSingleResult();
 			
-			//Add the subParent to this parent 
-			parent.addChild(child);
-			session.saveOrUpdate(child);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear(); 
-			e.printStackTrace();
-			return false;
-		}
+		//Add the subParent to this parent 
+		parent.addChild(child);
+		session.saveOrUpdate(child);
+		return true;
+	
 	}
 	public Boolean addChildToSubParent(CompanyStructChild child, String parentCode) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 								
-		try {
-			//get the parent using subParet code
-			Query<CompanyStructSubparent> query = session.createQuery("from CompanyStructSubparent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructSubparent.class);
-			query.setParameter("code", parentCode);
-			CompanyStructSubparent subParent = (CompanyStructSubparent) query.getSingleResult();
+		
+		//get the parent using subParet code
+		Query<CompanyStructSubparent> query = session.createQuery("from CompanyStructSubparent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructSubparent.class);
+		query.setParameter("code", parentCode);
+		CompanyStructSubparent subParent = (CompanyStructSubparent) query.getSingleResult();
 					
-			//Add the subParent to this parent 
-			subParent.addChild(child);
-			session.saveOrUpdate(child);
-			return true;
-		}catch(Exception e) {
-			//clear session and return false
-			session.clear();
-			return false;
-		}
+		//Add the subParent to this parent 
+		subParent.addChild(child);
+		session.saveOrUpdate(child);
+		return true;
 	}
 
 	@Override

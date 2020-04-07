@@ -28,15 +28,13 @@ public class EmployeeStructController {
 	
 	@RequestMapping(value = { "/addEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String[] addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
+	public String[] addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws Exception {
 		String[] flag= new String[employeeModel.size()];
-		try {
-			for(Integer i =0;i<employeeModel.size();i++) {
-				flag[i] = empService.processTheIncommingModel(employeeModel.get(i));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
+		
+		for(Integer i =0;i<employeeModel.size();i++) {
+			flag[i] = empService.processTheIncommingModel(employeeModel.get(i));
+		}
+		
 		return flag;
 	}
 	

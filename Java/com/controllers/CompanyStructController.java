@@ -28,15 +28,13 @@ public class CompanyStructController {
 	
 	@RequestMapping(value = { "/addCompanyStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String[] addCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) {
+	public String[] addCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) throws Exception {
 		String[] flag= new String[companyModel.size()];
-		try{
-			for(Integer i =0;i<companyModel.size();i++) {
-				flag[i] = companyService.processTheIncommingModel(companyModel.get(i));
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}return flag;
+		
+		for(Integer i =0;i<companyModel.size();i++) {
+			flag[i] = companyService.processTheIncommingModel(companyModel.get(i));
+		}
+		return flag;
 	}
 	
 	@RequestMapping(value = { "/showCompanyStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
