@@ -30,14 +30,13 @@ public class CompanyStructController {
 	@ResponseBody
 	public String[] addCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) {
 		String[] flag= new String[companyModel.size()];
-		try {
+		try{
 			for(Integer i =0;i<companyModel.size();i++) {
 				flag[i] = companyService.processTheIncommingModel(companyModel.get(i));
 			}
-		} catch (Exception e) {
+		}catch(Exception e) {
 			e.printStackTrace();
-		} 
-		return flag;
+		}return flag;
 	}
 	
 	@RequestMapping(value = { "/showCompanyStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
