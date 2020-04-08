@@ -210,6 +210,11 @@ if(code.value =='' || name.value =='' || startDate.value =='' ||endDate.value ==
   
 
   addEmpObject(true,lastParentValue,false,codeValue,nameValue,startDateValue,endDateValue);
+
+  document.getElementById('buttonSubmit').setAttribute("data-toggle","modal");
+  document.getElementById('buttonSubmit').setAttribute("data-target","#exampleModalCenter");
+
+  
     console.log(empObjectsArray);
 }
 }
@@ -246,7 +251,7 @@ xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     var x = 0;
  empObjectsArray = Array();
- 
+
  
   }
 
