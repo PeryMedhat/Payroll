@@ -8563,7 +8563,26 @@ input {
   -moz-transition: all 0.4s ease;
   transition: all 0.4s ease;
 }
-
+.input--style-4-redBorder {
+  border: 2px solid red;
+  border-radius: 4px;
+  border-color: red;
+  line-height: 50px;
+  background: #fafafa;
+  -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 0 20px;
+  font-size: 16px;
+  color: #666;
+  -webkit-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
 .input--style-4::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
   color: #666;
