@@ -223,7 +223,7 @@ function sendToDB(){
 		if (this.readyState == 4 && this.status == 200) {
 			var x = 0;
 	 empObjectsArray = Array();
-	 localStorage.removeItem('items');
+
 	 
 		}
 	  };
