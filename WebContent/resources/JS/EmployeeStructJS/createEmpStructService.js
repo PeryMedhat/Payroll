@@ -150,18 +150,43 @@ if (document.getElementById('noCheck').checked) {
   var lastParent;
   var lastParentValue
   var code =document.getElementById("empstruct_code");
-  var codeValue = code.value;
-
   var name =document.getElementById("empstruct_name");
-  var nameValue = name.value;
-
-
   var startDate =document.getElementById("start_date");
-  var startDateValue = startDate.value;
-
-
   var endDate =document.getElementById("end_date");
+
+if(code.value =='' || name.value =='' || startDate.value =='' ||endDate.value ==''){
+
+  if(code.value==''){
+    var codeisEmpty =document.getElementById("codeisEmpty");
+    codeisEmpty.removeAttribute('hidden');
+    code.setAttribute("class", "input--style-4-redBorder");
+
+  }
+ 
+   if(name.value ==''){
+    var nameisEmpty =document.getElementById("nameisEmpty");
+    nameisEmpty.removeAttribute('hidden');
+    name.setAttribute("class", "input--style-4-redBorder");
+  }
+   if(startDate.value ==''){
+    var startDateisEmpty =document.getElementById("startDateisEmpty");
+    startDateisEmpty.removeAttribute('hidden');
+    startDate.setAttribute("class", "input--style-4-redBorder");
+  }
+   if(endDate.value ==''){
+    var endDateisEmpty =document.getElementById("endDateisEmpty");
+    endDateisEmpty.removeAttribute('hidden');
+    endDate.setAttribute("class", "input--style-4-redBorder");
+    return;
+  }
+  return;
+}
+
+  var codeValue = code.value;
+  var nameValue = name.value;
+  var startDateValue = startDate.value;
   var endDateValue = endDate.value;
+  
 
 
   if(newChildInSameLevel){
@@ -185,11 +210,6 @@ if (document.getElementById('noCheck').checked) {
   
 
   addEmpObject(true,lastParentValue,false,codeValue,nameValue,startDateValue,endDateValue);
-
-  document.getElementById('buttonSubmit').setAttribute("data-toggle","modal");
-  document.getElementById('buttonSubmit').setAttribute("data-target","#exampleModalCenter");
-
-  
     console.log(empObjectsArray);
 }
 }
@@ -226,7 +246,7 @@ xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     var x = 0;
  empObjectsArray = Array();
- localStorage.removeItem('items');
+ 
  
   }
 
