@@ -91,43 +91,36 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
 		CompanyStructParent parent;
-		try {
-			// get all subParents with that parent code
-			Query<CompanyStructParent> theQuery = session.createQuery("from CompanyStructParent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructParent.class);
-			theQuery.setParameter("code",code);
+		// get all subParents with that parent code
+		Query<CompanyStructParent> theQuery = session.createQuery("from CompanyStructParent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructParent.class);
+		theQuery.setParameter("code",code);
 			
-			parent = (CompanyStructParent) theQuery.getSingleResult();
-				
-		}catch(Exception e) {return null;}
-					
+		parent = (CompanyStructParent) theQuery.getSingleResult();
+		
 		return parent;
 	}
 	public CompanyStructSubparent getSubParent(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
 		CompanyStructSubparent subParent ;
-		try {
-			// get all subParents with that parent code
-			Query<CompanyStructSubparent> theQuery = session.createQuery("from CompanyStructSubparent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructSubparent.class);
-			theQuery.setParameter("code",code);
+		// get all subParents with that parent code
+		Query<CompanyStructSubparent> theQuery = session.createQuery("from CompanyStructSubparent where commID=(select id from CompanyCommonID where code =:code)", CompanyStructSubparent.class);
+		theQuery.setParameter("code",code);
 					
-			subParent = (CompanyStructSubparent) theQuery.getSingleResult();
-		}catch(Exception e) {return null;}
-								
+		subParent = (CompanyStructSubparent) theQuery.getSingleResult();
+		
 		return subParent;
 	}
 	public CompanyStructChild getChild(String code) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
 		CompanyStructChild child;
-		try {
-			// get all subParents with that parent code
-			Query<CompanyStructChild> theQuery = session.createQuery("from CompanyStructChild where commID=(select id from CompanyCommonID where code =:code)", CompanyStructChild.class);
-			theQuery.setParameter("code",code);
+		// get all subParents with that parent code
+		Query<CompanyStructChild> theQuery = session.createQuery("from CompanyStructChild where commID=(select id from CompanyCommonID where code =:code)", CompanyStructChild.class);
+		theQuery.setParameter("code",code);
 			
-			child = (CompanyStructChild) theQuery.getSingleResult();
+		child = (CompanyStructChild) theQuery.getSingleResult();
 					
-		}catch(Exception e) {return null;}						
 		return child;
 	}
 
@@ -135,9 +128,7 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 	public CompanyStructParent getParentById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		CompanyStructParent parent;
-		try {
-			parent = session.get(CompanyStructParent.class,id);
-		}catch(Exception e) {return null;}
+		parent = session.get(CompanyStructParent.class,id);
 		
 		return parent;
 	}
@@ -145,18 +136,16 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 	public CompanyStructChild getChildById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		CompanyStructChild child;
-		try {
-			child = session.get(CompanyStructChild.class, id);
-		}catch(Exception e) {return null;}
+		child = session.get(CompanyStructChild.class, id);
+
 		return child;	
 	}
 	@Override
 	public CompanyStructSubparent getSubById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		CompanyStructSubparent sub;
-		try {
-			sub = session.get(CompanyStructSubparent.class, id);
-		}catch(Exception e) {return null;}
+		sub = session.get(CompanyStructSubparent.class, id);
+		
 		return sub;
 	}
 		
@@ -165,14 +154,11 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 		List<CompanyStructSubparent> companyStructSubParents = new ArrayList<CompanyStructSubparent>();
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
-		try {
-			// get all subParents with that parent code
-			Query<CompanyStructSubparent> theQuery = session.createQuery("from CompanyStructSubparent s where s.parentCode =:parentCode", CompanyStructSubparent.class);
-			theQuery.setParameter("parentCode", parentCode);
+		// get all subParents with that parent code
+		Query<CompanyStructSubparent> theQuery = session.createQuery("from CompanyStructSubparent s where s.parentCode =:parentCode", CompanyStructSubparent.class);
+		theQuery.setParameter("parentCode", parentCode);
 			
-			companyStructSubParents = theQuery.getResultList();
-					
-		}catch(Exception e) {return null;}
+		companyStructSubParents = theQuery.getResultList();
 		
 		return companyStructSubParents;
 	}
@@ -246,14 +232,10 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 	public String deleteParent(String code) {
 		Session session = sessionFactory.getCurrentSession();
 		Boolean isDeleted =false;
-		try {
-			CompanyStructParent parent=getParent(code);
-			session.delete(parent);
-			isDeleted=true;
-		}catch(Exception e) {
-			isDeleted =false;
-			return isDeleted.toString();
-		}
+		CompanyStructParent parent=getParent(code);
+		session.delete(parent);
+		isDeleted=true;
+		
 		return isDeleted.toString();
 	}
 
@@ -261,14 +243,10 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 	public String deleteSubParent(String code) {
 		Session session = sessionFactory.getCurrentSession();
 		Boolean isDeleted =false;
-		try {
-			CompanyStructSubparent sub = getSubParent(code);
-			session.delete(sub);
-			isDeleted=true;
-		}catch(Exception e) {
-			isDeleted =false;
-			return isDeleted.toString();
-		}
+		CompanyStructSubparent sub = getSubParent(code);
+		session.delete(sub);
+		isDeleted=true;
+		
 		return isDeleted.toString();
 	}
 
@@ -276,17 +254,12 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 	public String deleteChild(String code) {
 		Session session = sessionFactory.getCurrentSession();
 		Boolean isDeleted =false;
-		try {
-			CompanyStructChild child = getChild(code);
-			session.delete(child);
-			isDeleted=true;
-		}catch(Exception e) {
-			isDeleted =false;
-			return isDeleted.toString();
-		}
+		CompanyStructChild child = getChild(code);
+		session.delete(child);
+		isDeleted=true;
+		
 		return isDeleted.toString();
 	}
-	
 	
 	
 }

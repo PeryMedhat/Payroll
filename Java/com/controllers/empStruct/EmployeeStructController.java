@@ -1,5 +1,6 @@
 package com.controllers.empStruct;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,7 +48,6 @@ public class EmployeeStructController {
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
-		try {
 			if(isParent) {
 				myList.addAll(empService.getParentChain(code));
 			}
@@ -57,9 +57,7 @@ public class EmployeeStructController {
 				myList.addAll(empService.getChildChain(code));
 			}
 			myMap.put("theChain",myList);
-		}catch(Exception e) {
-			myMap.put("theChain",null);
-		}
+		
 		return myMap;
 	}
 
@@ -107,7 +105,6 @@ public class EmployeeStructController {
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
-		try {
 			if(isParent) {
 				isDeleted = empService.deleteParent(code);
 			}
@@ -116,35 +113,29 @@ public class EmployeeStructController {
 			}else {
 				isDeleted = empService.deleteChild(code);
 			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			isDeleted = "Cannot delete non saved code!";		
-		}
+		
 		return isDeleted;
 	}
 	
 	
 	@RequestMapping(value = { "/delemitEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delemitEmployeeStructure(@RequestParam("code") String code,@RequestParam("endDate") String endDate) {
+	public String delemitEmployeeStructure(@RequestParam("code") String code,@RequestParam("endDate") String endDate) throws ParseException {
 		String isDelemited = "false";
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
-		try {
-			if(isParent) {
-				empService.delmitParent(code,endDate);
-			}
-			else if(isSub) {
-				empService.delmitSubParent(code,endDate);			
-			}else {
-				empService.delmitChild(code,endDate);
-			}
-			isDelemited = "true";
-		}catch(Exception e) {
-			e.printStackTrace();
-			isDelemited = "false";
+		
+		if(isParent) {
+			empService.delmitParent(code,endDate);
 		}
+		else if(isSub) {
+			empService.delmitSubParent(code,endDate);			
+		}else {
+			empService.delmitChild(code,endDate);
+		}
+		isDelemited = "true";
+	
 		return isDelemited;
 	}
 
@@ -156,11 +147,10 @@ public class EmployeeStructController {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String todayDate=dtf.format(now);
-		try {
-			for(int i=0;i<employeeModel.size();i++) {
-				flag[i]= empService.copyEmployeeStructure(employeeModel.get(i),todayDate);
-			}
-		}catch(Exception e) {e.printStackTrace();}
+		for(int i=0;i<employeeModel.size();i++) {
+			flag[i]= empService.copyEmployeeStructure(employeeModel.get(i),todayDate);
+		}
+		
 		return flag;
 	}
 }
