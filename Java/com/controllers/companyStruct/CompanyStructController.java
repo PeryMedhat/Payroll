@@ -43,18 +43,20 @@ public class CompanyStructController {
 	public Map<String,Object>  showCompanyStructure(@RequestParam("code") String code) {
 		Map<String,Object> myMap = new HashMap<String,Object>();
 		List<CompanyStructModel> myList = new ArrayList<CompanyStructModel>();
-		
-		Boolean isParent = companyService.isParent(code);
-		Boolean isSub = companyService.isSubParent(code);
-		if(isParent) {
-			myList.addAll(companyService.getParentChain(code));
-		}
-		else if(isSub) {
-			myList.addAll(companyService.getSubParentChain(code));
-		}else {
-			myList.addAll(companyService.getChildChain(code));
-		}
-		myMap.put("theChain",myList);
+		try {
+			Boolean isParent = companyService.isParent(code);
+			Boolean isSub = companyService.isSubParent(code);
+			if(isParent) {
+				myList.addAll(companyService.getParentChain(code));
+			}
+			else if(isSub) {
+				myList.addAll(companyService.getSubParentChain(code));
+			}else {
+				myList.addAll(companyService.getChildChain(code));
+			}
+			myMap.put("theChain",myList);
+			
+		}catch(Exception e) {myMap.put("theChain",null);}
 		
 		return myMap;
 	}

@@ -44,19 +44,21 @@ public class EmployeeStructController {
 	public Map<String,Object>  showEmployeeStructure(@RequestParam("code") String code) {
 		Map<String,Object> myMap = new HashMap<String,Object>();
 		List<EmployeeStructModel> myList = new ArrayList<EmployeeStructModel>();
-		
-		Boolean isParent = empService.isParent(code);
-		Boolean isSub = empService.isSubParent(code);
-		
-			if(isParent) {
-				myList.addAll(empService.getParentChain(code));
-			}
-			else if(isSub) {
-				myList.addAll(empService.getSubParentChain(code));
-			}else {
-				myList.addAll(empService.getChildChain(code));
-			}
-			myMap.put("theChain",myList);
+		try {
+			Boolean isParent = empService.isParent(code);
+			Boolean isSub = empService.isSubParent(code);
+			
+				if(isParent) {
+					myList.addAll(empService.getParentChain(code));
+				}
+				else if(isSub) {
+					myList.addAll(empService.getSubParentChain(code));
+				}else {
+					myList.addAll(empService.getChildChain(code));
+				}
+				myMap.put("theChain",myList);
+			
+		}catch(Exception e) {myMap.put("theChain",null);}
 		
 		return myMap;
 	}
