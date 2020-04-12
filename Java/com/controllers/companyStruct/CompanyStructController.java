@@ -1,5 +1,6 @@
 package com.controllers.companyStruct;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,11 +43,9 @@ public class CompanyStructController {
 	public Map<String,Object>  showCompanyStructure(@RequestParam("code") String code) {
 		Map<String,Object> myMap = new HashMap<String,Object>();
 		List<CompanyStructModel> myList = new ArrayList<CompanyStructModel>();
-		
-		Boolean isParent = companyService.isParent(code);
-		Boolean isSub = companyService.isSubParent(code);
-		
 		try {
+			Boolean isParent = companyService.isParent(code);
+			Boolean isSub = companyService.isSubParent(code);
 			if(isParent) {
 				myList.addAll(companyService.getParentChain(code));
 			}
@@ -56,9 +55,9 @@ public class CompanyStructController {
 				myList.addAll(companyService.getChildChain(code));
 			}
 			myMap.put("theChain",myList);
-		}catch(Exception e) {
-			myMap.put("theChain",null);
-		}
+			
+		}catch(Exception e) {myMap.put("theChain",null);}
+		
 		return myMap;
 	}
 
@@ -69,17 +68,14 @@ public class CompanyStructController {
 		CompanyStructModel model= new CompanyStructModel(); 
 		Boolean isParent = companyService.isParent(code);
 		Boolean isSub = companyService.isSubParent(code);
-		try {
-			if(isParent) {
+		if(isParent) {
 				model =companyService.getTheParent(code);
-			}else if(isSub) {
-				model =companyService.getTheSubParent(code);
-			}else{
-				model =companyService.getTheChild(code);}
-			myMap.put("theModel",model);
-		}catch(Exception e) {
-			myMap.put("theChain",null);
-		}
+		}else if(isSub) {
+			model =companyService.getTheSubParent(code);
+		}else{
+			model =companyService.getTheChild(code);}
+		myMap.put("theModel",model);
+		
 		return myMap;
 	}
 
@@ -87,9 +83,7 @@ public class CompanyStructController {
 	@ResponseBody
 	public String updateCompanyStructure(@RequestBody CompanyStructModel companyModel) {
 		String flag ="false";
-		try {
-			flag= companyService.updateCompanyStructure(companyModel);
-		}catch(Exception e) {e.printStackTrace();flag ="false";}
+		flag= companyService.updateCompanyStructure(companyModel);
 		return flag;
 	}
 
@@ -99,38 +93,31 @@ public class CompanyStructController {
 		String isDeleted = "false";
 		Boolean isParent = companyService.isParent(code);
 		Boolean isSub = companyService.isSubParent(code);
-		try {
-			if(isParent) {
-				isDeleted = companyService.deleteParent(code);
-			}else if(isSub) {
-				isDeleted = companyService.deleteSubParent(code);				
-			}else {
-				isDeleted = companyService.deleteChild(code);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			isDeleted = "Cannot delete non saved code!";		
+		if(isParent) {
+			isDeleted = companyService.deleteParent(code);
+		}else if(isSub) {
+			isDeleted = companyService.deleteSubParent(code);				
+		}else {
+			isDeleted = companyService.deleteChild(code);
 		}
+		
 		return isDeleted;
 	}
 	
 	@RequestMapping(value = { "/delemitCompanyStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delemitCompanyStructure(@RequestParam("code") String code,@RequestParam("endDate") String endDate) {
+	public String delemitCompanyStructure(@RequestParam("code") String code,@RequestParam("endDate") String endDate) throws ParseException {
 		String isDelemited = "false";
 		Boolean isParent = companyService.isParent(code);
 		Boolean isSub = companyService.isSubParent(code);
-		try {
-			if(isParent) {
-				companyService.delmitParent(code,endDate);
-			}else if(isSub) {
-				companyService.delmitSubParent(code,endDate);			
-			}else {
-				companyService.delmitChild(code,endDate);}
-			isDelemited = "true";
-		}catch(Exception e) {
-			e.printStackTrace();
-			isDelemited = "false";}
+		if(isParent) {
+			companyService.delmitParent(code,endDate);
+		}else if(isSub) {
+			companyService.delmitSubParent(code,endDate);			
+		}else {
+			companyService.delmitChild(code,endDate);}
+		isDelemited = "true";
+		
 		return isDelemited;
 	}
 
@@ -141,11 +128,9 @@ public class CompanyStructController {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String todayDate=dtf.format(now);
-		try {
-			for(int i=0;i<companyModel.size();i++) {
-				flag[i]= companyService.copyCompanyStructure(companyModel.get(i),todayDate);
-			}
-		}catch(Exception e) {e.printStackTrace();}
+		for(int i=0;i<companyModel.size();i++) {
+			flag[i]= companyService.copyCompanyStructure(companyModel.get(i),todayDate);
+		}
 		return flag;
 	}
 }

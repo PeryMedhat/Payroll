@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Create Employee Structure Payroll</title>
+  	<title>Create Company Structure Payroll</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -18,36 +18,34 @@
 		<div class="sidebarContainer wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="p-4 pt-5">
-		  		<a hef="#" class="img logo rounded-circle mb-5" style="background-image: url(../../logo.jpg);"></a>
+		  		<a href="#" class="img logo rounded-circle mb-5" style="background-image: url(logo.jpg);"></a>
 	        <ul class="list-unstyled components mb-5">
 	          <li class="active">
 	            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee Structure</a>
 	            <ul class="collapse list-unstyled" id="EmpStructSubMenu">
                 <li>
-                  <a href="createEmpStruct.html">Create Employee Structure</a>
-              </li>
-              <li>
-                  <a href="editEmpStruct.html">Edit Employee Structure</a>
-              </li>
-              <li>
-                  <a href="assignPayTypeToEmpStruct.html">Assign Paytype to Employee Structure</a>
-              </li>
+                    <a href="../EmpStructureViews/createEmpStruct.html">Create Employee Structure</a>
+                </li>
+                <li>
+                    <a href="../EmpStructureViews/editEmpStruct.html">Edit Employee Structure</a>
+                </li>
+                <li>
+                    <a href="../EmpStructureViews/assignPayTypeToEmpStruct.html">Assign Paytype to Employee Structure</a>
+                </li>
 	            </ul>
 	          </li>
-            
-
-            
+	       
 	          <li>
               <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company Structure</a>
               <ul class="collapse list-unstyled" id="compStructSubmenu">
                 <li>
-                  <a href="../createCompanyStruct.html">Create Company Structure</a>
+                  <a href="createCompanyStruct.html">Create Company Structure</a>
               </li>
               <li>
-                  <a href="../editCompanyStruct.html">Edit Company Structure</a>
+                  <a href="editCompanyStruct.html">Edit Company Structure</a>
               </li>
               <li>
-                  <a href="../assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
+                  <a href="assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
               </li>
               </ul>
 	          </li>
@@ -71,12 +69,13 @@
 
 	        <div class="footer">
 	        	<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Cloud Consulting Services <i class="icon-heart" aria-hidden="true"></i> <a href="https://www.linkedin.com/company/cloud-consulting-services-inc-" target="_blank">Linkedin</a>
+						  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Cloud Consulting Services <i class="icon-heart" aria-hidden="true"></i> <a href="https://www.linkedin.com/company/cloud-consulting-services-mena/" target="_blank">Linkedin</a>
 						  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
 	        </div>
 
 	      </div>
     	</nav>
+
 
         <!-- Page Content  -->
       <div id="content" class=" p-4 p-md-5">
@@ -126,7 +125,7 @@
                               <div class="input-group">
                                   <label  class="label"> Code  <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
                                   
-                                  <input class="input--style-4"   maxlength="6" type="text" id="empstruct_code" name="empstruct_code">
+                                  <input class="input--style-4"   maxlength="6" type="text" id="companystruct_code" name="companystruct_code">
                                   
                               </div>
                           </div>
@@ -134,7 +133,7 @@
                               <div class="input-group">
                                 
                                   <label class="label">Name</label>
-                                  <input class="input--style-4"  required maxlength="20"   type="text" id="empstruct_name" name="empstruct_name">
+                                  <input class="input--style-4"  required maxlength="20"   type="text" id="companystruct_name" name="companystruct_name">
                               </div>
                           </div>
                       </div>
@@ -253,6 +252,6 @@
     <script src="../../resources/JS/moment.min.js"></script>
     <script src="../../resources/JS/daterangepicker.js"></script>
 
-    <script src="../../resources/JS/EmployeeStructJS/createEmpStructService.js"></script>
+    <script src="../../resources/JS/CompanyStructJS/createCompanyStructService.js"></script>
   </body>
 </html>
