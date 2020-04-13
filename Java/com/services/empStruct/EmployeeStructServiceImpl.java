@@ -26,7 +26,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 	@Override
 	@Transactional
-	public String processTheIncommingModel(EmployeeStructModel employee) throws Exception {
+	public void processTheIncommingModel(EmployeeStructModel employee) throws Exception {
 
 		if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
 				&& employee.getStartDate() != null && employee.getHasParent() != null
@@ -46,51 +46,43 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			Boolean hisParentIsParent = employeeDAO.isParent(parentCode);
 			Boolean hisParentIsSubParent = employeeDAO.isSubParent(parentCode);
 
-			// flag to save boolean value to check if the data successfully added to our
-			// database or not
-			Boolean savedEmployeeStruct = false;
-
 			// Process the model to know if it is a parent/SubParent/Child
 			if (!employee.getHasParent() && employee.getHasChild()) {
 
 				// the model has no parent but has a child ==> save as parent
 				EmpStructParent parent = new EmpStructParent(commId);
-				savedEmployeeStruct = employeeDAO.addParent(parent);
+				employeeDAO.addParent(parent);
 
 			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsParent) {
 
 				// the model has parent also has child and his parent is parent ==> save as
 				// subParent
 				EmpStructSubparent subParent = new EmpStructSubparent(0, null, commId);
-				savedEmployeeStruct = employeeDAO.addSubParentToParent(subParent, parentCode);
+				employeeDAO.addSubParentToParent(subParent, parentCode);
 
 			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsSubParent) {
 
 				// the model has parent also has child and his parent is subParent ==> save as
 				// subParent
 				EmpStructSubparent subParent = new EmpStructSubparent(1, parentCode, commId);
-				savedEmployeeStruct = employeeDAO.addSubParentToSubParent(subParent);
+				employeeDAO.addSubParentToSubParent(subParent);
 
 			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsParent) {
 
 				// the model has parent and has no child and his parent is parent ==>save as
 				// child to parent
 				EmpStructChild child = new EmpStructChild(commId);
-				savedEmployeeStruct = employeeDAO.addChildToParent(child, parentCode);
+				employeeDAO.addChildToParent(child, parentCode);
 
 			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsSubParent) {
 
 				// the model has parent and has no child and his parent is subParent ==>save as
 				// child to subParent
 				EmpStructChild child = new EmpStructChild(commId);
-				savedEmployeeStruct = employeeDAO.addChildToSubParent(child, parentCode);
+				employeeDAO.addChildToSubParent(child, parentCode);
 
 			}
-			return savedEmployeeStruct.toString();
-		} else {
-			return "values is missing for saving the employee struct";
-		}
-
+		} 
 	}
 
 	@Override
@@ -436,72 +428,59 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	 */
 	@Override
 	@Transactional
-	public String updateEmployeeStructure(EmployeeStructModel employee) {
-		Boolean updateTheEmpStruct = false;
-		try {
-			// process to check the model(parent/sub/child)
-			if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
-					&& employee.getStartDate() != null && employee.getHasParent() != null
-					&& employee.getHasChild() != null) {
-				// conversion of dates
-				Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getStartDate());
-				Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getEndDate());
-				String parentCode = employee.getParentCode();
+	public void updateEmployeeStructure(EmployeeStructModel employee) throws ParseException {
+		// process to check the model(parent/sub/child)
+		if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
+				&& employee.getStartDate() != null && employee.getHasParent() != null
+				&& employee.getHasChild() != null) {
+			// conversion of dates
+			Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getStartDate());
+			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getEndDate());
+			String parentCode = employee.getParentCode();
+			// check if this model has parent and type of his parent
+			Boolean hisParentIsParent = employeeDAO.isParent(parentCode);
+			Boolean hisParentIsSubParent = employeeDAO.isSubParent(parentCode);
 
-				// check if this model has parent and type of his parent
-				Boolean hisParentIsParent = employeeDAO.isParent(parentCode);
-				Boolean hisParentIsSubParent = employeeDAO.isSubParent(parentCode);
+			if (!employee.getHasParent() && employee.getHasChild()) {
+				// the model has no parent but has a child ==> update parent
+				EmpStructParent parent = employeeDAO.getParent(employee.getCode());
+				parent.getCommID().setName(employee.getName());
+				parent.getCommID().setStartDate(startDate);
+				parent.getCommID().setEndDate(endDate);
+				employeeDAO.addParent(parent);
+			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsParent) {
+				// the model has parent also has child and his parent is parent ==> save as
+				// subParent
+				EmpStructSubparent subParent = employeeDAO.getSubParent(employee.getCode());
+				subParent.getCommID().setName(employee.getName());
+				subParent.getCommID().setStartDate(startDate);
+				subParent.getCommID().setEndDate(endDate);
+				employeeDAO.addSubParentToParent(subParent, parentCode);
+			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsSubParent) {
+				EmpStructSubparent subParent = employeeDAO.getSubParent(employee.getCode());
+				subParent.getCommID().setName(employee.getName());
+				subParent.getCommID().setStartDate(startDate);
+				subParent.getCommID().setEndDate(endDate);
+				employeeDAO.addSubParentToSubParent(subParent);
+			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsParent) {
+				// the model has parent and has no child and his parent is parent ==>save as
+				// child to parent
+				EmpStructChild child = employeeDAO.getChild(employee.getCode());
+				child.getCommID().setName(employee.getName());
+				child.getCommID().setStartDate(startDate);
+				child.getCommID().setEndDate(endDate);
+				employeeDAO.addChildToParent(child, parentCode);
+			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsSubParent) {
+				// the model has parent and has no child and his parent is subParent ==>save as
+				// child to subParent
+				EmpStructChild child = employeeDAO.getChild(employee.getCode());
 
-				if (!employee.getHasParent() && employee.getHasChild()) {
-					// the model has no parent but has a child ==> update parent
-					EmpStructParent parent = employeeDAO.getParent(employee.getCode());
-
-					parent.getCommID().setName(employee.getName());
-					parent.getCommID().setStartDate(startDate);
-					parent.getCommID().setEndDate(endDate);
-					updateTheEmpStruct = employeeDAO.addParent(parent);
-				} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsParent) {
-					// the model has parent also has child and his parent is parent ==> save as
-					// subParent
-					EmpStructSubparent subParent = employeeDAO.getSubParent(employee.getCode());
-
-					subParent.getCommID().setName(employee.getName());
-					subParent.getCommID().setStartDate(startDate);
-					subParent.getCommID().setEndDate(endDate);
-					updateTheEmpStruct = employeeDAO.addSubParentToParent(subParent, parentCode);
-				} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsSubParent) {
-					EmpStructSubparent subParent = employeeDAO.getSubParent(employee.getCode());
-
-					subParent.getCommID().setName(employee.getName());
-					subParent.getCommID().setStartDate(startDate);
-					subParent.getCommID().setEndDate(endDate);
-					updateTheEmpStruct = employeeDAO.addSubParentToSubParent(subParent);
-				} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsParent) {
-					// the model has parent and has no child and his parent is parent ==>save as
-					// child to parent
-					EmpStructChild child = employeeDAO.getChild(employee.getCode());
-
-					child.getCommID().setName(employee.getName());
-					child.getCommID().setStartDate(startDate);
-					child.getCommID().setEndDate(endDate);
-					updateTheEmpStruct = employeeDAO.addChildToParent(child, parentCode);
-				} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsSubParent) {
-					// the model has parent and has no child and his parent is subParent ==>save as
-					// child to subParent
-					EmpStructChild child = employeeDAO.getChild(employee.getCode());
-
-					child.getCommID().setName(employee.getName());
-					child.getCommID().setStartDate(startDate);
-					child.getCommID().setEndDate(endDate);
-					updateTheEmpStruct = employeeDAO.addChildToSubParent(child, parentCode);
-				}
+				child.getCommID().setName(employee.getName());
+				child.getCommID().setStartDate(startDate);
+				child.getCommID().setEndDate(endDate);
+				employeeDAO.addChildToSubParent(child, parentCode);
 			}
-			return updateTheEmpStruct.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "false";
 		}
-
 	}
 
 	@Override
@@ -623,28 +602,22 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 	@Override
 	@Transactional
-	public String copyEmployeeStructure(EmployeeStructModel employeeStructModel, String todayDate) {
-		String isCopied = "false";
+	public void copyEmployeeStructure(EmployeeStructModel employeeStructModel, String todayDate) throws Exception {
 		EmployeeStructModel newModel = new EmployeeStructModel();
-		try {
-			newModel.setCode(employeeStructModel.getCode());
-			newModel.setEndDate(employeeStructModel.getEndDate());
-			newModel.setStartDate(employeeStructModel.getStartDate());
-			newModel.setName(employeeStructModel.getName());
-			newModel.setHasParent(employeeStructModel.getHasParent());
-			newModel.setHasChild(employeeStructModel.getHasChild());
-			if (employeeStructModel.getHasParent() == false) {
-				newModel.setParentCode(null);
-				delmitParent(employeeStructModel.getCode(), todayDate);
-			} else {
-				newModel.setParentCode(employeeStructModel.getParentCode());
-			}
-			isCopied = processTheIncommingModel(newModel);
-
-		} catch (Exception e) {
-			isCopied = "false";
+		
+		newModel.setCode(employeeStructModel.getCode());
+		newModel.setEndDate(employeeStructModel.getEndDate());
+		newModel.setStartDate(employeeStructModel.getStartDate());
+		newModel.setName(employeeStructModel.getName());
+		newModel.setHasParent(employeeStructModel.getHasParent());
+		newModel.setHasChild(employeeStructModel.getHasChild());
+		if (employeeStructModel.getHasParent() == false) {
+			newModel.setParentCode(null);
+			delmitParent(employeeStructModel.getCode(), todayDate);
+		} else {
+			newModel.setParentCode(employeeStructModel.getParentCode());
 		}
-		return isCopied;
+		processTheIncommingModel(newModel);
 	}
 
 }

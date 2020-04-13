@@ -9,15 +9,15 @@ import com.entities.empStruct.EmpStructSubparent;
 public interface EmployeeStructDAO {
 	
 	//add parent at the parent table
-	public Boolean addParent(EmpStructParent parent);
+	public void addParent(EmpStructParent parent);
 	
 	//get the parent/subParent and use addSubParent method then save it to DB
-	public Boolean addSubParentToParent(EmpStructSubparent subParent , String parentCode);
-	public Boolean addSubParentToSubParent(EmpStructSubparent subParent);
+	public void addSubParentToParent(EmpStructSubparent subParent , String parentCode);
+	public void addSubParentToSubParent(EmpStructSubparent subParent);
 	
 	//get the parent/subParent and use addChild method then save it to DB
-	public Boolean addChildToParent(EmpStructChild child,String parentCode );
-	public Boolean addChildToSubParent(EmpStructChild child, String parentCode);
+	public void addChildToParent(EmpStructChild child,String parentCode );
+	public void addChildToSubParent(EmpStructChild child, String parentCode);
 	
 	//get an Employee by the unique code from specific table
 	public EmpStructParent getParent(String code);

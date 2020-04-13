@@ -9,15 +9,15 @@ import com.entities.companyStruct.CompanyStructSubparent;
 public interface CompanyStructDAO {
 	
 	//add parent at the parent table
-	public Boolean addParent(CompanyStructParent parent);
+	public void addParent(CompanyStructParent parent);
 	
 	//get the parent/subParent and use addSubParent method then save it to DB
-	public Boolean addSubParentToParent(CompanyStructSubparent subParent , String parentCode);
-	public Boolean addSubParentToSubParent(CompanyStructSubparent subParent);
+	public void addSubParentToParent(CompanyStructSubparent subParent , String parentCode);
+	public void addSubParentToSubParent(CompanyStructSubparent subParent);
 	
 	//get the parent/subParent and use addChild method then save it to DB
-	public Boolean addChildToParent(CompanyStructChild child,String parentCode );
-	public Boolean addChildToSubParent(CompanyStructChild child, String parentCode);
+	public void addChildToParent(CompanyStructChild child,String parentCode );
+	public void addChildToSubParent(CompanyStructChild child, String parentCode);
 	
 	//get an Company by the unique code from specific table
 	public CompanyStructParent getParent(String code);

@@ -29,14 +29,11 @@ public class EmployeeStructController {
 	
 	@RequestMapping(value = { "/addEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String[] addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws Exception {
-		String[] flag= new String[employeeModel.size()];
-		
+	public void addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws Exception {	
 		for(Integer i =0;i<employeeModel.size();i++) {
-			flag[i] = empService.processTheIncommingModel(employeeModel.get(i));
+			empService.processTheIncommingModel(employeeModel.get(i));
 		}
 		
-		return flag;
 	}
 	
 	@RequestMapping(value = { "/showEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -92,12 +89,8 @@ public class EmployeeStructController {
 	
 	@RequestMapping(value = { "/updateEmployeeStructure" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String updateEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) {
-		String flag ="false";
-		try {
-			flag= empService.updateEmployeeStructure(employeeModel);
-		}catch(Exception e) {e.printStackTrace();flag ="false";}
-		return flag;
+	public void updateEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) throws ParseException {
+			empService.updateEmployeeStructure(employeeModel);
 	}
 
 	@RequestMapping(value = { "/deleteEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -144,16 +137,14 @@ public class EmployeeStructController {
 	
 	@RequestMapping(value = { "/copyEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String[] copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) {
-		String[] flag = new String[employeeModel.size()];
+	public void copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws ParseException, Exception {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String todayDate=dtf.format(now);
 		for(int i=0;i<employeeModel.size();i++) {
-			flag[i]= empService.copyEmployeeStructure(employeeModel.get(i),todayDate);
+			empService.copyEmployeeStructure(employeeModel.get(i),todayDate);
 		}
 		
-		return flag;
 	}
 }
 		

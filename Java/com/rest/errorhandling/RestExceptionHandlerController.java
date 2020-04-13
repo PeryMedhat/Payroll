@@ -7,7 +7,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class RestExceptionHandlerController {
-
+	@ExceptionHandler
+	public ResponseEntity<ErrorResponse> handleException(UniqunessException e){
+		ErrorResponse error =new ErrorResponse();
+		error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+		error.setMessage(e.getMessage());
+		error.setTimeStamp(System.currentTimeMillis());
+		
+		return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	@ExceptionHandler
 	public ResponseEntity<ErrorResponse> handleException(Exception e){
 		ErrorResponse error =new ErrorResponse();

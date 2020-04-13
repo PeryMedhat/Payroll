@@ -10,7 +10,7 @@ import com.models.companyStruct.CompanyStructModel;
 
 public interface CompanyStructService {
 
-	public String processTheIncommingModel(CompanyStructModel employee) throws Exception;
+	public void processTheIncommingModel(CompanyStructModel employee) throws Exception;
 
 	public CompanyStructModel getTheParent(String code);
 
@@ -44,7 +44,7 @@ public interface CompanyStructService {
 
 	public CompanyStructModel getTheChild(String code);
 
-	public String updateCompanyStructure(CompanyStructModel employee);
+	public void updateCompanyStructure(CompanyStructModel employee)throws ParseException ;
 
 	public String deleteParent(String code);
 	public String deleteSubParent(String code);
@@ -56,7 +56,7 @@ public interface CompanyStructService {
 	public void delmitSubParent(String code, String endDate) throws ParseException;
 	public void delmitChild(String code, String endDate) throws ParseException;
 
-	public String copyCompanyStructure(CompanyStructModel employeeStructModel, String todayDate);
+	public void copyCompanyStructure(CompanyStructModel employeeStructModel, String todayDate) throws ParseException;
 
 	
 

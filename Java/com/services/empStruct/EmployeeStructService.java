@@ -10,7 +10,7 @@ import com.models.empStuct.EmployeeStructModel;
 
 public interface EmployeeStructService {
 
-	public String processTheIncommingModel(EmployeeStructModel employee) throws Exception;
+	public void processTheIncommingModel(EmployeeStructModel employee) throws Exception;
 
 	public EmployeeStructModel getTheParent(String code);
 
@@ -44,7 +44,7 @@ public interface EmployeeStructService {
 
 	public EmployeeStructModel getTheChild(String code);
 
-	public String updateEmployeeStructure(EmployeeStructModel employee);
+	public void updateEmployeeStructure(EmployeeStructModel employee) throws ParseException;
 
 	public String deleteParent(String code);
 	public String deleteSubParent(String code);
@@ -56,7 +56,7 @@ public interface EmployeeStructService {
 	public void delmitSubParent(String code, String endDate) throws ParseException;
 	public void delmitChild(String code, String endDate) throws ParseException;
 
-	public String copyEmployeeStructure(EmployeeStructModel employeeStructModel, String todayDate);
+	public void copyEmployeeStructure(EmployeeStructModel employeeStructModel, String todayDate) throws ParseException, Exception;
 	
 	
 

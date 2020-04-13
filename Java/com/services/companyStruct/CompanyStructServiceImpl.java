@@ -26,7 +26,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 
 	@Override
 	@Transactional
-	public String processTheIncommingModel(CompanyStructModel company) {
+	public void processTheIncommingModel(CompanyStructModel company) {
 
 		if (company.getName() != null && company.getCode() != null && company.getEndDate() != null
 				&& company.getStartDate() != null && company.getHasParent() != null
@@ -55,49 +55,43 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 			Boolean hisParentIsParent = companyDAO.isParent(parentCode);
 			Boolean hisParentIsSubParent = companyDAO.isSubParent(parentCode);
 
-			// flag to save boolean value to check if the data successfully added to our
-			// database or not
-			Boolean savedCompanyStruct = false;
-
 			// Process the model to know if it is a parent/SubParent/Child
 			if (!company.getHasParent() && company.getHasChild()) {
 
 				// the model has no parent but has a child ==> save as parent
 				CompanyStructParent parent = new CompanyStructParent(commId);
-				savedCompanyStruct = companyDAO.addParent(parent);
+				companyDAO.addParent(parent);
 
 			} else if (company.getHasParent() && company.getHasChild() && hisParentIsParent) {
 
 				// the model has parent also has child and his parent is parent ==> save as
 				// subParent
 				CompanyStructSubparent subParent = new CompanyStructSubparent(0, null, commId);
-				savedCompanyStruct = companyDAO.addSubParentToParent(subParent, parentCode);
+				companyDAO.addSubParentToParent(subParent, parentCode);
 
 			} else if (company.getHasParent() && company.getHasChild() && hisParentIsSubParent) {
 
 				// the model has parent also has child and his parent is subParent ==> save as
 				// subParent
 				CompanyStructSubparent subParent = new CompanyStructSubparent(1, parentCode, commId);
-				savedCompanyStruct = companyDAO.addSubParentToSubParent(subParent);
+				companyDAO.addSubParentToSubParent(subParent);
 
 			} else if (company.getHasParent() && !company.getHasChild() && hisParentIsParent) {
 
 				// the model has parent and has no child and his parent is parent ==>save as
 				// child to parent
 				CompanyStructChild child = new CompanyStructChild(commId);
-				savedCompanyStruct = companyDAO.addChildToParent(child, parentCode);
+				companyDAO.addChildToParent(child, parentCode);
 
 			} else if (company.getHasParent() && !company.getHasChild() && hisParentIsSubParent) {
 
 				// the model has parent and has no child and his parent is subParent ==>save as
 				// child to subParent
 				CompanyStructChild child = new CompanyStructChild(commId);
-				savedCompanyStruct = companyDAO.addChildToSubParent(child, parentCode);
+				companyDAO.addChildToSubParent(child, parentCode);
 
 			}
-			return savedCompanyStruct.toString();
-		} else {
-			return "values is missing for saving the Company struct";
+		
 		}
 
 	}
@@ -445,72 +439,61 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	 */
 	@Override
 	@Transactional
-	public String updateCompanyStructure(CompanyStructModel employee) {
-		Boolean updateTheCompanyStruct = false;
-		try {
-			// process to check the model(parent/sub/child)
-			if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
+	public void updateCompanyStructure(CompanyStructModel employee) throws ParseException {
+		// process to check the model(parent/sub/child)
+		if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
 					&& employee.getStartDate() != null && employee.getHasParent() != null
 					&& employee.getHasChild() != null) {
-				// conversion of dates
-				Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getStartDate());
-				Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getEndDate());
-				String parentCode = employee.getParentCode();
+			// conversion of dates
+			Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getStartDate());
+			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getEndDate());
+			String parentCode = employee.getParentCode();
 
-				// check if this model has parent and type of his parent
-				Boolean hisParentIsParent = companyDAO.isParent(parentCode);
-				Boolean hisParentIsSubParent = companyDAO.isSubParent(parentCode);
+			// check if this model has parent and type of his parent
+			Boolean hisParentIsParent = companyDAO.isParent(parentCode);
+			Boolean hisParentIsSubParent = companyDAO.isSubParent(parentCode);
 
-				if (!employee.getHasParent() && employee.getHasChild()) {
-					// the model has no parent but has a child ==> update parent
-					CompanyStructParent parent = companyDAO.getParent(employee.getCode());
+			if (!employee.getHasParent() && employee.getHasChild()) {
+				// the model has no parent but has a child ==> update parent
+				CompanyStructParent parent = companyDAO.getParent(employee.getCode());
 
-					parent.getCommID().setName(employee.getName());
-					parent.getCommID().setStartDate(startDate);
-					parent.getCommID().setEndDate(endDate);
-					updateTheCompanyStruct = companyDAO.addParent(parent);
-				} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsParent) {
-					// the model has parent also has child and his parent is parent ==> save as
-					// subParent
-					CompanyStructSubparent subParent = companyDAO.getSubParent(employee.getCode());
+				parent.getCommID().setName(employee.getName());
+				parent.getCommID().setStartDate(startDate);
+				parent.getCommID().setEndDate(endDate);
+				companyDAO.addParent(parent);
+			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsParent) {
+				// the model has parent also has child and his parent is parent ==> save as
+				// subParent
+				CompanyStructSubparent subParent = companyDAO.getSubParent(employee.getCode());
+				subParent.getCommID().setName(employee.getName());
+				subParent.getCommID().setStartDate(startDate);
+				subParent.getCommID().setEndDate(endDate);
+				companyDAO.addSubParentToParent(subParent, parentCode);
+			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsSubParent) {
+				CompanyStructSubparent subParent = companyDAO.getSubParent(employee.getCode());
+				subParent.getCommID().setName(employee.getName());
+				subParent.getCommID().setStartDate(startDate);
+				subParent.getCommID().setEndDate(endDate);
+				companyDAO.addSubParentToSubParent(subParent);
+			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsParent) {
+				// the model has parent and has no child and his parent is parent ==>save as
+				// child to parent
+				CompanyStructChild child = companyDAO.getChild(employee.getCode());
+				child.getCommID().setName(employee.getName());
+				child.getCommID().setStartDate(startDate);
+				child.getCommID().setEndDate(endDate);
+				companyDAO.addChildToParent(child, parentCode);
+			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsSubParent) {
+				// the model has parent and has no child and his parent is subParent ==>save as
+				// child to subParent
+				CompanyStructChild child = companyDAO.getChild(employee.getCode());
 
-					subParent.getCommID().setName(employee.getName());
-					subParent.getCommID().setStartDate(startDate);
-					subParent.getCommID().setEndDate(endDate);
-					updateTheCompanyStruct = companyDAO.addSubParentToParent(subParent, parentCode);
-				} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsSubParent) {
-					CompanyStructSubparent subParent = companyDAO.getSubParent(employee.getCode());
-
-					subParent.getCommID().setName(employee.getName());
-					subParent.getCommID().setStartDate(startDate);
-					subParent.getCommID().setEndDate(endDate);
-					updateTheCompanyStruct = companyDAO.addSubParentToSubParent(subParent);
-				} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsParent) {
-					// the model has parent and has no child and his parent is parent ==>save as
-					// child to parent
-					CompanyStructChild child = companyDAO.getChild(employee.getCode());
-
-					child.getCommID().setName(employee.getName());
-					child.getCommID().setStartDate(startDate);
-					child.getCommID().setEndDate(endDate);
-					updateTheCompanyStruct = companyDAO.addChildToParent(child, parentCode);
-				} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsSubParent) {
-					// the model has parent and has no child and his parent is subParent ==>save as
-					// child to subParent
-					CompanyStructChild child = companyDAO.getChild(employee.getCode());
-
-					child.getCommID().setName(employee.getName());
-					child.getCommID().setStartDate(startDate);
-					child.getCommID().setEndDate(endDate);
-					updateTheCompanyStruct = companyDAO.addChildToSubParent(child, parentCode);
-				}
+				child.getCommID().setName(employee.getName());
+				child.getCommID().setStartDate(startDate);
+				child.getCommID().setEndDate(endDate);
+				companyDAO.addChildToSubParent(child, parentCode);
 			}
-			return updateTheCompanyStruct.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "false";
 		}
-
 	}
 
 	@Override
@@ -614,28 +597,23 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 
 	@Override
 	@Transactional
-	public String copyCompanyStructure(CompanyStructModel companyStructModel, String todayDate) {
-		String isCopied = "false";
+	public void copyCompanyStructure(CompanyStructModel companyStructModel, String todayDate) throws ParseException {
 		CompanyStructModel newModel = new CompanyStructModel();
-		try {
-			newModel.setCode(companyStructModel.getCode());
-			newModel.setEndDate(companyStructModel.getEndDate());
-			newModel.setStartDate(companyStructModel.getStartDate());
-			newModel.setName(companyStructModel.getName());
-			newModel.setHasParent(companyStructModel.getHasParent());
-			newModel.setHasChild(companyStructModel.getHasChild());
-			if (companyStructModel.getHasParent() == false) {
-				newModel.setParentCode(null);
-				delmitParent(companyStructModel.getCode(), todayDate);
-			} else {
-				newModel.setParentCode(companyStructModel.getParentCode());
-			}
-			isCopied = processTheIncommingModel(newModel);
-
-		} catch (Exception e) {
-			isCopied = "false";
+		
+		newModel.setCode(companyStructModel.getCode());
+		newModel.setEndDate(companyStructModel.getEndDate());
+		newModel.setStartDate(companyStructModel.getStartDate());
+		newModel.setName(companyStructModel.getName());
+		newModel.setHasParent(companyStructModel.getHasParent());
+		newModel.setHasChild(companyStructModel.getHasChild());
+		if (companyStructModel.getHasParent() == false) {
+			newModel.setParentCode(null);
+			delmitParent(companyStructModel.getCode(), todayDate);
+		} else {
+			newModel.setParentCode(companyStructModel.getParentCode());
 		}
-		return isCopied;
+		processTheIncommingModel(newModel);
+
 	}
 
 }
