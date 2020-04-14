@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.entities.empStruct.EmpStructChild;
 import com.entities.empStruct.EmpStructParent;
 import com.entities.empStruct.EmpStructSubparent;
+import com.rest.errorhandling.UniqunessException;
 
 @Repository
 public class EmployeeStructDAOImpl implements EmployeeStructDAO {
@@ -20,70 +21,85 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public Boolean addParent(EmpStructParent parent) {
-		// get the session 
-		Session session = sessionFactory.getCurrentSession();
-		
-		
-		session.saveOrUpdate(parent);
-		return true;
+	public void addParent(EmpStructParent parent) {
+		try {
+			// get the session 
+			Session session = sessionFactory.getCurrentSession();
+			
+			session.saveOrUpdate(parent);
+		}catch(Exception e) {
+			throw new UniqunessException("the parent code : "+parent.getCommID().getCode()+" is already used!");
+		}
 	}
 
 	@Override
-	public Boolean addSubParentToParent(EmpStructSubparent subParent, String parentCode) {
-		// get the session 
-		Session session = sessionFactory.getCurrentSession();
-		
-		//get the parent using parent code
-		Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
-		query.setParameter("code", parentCode);
-		EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+	public void addSubParentToParent(EmpStructSubparent subParent, String parentCode) {
+		try {
+			// get the session 
+			Session session = sessionFactory.getCurrentSession();
 			
-		//Add the subParent to this parent 
-		parent.addSubParent(subParent);
-		session.saveOrUpdate(subParent);
-		return true;
+			//get the parent using parent code
+			Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
+			query.setParameter("code", parentCode);
+			EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+				
+			//Add the subParent to this parent 
+			parent.addSubParent(subParent);
+			session.saveOrUpdate(subParent);
+		}catch(Exception e) {
+			throw new UniqunessException("the subParent code : "+subParent.getCommID().getCode()+" is already used!");
+
+		}
 		
 	}
-	public Boolean addSubParentToSubParent(EmpStructSubparent subParent) {
-		// get the session 
-		Session session = sessionFactory.getCurrentSession();
-		
-		session.saveOrUpdate(subParent);
-		return true;
+	public void addSubParentToSubParent(EmpStructSubparent subParent) {
+		try {
+			// get the session 
+			Session session = sessionFactory.getCurrentSession();
+			
+			session.saveOrUpdate(subParent);
 
+		}catch(Exception e) {
+			throw new UniqunessException("the subParent code : "+subParent.getCommID().getCode()+" is already used!");
+		}
 	}
 
 	@Override
-	public Boolean addChildToParent(EmpStructChild child, String parentCode) {
-		// get the session 
-		Session session = sessionFactory.getCurrentSession();
-		
-		//get the parent using parent code
-		Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
-		query.setParameter("code", parentCode);
-		EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+	public void addChildToParent(EmpStructChild child, String parentCode) {
+		try {
+			// get the session 
+			Session session = sessionFactory.getCurrentSession();
 			
-		//Add the subParent to this parent 
-		parent.addChild(child);
-		session.saveOrUpdate(child);
-		return true;
+			//get the parent using parent code
+			Query<EmpStructParent> query = session.createQuery("from EmpStructParent where commID=(select id from CommonID where code =:code)", EmpStructParent.class);
+			query.setParameter("code", parentCode);
+			EmpStructParent parent = (EmpStructParent) query.getSingleResult();
+				
+			//Add the subParent to this parent 
+			parent.addChild(child);
+			session.saveOrUpdate(child);
+		}catch(Exception e) {
+			throw new UniqunessException("the subParent code : "+child.getCommID().getCode()+" is already used!");
+		}
 		
 	}
-	public Boolean addChildToSubParent(EmpStructChild child, String parentCode) {
-		// get the session 
-		Session session = sessionFactory.getCurrentSession();
-		
-		//get the parent using subParet code
-		Query<EmpStructSubparent> query = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
-		query.setParameter("code", parentCode);
-		EmpStructSubparent subParent = (EmpStructSubparent) query.getSingleResult();
-					
-		//Add the subParent to this parent 
-		subParent.addChild(child);
-		session.saveOrUpdate(child);
-		return true;
-		
+	public void addChildToSubParent(EmpStructChild child, String parentCode) {
+		try {
+			// get the session 
+			Session session = sessionFactory.getCurrentSession();
+			
+			//get the parent using subParet code
+			Query<EmpStructSubparent> query = session.createQuery("from EmpStructSubparent where commID=(select id from CommonID where code =:code)", EmpStructSubparent.class);
+			query.setParameter("code", parentCode);
+			EmpStructSubparent subParent = (EmpStructSubparent) query.getSingleResult();
+						
+			//Add the subParent to this parent 
+			subParent.addChild(child);
+			session.saveOrUpdate(child);
+			
+		}catch(Exception e) {
+			throw new UniqunessException("the subParent code : "+child.getCommID().getCode()+" is already used!");
+		}
 	}
 
 	@Override

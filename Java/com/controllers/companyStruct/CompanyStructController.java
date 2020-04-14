@@ -29,13 +29,10 @@ public class CompanyStructController {
 	
 	@RequestMapping(value = { "/addCompanyStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String[] addCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) throws Exception {
-		String[] flag= new String[companyModel.size()];
-		
+	public void addCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) throws Exception {
 		for(Integer i =0;i<companyModel.size();i++) {
-			flag[i] = companyService.processTheIncommingModel(companyModel.get(i));
+			companyService.processTheIncommingModel(companyModel.get(i));
 		}
-		return flag;
 	}
 	
 	@RequestMapping(value = { "/showCompanyStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -81,10 +78,10 @@ public class CompanyStructController {
 
 	@RequestMapping(value = { "/updateCompanyStructure" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String updateCompanyStructure(@RequestBody CompanyStructModel companyModel) {
-		String flag ="false";
-		flag= companyService.updateCompanyStructure(companyModel);
-		return flag;
+	public void updateCompanyStructure(@RequestBody CompanyStructModel companyModel) throws ParseException {
+	
+		companyService.updateCompanyStructure(companyModel);
+	
 	}
 
 	@RequestMapping(value = { "/deleteCompanyStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -123,15 +120,14 @@ public class CompanyStructController {
 
 	@RequestMapping(value = { "/copyCompanyStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String[] copyCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) {
-		String[] flag = new String[companyModel.size()];
+	public void copyCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) throws ParseException {
+		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String todayDate=dtf.format(now);
 		for(int i=0;i<companyModel.size();i++) {
-			flag[i]= companyService.copyCompanyStructure(companyModel.get(i),todayDate);
+			companyService.copyCompanyStructure(companyModel.get(i),todayDate);
 		}
-		return flag;
 	}
 }
 		
