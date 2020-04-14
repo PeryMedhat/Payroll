@@ -17,6 +17,7 @@ import com.entities.empStruct.EmpStructChild;
 import com.entities.empStruct.EmpStructParent;
 import com.entities.empStruct.EmpStructSubparent;
 import com.models.empStuct.EmployeeStructModel;
+import com.rest.errorhandling.UniqunessException;
 
 @Service
 public class EmployeeStructServiceImpl implements EmployeeStructService {
@@ -29,8 +30,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	public void processTheIncommingModel(EmployeeStructModel employee) throws Exception {
 
 		if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
-				&& employee.getStartDate() != null && employee.getHasParent() != null
-				&& employee.getHasChild() != null) {
+				&& employee.getStartDate() != null) {
 
 			// conversion of dates
 			Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getStartDate());
@@ -82,7 +82,17 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				employeeDAO.addChildToSubParent(child, parentCode);
 
 			}
-		} 
+		} else if(employee.getName() == null) {
+			throw new UniqunessException("the employee name is missing!");
+		}else if(employee.getCode() == null) {
+			throw new UniqunessException("the employee code is missing!");
+		}else if(employee.getStartDate() == null) {
+			throw new UniqunessException("the employee start date is missing!");
+		}else if(employee.getEndDate() == null) {
+			throw new UniqunessException("the employee end date is missing!");
+		}else {
+			throw new UniqunessException("ERROR! can't save/update the employee structure");
+		}
 	}
 
 	@Override

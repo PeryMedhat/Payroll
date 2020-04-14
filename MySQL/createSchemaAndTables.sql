@@ -1,5 +1,5 @@
 CREATE DATABASE `payroll-schema` /*!40100 DEFAULT CHARACTER SET big5 */;
-/*Employee and Company Structure */
+
 CREATE TABLE `payroll-schema`.`commonID` (
   `commonID_id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
@@ -105,60 +105,12 @@ CREATE TABLE `payroll-schema`.`company_struct_child` (
   CONSTRAINT `fk_company_struct_child_3` FOREIGN KEY (`companySubparent_id`) REFERENCES `company_struct_subparent` (`companySubparent_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=big5;
 
-/*
-Lookup tables
-*/
-
-CREATE TABLE `paytype_inputvalue` (
-  `code` varchar(45) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `paytype_interval` (
-  `code` varchar(45) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `paytype_type` (
-  `code` varchar(45) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `description` varchar(45) NOT NULL,
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-/*PayType Definition*/
-CREATE TABLE `paytype_commId` (
-  `paytype_commId_id` int(11) NOT NULL AUTO_INCREMENT,
-  `start_date` datetime NOT NULL,
-  `end_date` datetime NOT NULL,
-  `code` varchar(45) NOT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`paytype_commId_id`),
-  UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
-
-CREATE TABLE `paytype` (
-  `paytype_id` int(11) NOT NULL AUTO_INCREMENT,
-  `paytypeCommID_id` int(11) NOT NULL,
-  `interval` varchar(45) NOT NULL,
-  `type` varchar(45) NOT NULL,
-  `inputvalue` varchar(45) NOT NULL,
-  `taxes` varchar(45) DEFAULT NULL,
-  `gl_assignemnt` varchar(45) DEFAULT NULL,
-  `cost_center` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`paytype_id`),
-  KEY `fk_paytype_1_idx` (`paytypeCommID_id`),
-  KEY `fk_paytype_2_idx` (`interval`),
-  KEY `fk_paytype_3_idx` (`inputvalue`),
-  KEY `fk_paytype_4_idx` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
 
