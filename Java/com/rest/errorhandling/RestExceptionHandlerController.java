@@ -22,7 +22,6 @@ public class RestExceptionHandlerController {
 		error.setStatus(HttpStatus.NOT_FOUND.value());
 		error.setMessage(e.getMessage());
 		error.setTimeStamp(System.currentTimeMillis());
-		
 		return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
 	}
 	

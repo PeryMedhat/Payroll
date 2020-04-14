@@ -66,6 +66,35 @@
       console.log(err);
   }
   
+  $("#SendToDB").click(function (e) {
+    var formData=JSON.stringify(empObjectsArray);
+  $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "POST",
+        url:"http://localhost:8080/Payroll/employeeStructure/addEmployeeStructure",
+        data :formData,
+        success: function (response) {
+         
+              $('#ResultOfEmployeeStructCreation').modal('show'); 
+               $('#success_msg').removeAttr('hidden');
+            
+        },
+        error: function (xhr) {
+         var errorMessage = xhr.responseJSON.message;
+         $('#ResultOfEmployeeStructCreation').modal('show'); 
+          $('#fail_msg').removeAttr('hidden');
+          document.getElementById('fail_msg').innerHTML = "Error!!"+errorMessage;
+        }
+    });
+    
+});
+
+
+
+
 
 })(jQuery);
 var x = 0;
@@ -96,6 +125,7 @@ if (document.getElementById('yesCheck').checked) {
   var startDate =document.getElementById("start_date");
   var endDate =document.getElementById("end_date");
 
+  // validation for empty fields in the form
 if(code.value =='' || name.value =='' || startDate.value =='' ||endDate.value ==''){
 
   if(code.value==''){
@@ -125,10 +155,6 @@ if(code.value =='' || name.value =='' || startDate.value =='' ||endDate.value ==
 }
 
 
-
-
-
-
   var codeValue = code.value;
   var nameValue = name.value;
   var startDateValue = startDate.value;
@@ -154,6 +180,7 @@ if (document.getElementById('noCheck').checked) {
   var startDate =document.getElementById("start_date");
   var endDate =document.getElementById("end_date");
 
+   // validation for empty fields in the form
 if(code.value =='' || name.value =='' || startDate.value =='' ||endDate.value ==''){
 
   if(code.value==''){
@@ -211,9 +238,9 @@ if(code.value =='' || name.value =='' || startDate.value =='' ||endDate.value ==
 
   addEmpObject(true,lastParentValue,false,codeValue,nameValue,startDateValue,endDateValue);
 
-  document.getElementById('buttonSubmit').setAttribute("data-toggle","modal");
-  document.getElementById('buttonSubmit').setAttribute("data-target","#exampleModalCenter");
+  
 
+  $('#exampleModalCenter').modal('show'); 
   
     console.log(empObjectsArray);
 }
@@ -274,4 +301,10 @@ document.getElementById("empstruct_name").value="";
 document.getElementById("start_date").value="";
 document.getElementById("end_date").value="";
 newChildInSameLevel = true;
+}
+
+
+
+function BackToCreateStructureClean(){
+  window.location = '../../index.html'; 
 }
