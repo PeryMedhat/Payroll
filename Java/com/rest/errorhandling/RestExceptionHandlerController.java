@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class RestExceptionHandlerController {
+	
 	@ExceptionHandler
 	public ResponseEntity<ErrorResponse> handleException(UniqunessException e){
 		ErrorResponse error =new ErrorResponse();
@@ -16,8 +17,9 @@ public class RestExceptionHandlerController {
 		
 		return new ResponseEntity<>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
 	@ExceptionHandler
-	public ResponseEntity<ErrorResponse> handleException(Exception e){
+	public ResponseEntity<ErrorResponse> handleException(NotFoundException e){
 		ErrorResponse error =new ErrorResponse();
 		error.setStatus(HttpStatus.NOT_FOUND.value());
 		error.setMessage(e.getMessage());
@@ -25,6 +27,7 @@ public class RestExceptionHandlerController {
 		
 		return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
 	}
+	
 	
 	
 }

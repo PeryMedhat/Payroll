@@ -86,19 +86,16 @@ public class CompanyStructController {
 
 	@RequestMapping(value = { "/deleteCompanyStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String deleteCompanyStructure(@RequestParam("code") String code) {
-		String isDeleted = "false";
+	public void deleteCompanyStructure(@RequestParam("code") String code) {
 		Boolean isParent = companyService.isParent(code);
 		Boolean isSub = companyService.isSubParent(code);
 		if(isParent) {
-			isDeleted = companyService.deleteParent(code);
+			companyService.deleteParent(code);
 		}else if(isSub) {
-			isDeleted = companyService.deleteSubParent(code);				
+			companyService.deleteSubParent(code);				
 		}else {
-			isDeleted = companyService.deleteChild(code);
+			companyService.deleteChild(code);
 		}
-		
-		return isDeleted;
 	}
 	
 	@RequestMapping(value = { "/delemitCompanyStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -120,7 +117,7 @@ public class CompanyStructController {
 
 	@RequestMapping(value = { "/copyCompanyStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public void copyCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) throws ParseException {
+	public void copyCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) throws Exception {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();

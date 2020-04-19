@@ -46,9 +46,9 @@ public interface CompanyStructService {
 
 	public void updateCompanyStructure(CompanyStructModel employee)throws ParseException ;
 
-	public String deleteParent(String code);
-	public String deleteSubParent(String code);
-	public String deleteChild(String code);
+	public void deleteParent(String code);
+	public void deleteSubParent(String code);
+	public void deleteChild(String code);
 
 	public List<CompanyStructSubparent> getSubOfSub(String code);
 
@@ -56,8 +56,6 @@ public interface CompanyStructService {
 	public void delmitSubParent(String code, String endDate) throws ParseException;
 	public void delmitChild(String code, String endDate) throws ParseException;
 
-	public void copyCompanyStructure(CompanyStructModel employeeStructModel, String todayDate) throws ParseException;
-
-	
+	public void copyCompanyStructure(CompanyStructModel employeeStructModel, String todayDate) throws ParseException, Exception;
 
 }

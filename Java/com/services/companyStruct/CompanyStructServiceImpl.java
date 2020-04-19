@@ -17,6 +17,8 @@ import com.entities.companyStruct.CompanyStructChild;
 import com.entities.companyStruct.CompanyStructParent;
 import com.entities.companyStruct.CompanyStructSubparent;
 import com.models.companyStruct.CompanyStructModel;
+import com.rest.errorhandling.NotFoundException;
+import com.rest.errorhandling.UniqunessException;
 
 @Service
 public class CompanyStructServiceImpl implements CompanyStructService {
@@ -26,29 +28,18 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 
 	@Override
 	@Transactional
-	public void processTheIncommingModel(CompanyStructModel company) {
-
+	public void processTheIncommingModel(CompanyStructModel company) throws Exception {
 		if (company.getName() != null && company.getCode() != null && company.getEndDate() != null
-				&& company.getStartDate() != null && company.getHasParent() != null
-				&& company.getHasChild() != null) {
+				&& company.getStartDate() != null) {
 
 			// conversion of dates
-			Date startDate;
-			Date endDate;
-			CompanyCommonID commId = new CompanyCommonID();
-			try {
-				startDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getStartDate());
-				endDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getEndDate());
+			Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getStartDate());
+			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getEndDate());
 
-				// commonID data
-				commId = new CompanyCommonID(startDate, endDate, company.getCode(), company.getName());
-				commId.setDeleted(0);
+			// commonID data
+			CompanyCommonID commId = new CompanyCommonID(startDate, endDate, company.getCode(), company.getName());
+			commId.setDeleted(0);
 
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			String parentCode = company.getParentCode();
 
 			// check if this model has parent and type of his parent
@@ -57,43 +48,65 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 
 			// Process the model to know if it is a parent/SubParent/Child
 			if (!company.getHasParent() && company.getHasChild()) {
-
 				// the model has no parent but has a child ==> save as parent
 				CompanyStructParent parent = new CompanyStructParent(commId);
-				companyDAO.addParent(parent);
-
+				try {
+					companyDAO.addParent(parent);
+				}catch(Exception e) {
+					throw new UniqunessException("the parent code : "+parent.getCommID().getCode()+" is already used!");
+				}
 			} else if (company.getHasParent() && company.getHasChild() && hisParentIsParent) {
-
 				// the model has parent also has child and his parent is parent ==> save as
 				// subParent
 				CompanyStructSubparent subParent = new CompanyStructSubparent(0, null, commId);
-				companyDAO.addSubParentToParent(subParent, parentCode);
-
+				try {
+					companyDAO.addSubParentToParent(subParent, parentCode);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+subParent.getCommID().getCode()+" is already used!");
+				}
 			} else if (company.getHasParent() && company.getHasChild() && hisParentIsSubParent) {
-
 				// the model has parent also has child and his parent is subParent ==> save as
 				// subParent
 				CompanyStructSubparent subParent = new CompanyStructSubparent(1, parentCode, commId);
-				companyDAO.addSubParentToSubParent(subParent);
-
+				try {
+					companyDAO.addSubParentToSubParent(subParent);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+subParent.getCommID().getCode()+" is already used!");
+				}
 			} else if (company.getHasParent() && !company.getHasChild() && hisParentIsParent) {
 
 				// the model has parent and has no child and his parent is parent ==>save as
 				// child to parent
 				CompanyStructChild child = new CompanyStructChild(commId);
-				companyDAO.addChildToParent(child, parentCode);
+				
+				try {
+					companyDAO.addChildToParent(child, parentCode);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+child.getCommID().getCode()+" is already used!");
+				}
 
 			} else if (company.getHasParent() && !company.getHasChild() && hisParentIsSubParent) {
 
 				// the model has parent and has no child and his parent is subParent ==>save as
 				// child to subParent
 				CompanyStructChild child = new CompanyStructChild(commId);
-				companyDAO.addChildToSubParent(child, parentCode);
-
+				try {
+					companyDAO.addChildToSubParent(child, parentCode);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+child.getCommID().getCode()+" is already used!");
+				}
 			}
-		
+		} else if(company.getName() == null) {
+			throw new UniqunessException("the company name is missing!");
+		}else if(company.getCode() == null) {
+			throw new UniqunessException("the company code is missing!");
+		}else if(company.getStartDate() == null) {
+			throw new UniqunessException("the company start date is missing!");
+		}else if(company.getEndDate() == null) {
+			throw new UniqunessException("the company end date is missing!");
+		}else {
+			throw new UniqunessException("ERROR! can't save/update the company structure");
 		}
-
 	}
 
 	@Override
@@ -134,83 +147,93 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	@Override
 	@Transactional
 	public CompanyStructModel getTheParent(String code) {
-		CompanyStructParent parent = companyDAO.getParent(code);
-		CompanyStructModel model = new CompanyStructModel();
-		DateFormat dateFormat = new SimpleDateFormat();
+		try {
+			CompanyStructParent parent = companyDAO.getParent(code);
+			CompanyStructModel model = new CompanyStructModel();
+			DateFormat dateFormat = new SimpleDateFormat();
 
-		String startDate = dateFormat.format(parent.getCommID().getStartDate());
-		String endDate = dateFormat.format(parent.getCommID().getEndDate());
+			String startDate = dateFormat.format(parent.getCommID().getStartDate());
+			String endDate = dateFormat.format(parent.getCommID().getEndDate());
 
-		model.setHasChild(true);
-		model.setHasParent(false);
-		model.setParentCode(null);
-		model.setStartDate(startDate.substring(0, 6));
-		model.setEndDate(endDate.substring(0, 6));
-		model.setCode(parent.getCommID().getCode());
-		model.setName(parent.getCommID().getName());
+			model.setHasChild(true);
+			model.setHasParent(false);
+			model.setParentCode(null);
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
+			model.setCode(parent.getCommID().getCode());
+			model.setName(parent.getCommID().getName());
 
-		return model;
+			return model;
+		}catch(Exception e) {
+			throw new  NotFoundException("Cannot find parent with code: "+code);
+		}
 	}
 
 	@Override
 	@Transactional
 	public CompanyStructModel getTheSubParent(String code) {
-		CompanyStructSubparent subParent = companyDAO.getSubParent(code);
-		CompanyStructModel model = new CompanyStructModel();
-		DateFormat dateFormat = new SimpleDateFormat();
+		try {
+			CompanyStructSubparent subParent = companyDAO.getSubParent(code);
+			CompanyStructModel model = new CompanyStructModel();
+			DateFormat dateFormat = new SimpleDateFormat();
 
-		String startDate = dateFormat.format(subParent.getCommID().getStartDate());
-		String endDate = dateFormat.format(subParent.getCommID().getEndDate());
-		CompanyStructParent parent = subParent.getParent();
-		model.setHasChild(true);
-		model.setHasParent(true);
-		if (parent != null) {
-			model.setParentCode(parent.getCommID().getCode());
-		} else {
-			model.setParentCode(subParent.getParentCode());
-		}
-		model.setStartDate(startDate.substring(0, 6));
-		model.setEndDate(endDate.substring(0, 6));
-		model.setCode(subParent.getCommID().getCode());
-		model.setName(subParent.getCommID().getName());
+			String startDate = dateFormat.format(subParent.getCommID().getStartDate());
+			String endDate = dateFormat.format(subParent.getCommID().getEndDate());
+			CompanyStructParent parent = subParent.getParent();
+			model.setHasChild(true);
+			model.setHasParent(true);
+			if (parent != null) {
+				model.setParentCode(parent.getCommID().getCode());
+			} else {
+				model.setParentCode(subParent.getParentCode());
+			}
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
+			model.setCode(subParent.getCommID().getCode());
+			model.setName(subParent.getCommID().getName());
 
-		return model;
+			return model;
+		}catch(Exception e) {throw new  NotFoundException("Cannot find subParent with code: "+code);}
 	}
 
 	@Override
 	@Transactional
 	public CompanyStructModel getTheChild(String code) {
-		CompanyStructChild child = companyDAO.getChild(code);
-		CompanyStructModel model = new CompanyStructModel();
-		DateFormat dateFormat = new SimpleDateFormat();
+		try {
+			CompanyStructChild child = companyDAO.getChild(code);
+			CompanyStructModel model = new CompanyStructModel();
+			DateFormat dateFormat = new SimpleDateFormat();
 
-		String startDate = dateFormat.format(child.getCommID().getStartDate());
-		String endDate = dateFormat.format(child.getCommID().getEndDate());
+			String startDate = dateFormat.format(child.getCommID().getStartDate());
+			String endDate = dateFormat.format(child.getCommID().getEndDate());
 
-		CompanyStructParent hisParentIsParent = child.getParent();
-		CompanyStructSubparent hisParentIsSub = child.getSubParent();
-		model.setHasChild(false);
-		model.setHasParent(true);
+			CompanyStructParent hisParentIsParent = child.getParent();
+			CompanyStructSubparent hisParentIsSub = child.getSubParent();
+			model.setHasChild(false);
+			model.setHasParent(true);
 
-		if (hisParentIsParent != null) {
-			model.setParentCode(child.getParent().getCommID().getCode());
-		} else if (hisParentIsSub != null) {
-			model.setParentCode(child.getSubParent().getCommID().getCode());
+			if (hisParentIsParent != null) {
+				model.setParentCode(child.getParent().getCommID().getCode());
+			} else if (hisParentIsSub != null) {
+				model.setParentCode(child.getSubParent().getCommID().getCode());
+			}
+
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
+			model.setCode(child.getCommID().getCode());
+			model.setName(child.getCommID().getName());
+
+			return model;
+		}catch(Exception e) {
+			throw new  NotFoundException("Cannot find child with code: "+code);
 		}
-
-		model.setStartDate(startDate.substring(0, 6));
-		model.setEndDate(endDate.substring(0, 6));
-		model.setCode(child.getCommID().getCode());
-		model.setName(child.getCommID().getName());
-
-		return model;
 	}
 
 	@Override
 	@Transactional
 	public List<CompanyStructModel> getTheSubParentsOfParent(String code) {
-		CompanyStructParent parent = companyDAO.getParent(code);
-
+		CompanyStructParent parent ;
+		try {parent = companyDAO.getParent(code);}catch(Exception e) {throw new NotFoundException("Cannot find parent with code:"+code);}
 		List<CompanyStructSubparent> subParentsOfParent = parent.getSubParents();
 		List<CompanyStructModel> listOfSubParents = new ArrayList<CompanyStructModel>();
 		if (subParentsOfParent != null) {
@@ -240,7 +263,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	@Override
 	@Transactional
 	public List<CompanyStructModel> getTheChildrenOfSubParent(String subCode) {
-		CompanyStructSubparent subParent = companyDAO.getSubParent(subCode);
+		CompanyStructSubparent subParent ;
+		try {subParent= companyDAO.getSubParent(subCode);}catch(Exception e) {throw new NotFoundException("Cannot find subParent with code:"+subCode);}
 		List<CompanyStructChild> childrenOfSub = subParent.getChildren();
 		List<CompanyStructModel> listOfChildren = new ArrayList<CompanyStructModel>();
 		if (childrenOfSub != null) {
@@ -271,7 +295,9 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	@Override
 	@Transactional
 	public List<CompanyStructModel> getTheChildrenOfParent(String parentCode) {
-		CompanyStructParent parent = companyDAO.getParent(parentCode);
+		CompanyStructParent parent ;
+		try {parent = companyDAO.getParent(parentCode);}catch(Exception e) {throw new NotFoundException("Cannot find parent with code:"+parentCode);}
+		
 		List<CompanyStructChild> childrenOfParent = parent.getChildren();
 		List<CompanyStructModel> listOfChildren = new ArrayList<CompanyStructModel>();
 		if (childrenOfParent != null) {
@@ -306,7 +332,10 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 			CompanyStructParent parent = sub.getParent();
 			parentOfSub = (getTheParent(parent.getCommID().getCode()));
 		} else {
-			CompanyStructSubparent subParent = companyDAO.getSubParent(sub.getParentCode());
+			CompanyStructSubparent subParent ;
+			try {subParent = companyDAO.getSubParent(sub.getParentCode());}catch(Exception e) {
+				subParent=null;
+			}
 			parentOfSub = (getTheSubParent(subParent.getCommID().getCode()));
 		}
 		return parentOfSub;
@@ -330,24 +359,30 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	@Override
 	@Transactional
 	public CompanyStructParent getParent(String code) {
-		CompanyStructParent parent = companyDAO.getParent(code);
-		return parent;
+		try {
+			CompanyStructParent parent = companyDAO.getParent(code);
+			return parent;
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot get parent with code:"+code+" is not saved");
+		}
 	}
 
 	@Override
 	@Transactional
 	public CompanyStructSubparent getSubParent(String code) {
-		CompanyStructSubparent subParent = companyDAO.getSubParent(code);
-		return subParent;
+		try {
+			CompanyStructSubparent subParent = companyDAO.getSubParent(code);
+			return subParent;
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot get parent with code:"+code+" is not saved");
+		}
 	}
-
 	@Override
 	@Transactional
 	public Boolean isSubParent(String parentCode) {
 		Boolean isSub = companyDAO.isSubParent(parentCode);
 		return isSub;
 	}
-
 	@Override
 	@Transactional
 	public Boolean isParent(String parentCode) {
@@ -390,7 +425,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	public List<CompanyStructModel> getSubParentChain(String code) {
 		List<CompanyStructModel> subparentChainMap = new ArrayList<CompanyStructModel>();
 		CompanyStructModel subParent = getTheSubParent(code);
-		CompanyStructSubparent subObject = companyDAO.getSubParent(code);
+		CompanyStructSubparent subObject;
+		try {subObject = companyDAO.getSubParent(code);}catch(Exception e) {throw new NotFoundException("Cannot find subParent with code:" +code);}
 		subparentChainMap.add(subParent);
 
 		subparentChainMap.addAll(getTheChildrenOfSubParent(code));
@@ -415,7 +451,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		// getting child
 		CompanyStructModel child = getTheChild(code);
 		childChainMap.add(child);
-		CompanyStructChild childObject = companyDAO.getChild(code);
+		CompanyStructChild childObject ;
+		try {childObject = companyDAO.getChild(code);}catch(Exception e) {throw new NotFoundException("Cannot find child with code: "+code);}
 		CompanyStructParent hisParent = childObject.getParent();
 		CompanyStructSubparent hisSubParent = childObject.getSubParent();
 		if (hisParent != null) {
@@ -434,61 +471,59 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	}
 
 	/*
-	 * process the update CompanyStructure
+	 * process the update employeeStructure
 	 * 
 	 */
 	@Override
 	@Transactional
-	public void updateCompanyStructure(CompanyStructModel employee) throws ParseException {
+	public void updateCompanyStructure(CompanyStructModel company) throws ParseException {
 		// process to check the model(parent/sub/child)
-		if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
-					&& employee.getStartDate() != null && employee.getHasParent() != null
-					&& employee.getHasChild() != null) {
+		if (company.getName() != null && company.getCode() != null && company.getEndDate() != null
+				&& company.getStartDate() != null && company.getHasParent() != null
+				&& company.getHasChild() != null) {
 			// conversion of dates
-			Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getStartDate());
-			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(employee.getEndDate());
-			String parentCode = employee.getParentCode();
-
+			Date startDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getStartDate());
+			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(company.getEndDate());
+			String parentCode = company.getParentCode();
 			// check if this model has parent and type of his parent
 			Boolean hisParentIsParent = companyDAO.isParent(parentCode);
 			Boolean hisParentIsSubParent = companyDAO.isSubParent(parentCode);
 
-			if (!employee.getHasParent() && employee.getHasChild()) {
+			if (!company.getHasParent() && company.getHasChild()) {
 				// the model has no parent but has a child ==> update parent
-				CompanyStructParent parent = companyDAO.getParent(employee.getCode());
-
-				parent.getCommID().setName(employee.getName());
+				CompanyStructParent parent = companyDAO.getParent(company.getCode());
+				parent.getCommID().setName(company.getName());
 				parent.getCommID().setStartDate(startDate);
 				parent.getCommID().setEndDate(endDate);
 				companyDAO.addParent(parent);
-			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsParent) {
+			} else if (company.getHasParent() && company.getHasChild() && hisParentIsParent) {
 				// the model has parent also has child and his parent is parent ==> save as
 				// subParent
-				CompanyStructSubparent subParent = companyDAO.getSubParent(employee.getCode());
-				subParent.getCommID().setName(employee.getName());
+				CompanyStructSubparent subParent = companyDAO.getSubParent(company.getCode());
+				subParent.getCommID().setName(company.getName());
 				subParent.getCommID().setStartDate(startDate);
 				subParent.getCommID().setEndDate(endDate);
 				companyDAO.addSubParentToParent(subParent, parentCode);
-			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsSubParent) {
-				CompanyStructSubparent subParent = companyDAO.getSubParent(employee.getCode());
-				subParent.getCommID().setName(employee.getName());
+			} else if (company.getHasParent() && company.getHasChild() && hisParentIsSubParent) {
+				CompanyStructSubparent subParent = companyDAO.getSubParent(company.getCode());
+				subParent.getCommID().setName(company.getName());
 				subParent.getCommID().setStartDate(startDate);
 				subParent.getCommID().setEndDate(endDate);
 				companyDAO.addSubParentToSubParent(subParent);
-			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsParent) {
+			} else if (company.getHasParent() && !company.getHasChild() && hisParentIsParent) {
 				// the model has parent and has no child and his parent is parent ==>save as
 				// child to parent
-				CompanyStructChild child = companyDAO.getChild(employee.getCode());
-				child.getCommID().setName(employee.getName());
+				CompanyStructChild child = companyDAO.getChild(company.getCode());
+				child.getCommID().setName(company.getName());
 				child.getCommID().setStartDate(startDate);
 				child.getCommID().setEndDate(endDate);
 				companyDAO.addChildToParent(child, parentCode);
-			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsSubParent) {
+			} else if (company.getHasParent() && !company.getHasChild() && hisParentIsSubParent) {
 				// the model has parent and has no child and his parent is subParent ==>save as
 				// child to subParent
-				CompanyStructChild child = companyDAO.getChild(employee.getCode());
+				CompanyStructChild child = companyDAO.getChild(company.getCode());
 
-				child.getCommID().setName(employee.getName());
+				child.getCommID().setName(company.getName());
 				child.getCommID().setStartDate(startDate);
 				child.getCommID().setEndDate(endDate);
 				companyDAO.addChildToSubParent(child, parentCode);
@@ -499,121 +534,147 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 	@Override
 	@Transactional
 	public List<CompanyStructSubparent> getSubOfSub(String code) {
-		CompanyStructSubparent subParent = companyDAO.getSubParent(code);
-		List<CompanyStructSubparent> listOfSubParents = new ArrayList<CompanyStructSubparent>();
-		List<CompanyStructSubparent> subParents = companyDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
-		if (subParents != null) {
-			for (Integer i = 0; i < subParents.size(); i++) {
-				listOfSubParents.add(subParents.get(i));
+		try {
+			CompanyStructSubparent subParent = companyDAO.getSubParent(code);
+			List<CompanyStructSubparent> listOfSubParents = new ArrayList<CompanyStructSubparent>();
+			List<CompanyStructSubparent> subParents = companyDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
+			if (subParents != null) {
+				for (Integer i = 0; i < subParents.size(); i++) {
+					listOfSubParents.add(subParents.get(i));
 
-				if (companyDAO.getSubParentsOfSubParents(subParents.get(i).getCommID().getCode()) != null) {
-					listOfSubParents.addAll(getSubOfSub(subParents.get(i).getCommID().getCode()));
+					if (companyDAO.getSubParentsOfSubParents(subParents.get(i).getCommID().getCode()) != null) {
+						listOfSubParents.addAll(getSubOfSub(subParents.get(i).getCommID().getCode()));
+					}
 				}
 			}
+			return listOfSubParents;
+		}catch(Exception e) {
+			throw new NotFoundException("The subParent with code :"+code+" is not saved");
+
 		}
-		return listOfSubParents;
 	}
 
 	@Override
 	@Transactional
-	public String deleteParent(String code) {
-		CompanyStructParent parent = getParent(code);
-		List<CompanyStructSubparent> subs = parent.getSubParents();
-		List<CompanyStructSubparent> subOfsub = new ArrayList<CompanyStructSubparent>();
-		String isDeleted = "false";
-		for (int i = 0; i < subs.size(); i++) {
-			subOfsub.addAll(getSubOfSub(subs.get(i).getCommID().getCode()));
+	public void deleteParent(String code) {
+		try {
+			CompanyStructParent parent = getParent(code);
+			List<CompanyStructSubparent> subs = parent.getSubParents();
+			List<CompanyStructSubparent> subOfsub = new ArrayList<CompanyStructSubparent>();
+			for (int i = 0; i < subs.size(); i++) {
+				subOfsub.addAll(getSubOfSub(subs.get(i).getCommID().getCode()));
+			}
+			for (int i = 0; i < subOfsub.size(); i++) {
+				companyDAO.deleteSubParent(subOfsub.get(i).getCommID().getCode());
+			}
+			companyDAO.deleteParent(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot Delete! -the parent code :"+code+" is not saved");
+
 		}
-		for (int i = 0; i < subOfsub.size(); i++) {
-			isDeleted = companyDAO.deleteSubParent(subOfsub.get(i).getCommID().getCode());
-		}
-		isDeleted = companyDAO.deleteParent(code);
-		return isDeleted;
 	}
 
 	@Override
 	@Transactional
-	public String deleteSubParent(String code) {
-		CompanyStructSubparent sub = companyDAO.getSubParent(code);
-		CompanyStructParent parent = sub.getParent();
-		if (parent != null) {
-			List<CompanyStructSubparent> subList = parent.getSubParents();
-			subList.remove(sub);
+	public void deleteSubParent(String code) {
+		try {
+			CompanyStructSubparent sub = companyDAO.getSubParent(code);
+			CompanyStructParent parent = sub.getParent();
+			if (parent != null) {
+				List<CompanyStructSubparent> subList = parent.getSubParents();
+				subList.remove(sub);
+			}
+			List<CompanyStructSubparent> subParents = getSubOfSub(code);
+			companyDAO.deleteSubParent(sub.getCommID().getCode());
+			for (int i = 0; i < subParents.size(); i++) {
+				companyDAO.deleteSubParent(subParents.get(i).getCommID().getCode());
+			}
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot Delete! -the subParent code :"+code+" is not saved");
 		}
-		String isDeleted = "false";
-		List<CompanyStructSubparent> subParents = getSubOfSub(code);
-		isDeleted = companyDAO.deleteSubParent(sub.getCommID().getCode());
-		for (int i = 0; i < subParents.size(); i++) {
-			isDeleted = companyDAO.deleteSubParent(subParents.get(i).getCommID().getCode());
-		}
-		return isDeleted;
 	}
 
 	@Override
 	@Transactional
-	public String deleteChild(String code) {
-		String isDeleted = "false";
-		CompanyStructChild child = companyDAO.getChild(code);
-		CompanyStructSubparent sub = child.getSubParent();
-		CompanyStructParent parent = child.getParent();
-		List<CompanyStructChild> childrenList = new ArrayList<CompanyStructChild>();
-		if (parent != null) {
-			childrenList = parent.getChildren();
-		} else {
-			childrenList = sub.getChildren();
+	public void deleteChild(String code) {
+		try {
+			CompanyStructChild child = companyDAO.getChild(code);
+			CompanyStructSubparent sub = child.getSubParent();
+			CompanyStructParent parent = child.getParent();
+			List<CompanyStructChild> childrenList = new ArrayList<CompanyStructChild>();
+			if (parent != null) {
+				childrenList = parent.getChildren();
+			} else {
+				childrenList = sub.getChildren();
+			}
+			childrenList.remove(child);
+			companyDAO.deleteChild(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot Delete! -the child code :"+code+" is not saved");
 		}
-		childrenList.remove(child);
-		isDeleted = companyDAO.deleteChild(code);
-		return isDeleted;
+		
 	}
 
 	@Override
 	@Transactional
 	public void delmitParent(String code, String endDate) throws ParseException {
 		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-		CompanyStructParent parent = companyDAO.getParent(code);
+		CompanyStructParent parent;
+		try {
+			parent = companyDAO.getParent(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot delimit parent with code:"+code+" not found");
+		}	
 		parent.getCommID().setEndDate(enddate);
 		parent.getCommID().setDeleted(1);
-		
+	
 	}
 
 	@Override
 	@Transactional
 	public void delmitSubParent(String code, String endDate) throws ParseException {
 		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-		CompanyStructSubparent sub = companyDAO.getSubParent(code);
+		CompanyStructSubparent sub;
+		try {
+			sub = companyDAO.getSubParent(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot delimit subParent with code:"+code+" not found");
+		}
 		sub.getCommID().setEndDate(enddate);
 		sub.getCommID().setDeleted(1);
+		
 	}
 
 	@Override
 	@Transactional
 	public void delmitChild(String code, String endDate) throws ParseException {
 		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-		CompanyStructChild child = companyDAO.getChild(code);
+		CompanyStructChild child;
+		try {child = companyDAO.getChild(code);}catch(Exception e) {
+			throw new NotFoundException("Cannot delimit child with code:"+code+" not found");
+		}
 		child.getCommID().setEndDate(enddate);
 		child.getCommID().setDeleted(1);
 	}
 
 	@Override
 	@Transactional
-	public void copyCompanyStructure(CompanyStructModel companyStructModel, String todayDate) throws ParseException {
+	public void copyCompanyStructure(CompanyStructModel employeeStructModel, String todayDate) throws Exception {
 		CompanyStructModel newModel = new CompanyStructModel();
 		
-		newModel.setCode(companyStructModel.getCode());
-		newModel.setEndDate(companyStructModel.getEndDate());
-		newModel.setStartDate(companyStructModel.getStartDate());
-		newModel.setName(companyStructModel.getName());
-		newModel.setHasParent(companyStructModel.getHasParent());
-		newModel.setHasChild(companyStructModel.getHasChild());
-		if (companyStructModel.getHasParent() == false) {
+		newModel.setCode(employeeStructModel.getCode());
+		newModel.setEndDate(employeeStructModel.getEndDate());
+		newModel.setStartDate(employeeStructModel.getStartDate());
+		newModel.setName(employeeStructModel.getName());
+		newModel.setHasParent(employeeStructModel.getHasParent());
+		newModel.setHasChild(employeeStructModel.getHasChild());
+		if (employeeStructModel.getHasParent() == false) {
 			newModel.setParentCode(null);
-			delmitParent(companyStructModel.getCode(), todayDate);
+			delmitParent(employeeStructModel.getCode(), todayDate);
 		} else {
-			newModel.setParentCode(companyStructModel.getParentCode());
+			newModel.setParentCode(employeeStructModel.getParentCode());
 		}
 		processTheIncommingModel(newModel);
-
 	}
 
 }

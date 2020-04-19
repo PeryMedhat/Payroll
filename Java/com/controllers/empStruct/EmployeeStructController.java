@@ -95,21 +95,19 @@ public class EmployeeStructController {
 
 	@RequestMapping(value = { "/deleteEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String deleteEmployeeStructure(@RequestParam("code") String code) {
-		String isDeleted = "false";
+	public void deleteEmployeeStructure(@RequestParam("code") String code) {
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
 		
 			if(isParent) {
-				isDeleted = empService.deleteParent(code);
+			empService.deleteParent(code);
 			}
 			else if(isSub) {
-				isDeleted = empService.deleteSubParent(code);				
+				empService.deleteSubParent(code);				
 			}else {
-				isDeleted = empService.deleteChild(code);
+				empService.deleteChild(code);
 			}
 		
-		return isDeleted;
 	}
 	
 	

@@ -46,9 +46,9 @@ public interface EmployeeStructService {
 
 	public void updateEmployeeStructure(EmployeeStructModel employee) throws ParseException;
 
-	public String deleteParent(String code);
-	public String deleteSubParent(String code);
-	public String deleteChild(String code);
+	public void deleteParent(String code);
+	public void deleteSubParent(String code);
+	public void deleteChild(String code);
 
 	public List<EmpStructSubparent> getSubOfSub(String code);
 

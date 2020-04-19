@@ -17,6 +17,7 @@ import com.entities.empStruct.EmpStructChild;
 import com.entities.empStruct.EmpStructParent;
 import com.entities.empStruct.EmpStructSubparent;
 import com.models.empStuct.EmployeeStructModel;
+import com.rest.errorhandling.NotFoundException;
 import com.rest.errorhandling.UniqunessException;
 
 @Service
@@ -28,7 +29,6 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Override
 	@Transactional
 	public void processTheIncommingModel(EmployeeStructModel employee) throws Exception {
-
 		if (employee.getName() != null && employee.getCode() != null && employee.getEndDate() != null
 				&& employee.getStartDate() != null) {
 
@@ -48,39 +48,53 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 			// Process the model to know if it is a parent/SubParent/Child
 			if (!employee.getHasParent() && employee.getHasChild()) {
-
 				// the model has no parent but has a child ==> save as parent
 				EmpStructParent parent = new EmpStructParent(commId);
-				employeeDAO.addParent(parent);
-
+				try {
+					employeeDAO.addParent(parent);
+				}catch(Exception e) {
+					throw new UniqunessException("the parent code : "+parent.getCommID().getCode()+" is already used!");
+				}
 			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsParent) {
-
 				// the model has parent also has child and his parent is parent ==> save as
 				// subParent
 				EmpStructSubparent subParent = new EmpStructSubparent(0, null, commId);
-				employeeDAO.addSubParentToParent(subParent, parentCode);
-
+				try {
+					employeeDAO.addSubParentToParent(subParent, parentCode);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+subParent.getCommID().getCode()+" is already used!");
+				}
 			} else if (employee.getHasParent() && employee.getHasChild() && hisParentIsSubParent) {
-
 				// the model has parent also has child and his parent is subParent ==> save as
 				// subParent
 				EmpStructSubparent subParent = new EmpStructSubparent(1, parentCode, commId);
-				employeeDAO.addSubParentToSubParent(subParent);
-
+				try {
+					employeeDAO.addSubParentToSubParent(subParent);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+subParent.getCommID().getCode()+" is already used!");
+				}
 			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsParent) {
 
 				// the model has parent and has no child and his parent is parent ==>save as
 				// child to parent
 				EmpStructChild child = new EmpStructChild(commId);
-				employeeDAO.addChildToParent(child, parentCode);
+				
+				try {
+					employeeDAO.addChildToParent(child, parentCode);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+child.getCommID().getCode()+" is already used!");
+				}
 
 			} else if (employee.getHasParent() && !employee.getHasChild() && hisParentIsSubParent) {
 
 				// the model has parent and has no child and his parent is subParent ==>save as
 				// child to subParent
 				EmpStructChild child = new EmpStructChild(commId);
-				employeeDAO.addChildToSubParent(child, parentCode);
-
+				try {
+					employeeDAO.addChildToSubParent(child, parentCode);
+				}catch(Exception e) {
+					throw new UniqunessException("the subParent code : "+child.getCommID().getCode()+" is already used!");
+				}
 			}
 		} else if(employee.getName() == null) {
 			throw new UniqunessException("the employee name is missing!");
@@ -133,83 +147,93 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Override
 	@Transactional
 	public EmployeeStructModel getTheParent(String code) {
-		EmpStructParent parent = employeeDAO.getParent(code);
-		EmployeeStructModel model = new EmployeeStructModel();
-		DateFormat dateFormat = new SimpleDateFormat();
+		try {
+			EmpStructParent parent = employeeDAO.getParent(code);
+			EmployeeStructModel model = new EmployeeStructModel();
+			DateFormat dateFormat = new SimpleDateFormat();
 
-		String startDate = dateFormat.format(parent.getCommID().getStartDate());
-		String endDate = dateFormat.format(parent.getCommID().getEndDate());
+			String startDate = dateFormat.format(parent.getCommID().getStartDate());
+			String endDate = dateFormat.format(parent.getCommID().getEndDate());
 
-		model.setHasChild(true);
-		model.setHasParent(false);
-		model.setParentCode(null);
-		model.setStartDate(startDate.substring(0, 6));
-		model.setEndDate(endDate.substring(0, 6));
-		model.setCode(parent.getCommID().getCode());
-		model.setName(parent.getCommID().getName());
+			model.setHasChild(true);
+			model.setHasParent(false);
+			model.setParentCode(null);
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
+			model.setCode(parent.getCommID().getCode());
+			model.setName(parent.getCommID().getName());
 
-		return model;
+			return model;
+		}catch(Exception e) {
+			throw new  NotFoundException("Cannot find parent with code: "+code);
+		}
 	}
 
 	@Override
 	@Transactional
 	public EmployeeStructModel getTheSubParent(String code) {
-		EmpStructSubparent subParent = employeeDAO.getSubParent(code);
-		EmployeeStructModel model = new EmployeeStructModel();
-		DateFormat dateFormat = new SimpleDateFormat();
+		try {
+			EmpStructSubparent subParent = employeeDAO.getSubParent(code);
+			EmployeeStructModel model = new EmployeeStructModel();
+			DateFormat dateFormat = new SimpleDateFormat();
 
-		String startDate = dateFormat.format(subParent.getCommID().getStartDate());
-		String endDate = dateFormat.format(subParent.getCommID().getEndDate());
-		EmpStructParent parent = subParent.getParent();
-		model.setHasChild(true);
-		model.setHasParent(true);
-		if (parent != null) {
-			model.setParentCode(parent.getCommID().getCode());
-		} else {
-			model.setParentCode(subParent.getParentCode());
-		}
-		model.setStartDate(startDate.substring(0, 6));
-		model.setEndDate(endDate.substring(0, 6));
-		model.setCode(subParent.getCommID().getCode());
-		model.setName(subParent.getCommID().getName());
+			String startDate = dateFormat.format(subParent.getCommID().getStartDate());
+			String endDate = dateFormat.format(subParent.getCommID().getEndDate());
+			EmpStructParent parent = subParent.getParent();
+			model.setHasChild(true);
+			model.setHasParent(true);
+			if (parent != null) {
+				model.setParentCode(parent.getCommID().getCode());
+			} else {
+				model.setParentCode(subParent.getParentCode());
+			}
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
+			model.setCode(subParent.getCommID().getCode());
+			model.setName(subParent.getCommID().getName());
 
-		return model;
+			return model;
+		}catch(Exception e) {throw new  NotFoundException("Cannot find subParent with code: "+code);}
 	}
 
 	@Override
 	@Transactional
 	public EmployeeStructModel getTheChild(String code) {
-		EmpStructChild child = employeeDAO.getChild(code);
-		EmployeeStructModel model = new EmployeeStructModel();
-		DateFormat dateFormat = new SimpleDateFormat();
+		try {
+			EmpStructChild child = employeeDAO.getChild(code);
+			EmployeeStructModel model = new EmployeeStructModel();
+			DateFormat dateFormat = new SimpleDateFormat();
 
-		String startDate = dateFormat.format(child.getCommID().getStartDate());
-		String endDate = dateFormat.format(child.getCommID().getEndDate());
+			String startDate = dateFormat.format(child.getCommID().getStartDate());
+			String endDate = dateFormat.format(child.getCommID().getEndDate());
 
-		EmpStructParent hisParentIsParent = child.getParent();
-		EmpStructSubparent hisParentIsSub = child.getSubParent();
-		model.setHasChild(false);
-		model.setHasParent(true);
+			EmpStructParent hisParentIsParent = child.getParent();
+			EmpStructSubparent hisParentIsSub = child.getSubParent();
+			model.setHasChild(false);
+			model.setHasParent(true);
 
-		if (hisParentIsParent != null) {
-			model.setParentCode(child.getParent().getCommID().getCode());
-		} else if (hisParentIsSub != null) {
-			model.setParentCode(child.getSubParent().getCommID().getCode());
+			if (hisParentIsParent != null) {
+				model.setParentCode(child.getParent().getCommID().getCode());
+			} else if (hisParentIsSub != null) {
+				model.setParentCode(child.getSubParent().getCommID().getCode());
+			}
+
+			model.setStartDate(startDate.substring(0, 6));
+			model.setEndDate(endDate.substring(0, 6));
+			model.setCode(child.getCommID().getCode());
+			model.setName(child.getCommID().getName());
+
+			return model;
+		}catch(Exception e) {
+			throw new  NotFoundException("Cannot find child with code: "+code);
 		}
-
-		model.setStartDate(startDate.substring(0, 6));
-		model.setEndDate(endDate.substring(0, 6));
-		model.setCode(child.getCommID().getCode());
-		model.setName(child.getCommID().getName());
-
-		return model;
 	}
 
 	@Override
 	@Transactional
 	public List<EmployeeStructModel> getTheSubParentsOfParent(String code) {
-		EmpStructParent parent = employeeDAO.getParent(code);
-
+		EmpStructParent parent ;
+		try {parent = employeeDAO.getParent(code);}catch(Exception e) {throw new NotFoundException("Cannot find parent with code:"+code);}
 		List<EmpStructSubparent> subParentsOfParent = parent.getSubParents();
 		List<EmployeeStructModel> listOfSubParents = new ArrayList<EmployeeStructModel>();
 		if (subParentsOfParent != null) {
@@ -239,7 +263,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Override
 	@Transactional
 	public List<EmployeeStructModel> getTheChildrenOfSubParent(String subCode) {
-		EmpStructSubparent subParent = employeeDAO.getSubParent(subCode);
+		EmpStructSubparent subParent ;
+		try {subParent= employeeDAO.getSubParent(subCode);}catch(Exception e) {throw new NotFoundException("Cannot find subParent with code:"+subCode);}
 		List<EmpStructChild> childrenOfSub = subParent.getChildren();
 		List<EmployeeStructModel> listOfChildren = new ArrayList<EmployeeStructModel>();
 		if (childrenOfSub != null) {
@@ -270,7 +295,9 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Override
 	@Transactional
 	public List<EmployeeStructModel> getTheChildrenOfParent(String parentCode) {
-		EmpStructParent parent = employeeDAO.getParent(parentCode);
+		EmpStructParent parent ;
+		try {parent = employeeDAO.getParent(parentCode);}catch(Exception e) {throw new NotFoundException("Cannot find parent with code:"+parentCode);}
+		
 		List<EmpStructChild> childrenOfParent = parent.getChildren();
 		List<EmployeeStructModel> listOfChildren = new ArrayList<EmployeeStructModel>();
 		if (childrenOfParent != null) {
@@ -305,7 +332,10 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			EmpStructParent parent = sub.getParent();
 			parentOfSub = (getTheParent(parent.getCommID().getCode()));
 		} else {
-			EmpStructSubparent subParent = employeeDAO.getSubParent(sub.getParentCode());
+			EmpStructSubparent subParent ;
+			try {subParent = employeeDAO.getSubParent(sub.getParentCode());}catch(Exception e) {
+				subParent=null;
+			}
 			parentOfSub = (getTheSubParent(subParent.getCommID().getCode()));
 		}
 		return parentOfSub;
@@ -329,24 +359,30 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Override
 	@Transactional
 	public EmpStructParent getParent(String code) {
-		EmpStructParent parent = employeeDAO.getParent(code);
-		return parent;
+		try {
+			EmpStructParent parent = employeeDAO.getParent(code);
+			return parent;
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot get parent with code:"+code+" is not saved");
+		}
 	}
 
 	@Override
 	@Transactional
 	public EmpStructSubparent getSubParent(String code) {
-		EmpStructSubparent subParent = employeeDAO.getSubParent(code);
-		return subParent;
+		try {
+			EmpStructSubparent subParent = employeeDAO.getSubParent(code);
+			return subParent;
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot get parent with code:"+code+" is not saved");
+		}
 	}
-
 	@Override
 	@Transactional
 	public Boolean isSubParent(String parentCode) {
 		Boolean isSub = employeeDAO.isSubParent(parentCode);
 		return isSub;
 	}
-
 	@Override
 	@Transactional
 	public Boolean isParent(String parentCode) {
@@ -389,7 +425,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	public List<EmployeeStructModel> getSubParentChain(String code) {
 		List<EmployeeStructModel> subparentChainMap = new ArrayList<EmployeeStructModel>();
 		EmployeeStructModel subParent = getTheSubParent(code);
-		EmpStructSubparent subObject = employeeDAO.getSubParent(code);
+		EmpStructSubparent subObject;
+		try {subObject = employeeDAO.getSubParent(code);}catch(Exception e) {throw new NotFoundException("Cannot find subParent with code:" +code);}
 		subparentChainMap.add(subParent);
 
 		subparentChainMap.addAll(getTheChildrenOfSubParent(code));
@@ -414,7 +451,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		// getting child
 		EmployeeStructModel child = getTheChild(code);
 		childChainMap.add(child);
-		EmpStructChild childObject = employeeDAO.getChild(code);
+		EmpStructChild childObject ;
+		try {childObject = employeeDAO.getChild(code);}catch(Exception e) {throw new NotFoundException("Cannot find child with code: "+code);}
 		EmpStructParent hisParent = childObject.getParent();
 		EmpStructSubparent hisSubParent = childObject.getSubParent();
 		if (hisParent != null) {
@@ -496,116 +534,125 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Override
 	@Transactional
 	public List<EmpStructSubparent> getSubOfSub(String code) {
-		EmpStructSubparent subParent = employeeDAO.getSubParent(code);
-		List<EmpStructSubparent> listOfSubParents = new ArrayList<EmpStructSubparent>();
-		List<EmpStructSubparent> subParents = employeeDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
-		if (subParents != null) {
-			for (Integer i = 0; i < subParents.size(); i++) {
-				listOfSubParents.add(subParents.get(i));
+		try {
+			EmpStructSubparent subParent = employeeDAO.getSubParent(code);
+			List<EmpStructSubparent> listOfSubParents = new ArrayList<EmpStructSubparent>();
+			List<EmpStructSubparent> subParents = employeeDAO.getSubParentsOfSubParents(subParent.getCommID().getCode());
+			if (subParents != null) {
+				for (Integer i = 0; i < subParents.size(); i++) {
+					listOfSubParents.add(subParents.get(i));
 
-				if (employeeDAO.getSubParentsOfSubParents(subParents.get(i).getCommID().getCode()) != null) {
-					listOfSubParents.addAll(getSubOfSub(subParents.get(i).getCommID().getCode()));
+					if (employeeDAO.getSubParentsOfSubParents(subParents.get(i).getCommID().getCode()) != null) {
+						listOfSubParents.addAll(getSubOfSub(subParents.get(i).getCommID().getCode()));
+					}
 				}
 			}
+			return listOfSubParents;
+		}catch(Exception e) {
+			throw new NotFoundException("The subParent with code :"+code+" is not saved");
+
 		}
-		return listOfSubParents;
 	}
 
 	@Override
 	@Transactional
-	public String deleteParent(String code) {
-		EmpStructParent parent = getParent(code);
-		List<EmpStructSubparent> subs = parent.getSubParents();
-		List<EmpStructSubparent> subOfsub = new ArrayList<EmpStructSubparent>();
-		String isDeleted = "false";
-		for (int i = 0; i < subs.size(); i++) {
-			subOfsub.addAll(getSubOfSub(subs.get(i).getCommID().getCode()));
+	public void deleteParent(String code) {
+		try {
+			EmpStructParent parent = getParent(code);
+			List<EmpStructSubparent> subs = parent.getSubParents();
+			List<EmpStructSubparent> subOfsub = new ArrayList<EmpStructSubparent>();
+			for (int i = 0; i < subs.size(); i++) {
+				subOfsub.addAll(getSubOfSub(subs.get(i).getCommID().getCode()));
+			}
+			for (int i = 0; i < subOfsub.size(); i++) {
+				employeeDAO.deleteSubParent(subOfsub.get(i).getCommID().getCode());
+			}
+			employeeDAO.deleteParent(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot Delete! -the parent code :"+code+" is not saved");
+
 		}
-		for (int i = 0; i < subOfsub.size(); i++) {
-			isDeleted = employeeDAO.deleteSubParent(subOfsub.get(i).getCommID().getCode());
-		}
-		isDeleted = employeeDAO.deleteParent(code);
-		return isDeleted;
 	}
 
 	@Override
 	@Transactional
-	public String deleteSubParent(String code) {
-		EmpStructSubparent sub = employeeDAO.getSubParent(code);
-		EmpStructParent parent = sub.getParent();
-		if (parent != null) {
-			List<EmpStructSubparent> subList = parent.getSubParents();
-			subList.remove(sub);
+	public void deleteSubParent(String code) {
+		try {
+			EmpStructSubparent sub = employeeDAO.getSubParent(code);
+			EmpStructParent parent = sub.getParent();
+			if (parent != null) {
+				List<EmpStructSubparent> subList = parent.getSubParents();
+				subList.remove(sub);
+			}
+			List<EmpStructSubparent> subParents = getSubOfSub(code);
+			employeeDAO.deleteSubParent(sub.getCommID().getCode());
+			for (int i = 0; i < subParents.size(); i++) {
+				employeeDAO.deleteSubParent(subParents.get(i).getCommID().getCode());
+			}
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot Delete! -the subParent code :"+code+" is not saved");
 		}
-		String isDeleted = "false";
-		List<EmpStructSubparent> subParents = getSubOfSub(code);
-		isDeleted = employeeDAO.deleteSubParent(sub.getCommID().getCode());
-		for (int i = 0; i < subParents.size(); i++) {
-			isDeleted = employeeDAO.deleteSubParent(subParents.get(i).getCommID().getCode());
-		}
-		return isDeleted;
 	}
 
 	@Override
 	@Transactional
-	public String deleteChild(String code) {
-		String isDeleted = "false";
-		EmpStructChild child = employeeDAO.getChild(code);
-		EmpStructSubparent sub = child.getSubParent();
-		EmpStructParent parent = child.getParent();
-		List<EmpStructChild> childrenList = new ArrayList<EmpStructChild>();
-		if (parent != null) {
-			childrenList = parent.getChildren();
-		} else {
-			childrenList = sub.getChildren();
+	public void deleteChild(String code) {
+		try {
+			EmpStructChild child = employeeDAO.getChild(code);
+			EmpStructSubparent sub = child.getSubParent();
+			EmpStructParent parent = child.getParent();
+			List<EmpStructChild> childrenList = new ArrayList<EmpStructChild>();
+			if (parent != null) {
+				childrenList = parent.getChildren();
+			} else {
+				childrenList = sub.getChildren();
+			}
+			childrenList.remove(child);
+			employeeDAO.deleteChild(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot Delete! -the child code :"+code+" is not saved");
 		}
-		childrenList.remove(child);
-		isDeleted = employeeDAO.deleteChild(code);
-		return isDeleted;
+		
 	}
 
 	@Override
 	@Transactional
 	public void delmitParent(String code, String endDate) throws ParseException {
 		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-		EmpStructParent parent = employeeDAO.getParent(code);
+		EmpStructParent parent;
+		try {
+			parent = employeeDAO.getParent(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot delimit parent with code:"+code+" not found");
+		}	
 		parent.getCommID().setEndDate(enddate);
 		parent.getCommID().setDeleted(1);
-		// List<EmpStructSubparent> subParents = parent.getSubParents();
-		// List<EmpStructChild> children =parent.getChildren();
-		// for(int i=0;i<subParents.size();i++) {
-		// delmitSubParent(subParents.get(i).getCommID().getCode(),endDate);
-		// }
-		// for(int i=0;i<children.size();i++) {
-		// delmitChild(children.get(i).getCommID().getCode(),endDate);
-		// }
+	
 	}
 
 	@Override
 	@Transactional
 	public void delmitSubParent(String code, String endDate) throws ParseException {
 		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-		EmpStructSubparent sub = employeeDAO.getSubParent(code);
+		EmpStructSubparent sub;
+		try {
+			sub = employeeDAO.getSubParent(code);
+		}catch(Exception e) {
+			throw new NotFoundException("Cannot delimit subParent with code:"+code+" not found");
+		}
 		sub.getCommID().setEndDate(enddate);
 		sub.getCommID().setDeleted(1);
-		/*
-		 * List<EmpStructChild> child = sub.getChildren(); for(int
-		 * i=0;i<child.size();i++) { child.get(i).getCommID().setEndDate(enddate);
-		 * child.get(i).getCommID().setDeleted(1); } List<EmpStructSubparent> subParents
-		 * = getSubOfSub(code); for(int i=0;i<subParents.size();i++) {
-		 * subParents.get(i).getCommID().setEndDate(enddate);
-		 * subParents.get(i).getCommID().setDeleted(1); List<EmpStructChild> children =
-		 * subParents.get(i).getChildren(); for(int j=0;j<children.size();j++) {
-		 * children.get(j).getCommID().setEndDate(enddate);
-		 * children.get(j).getCommID().setDeleted(1); } }
-		 */
+		
 	}
 
 	@Override
 	@Transactional
 	public void delmitChild(String code, String endDate) throws ParseException {
 		Date enddate = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-		EmpStructChild child = employeeDAO.getChild(code);
+		EmpStructChild child;
+		try {child = employeeDAO.getChild(code);}catch(Exception e) {
+			throw new NotFoundException("Cannot delimit child with code:"+code+" not found");
+		}
 		child.getCommID().setEndDate(enddate);
 		child.getCommID().setDeleted(1);
 	}

@@ -38,9 +38,9 @@ public interface EmployeeStructDAO {
 	public EmpStructChild getChildById(int id);
 	public EmpStructSubparent getSubById(int id);
 
-	public String deleteParent(String code);
-	public String deleteSubParent(String code);
-	public String deleteChild(String code);
+	public void deleteParent(String code);
+	public void deleteSubParent(String code);
+	public void deleteChild(String code);
 	
 
 }
