@@ -32,11 +32,7 @@ var controller = (function () {
                     code: code
                 },
                 success: function (response) {
-                    if(response==true){
-                        $('#success_msg').removeAttr('hidden');
-                    }else{
-                        $('#fail_msg').removeAttr('hidden');
-                    }
+                    $('#success_msg').removeAttr('hidden');
                     
                 },
                 error: function (xhr) {

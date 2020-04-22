@@ -102,14 +102,10 @@ var controller = (function () {
                     endDate:endDate
                 },
                 success: function (response) {
-                    if(response==true){
-                        $('#success_msg').removeAttr('hidden');
-                        $("#modalOkButton").click(function (e) {
+                    $('#success_msg').removeAttr('hidden');
+                    $("#modalOkButton").click(function (e) {
                             location='showEditTableCompany.html?code='+theCode;
                         });
-                    }else{
-                        $('#fail_msg').removeAttr('hidden');
-                    }
                     
                 },
                 error: function (xhr) {

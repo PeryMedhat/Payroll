@@ -133,13 +133,11 @@ var controller = (function () {
                 url:"http://localhost:8080/Payroll/employeeStructure/updateEmployeeStructure",
                 data :formData,
                 success: function (response) {
-                    if(response==true){
-                        $('#success_msg').removeAttr('hidden');
-                    }else{
-                        $('#fail_msg').removeAttr('hidden');
-                    }
+                    $('#success_msg').removeAttr('hidden');
+                   
                 },
                 error: function (xhr) {
+                    $('#fail_msg').removeAttr('hidden');
                     console.log(xhr);
                 }
             });
