@@ -36,6 +36,16 @@ public class TypeLookupDAOImpl implements TypeLookupDAO {
 				
 		return theType;
 	}
-
+	
+	@Override
+	public Type getIntervalByCode(String code) {
+		// get the session 
+		Session session = sessionFactory.getCurrentSession();
+		Query<Type> theQuery = session.createQuery("from Type where code =:code",Type.class);
+		theQuery.setParameter("code", code);
+		Type theType = (Type)theQuery.getSingleResult();
+				
+		return theType;
+	}
 
 }

@@ -20,10 +20,10 @@ public class PayType {
 	private int id;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "paytypeCommID_id")
+	@JoinColumn(name = "paytype_commId_id")
 	private PayTypeCommId commID;
 	
-	@Column(name="interval")
+	@Column(name="`interval`")
 	private String interval;
 	
 	@Column(name="type")
@@ -45,9 +45,8 @@ public class PayType {
 		
 	}
 
-	public PayType(int id, PayTypeCommId commID, String interval, String type, String inputvalue, String taxes,
+	public PayType(PayTypeCommId commID, String interval, String type, String inputvalue, String taxes,
 			String glAssignemnt, String costCenter) {
-		this.id = id;
 		this.commID = commID;
 		this.interval = interval;
 		this.type = type;

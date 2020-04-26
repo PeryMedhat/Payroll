@@ -37,6 +37,17 @@ public class IntervalLookupDAOImpl implements IntervalLookupDAO {
 		
 		return theInterval;
 	}
+	
+	@Override
+	public Interval getIntervalByCode(String code) {
+		// get the session 
+		Session session = sessionFactory.getCurrentSession();
+		Query<Interval> theQuery = session.createQuery("from Interval where code =:code",Interval.class);
+		theQuery.setParameter("code", code);
+		Interval theInterval = (Interval)theQuery.getSingleResult();
+		
+		return theInterval;
+	}
 
 
 }

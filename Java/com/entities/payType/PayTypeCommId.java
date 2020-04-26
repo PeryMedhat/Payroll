@@ -33,8 +33,7 @@ public class PayTypeCommId {
 	public PayTypeCommId() {
 	}
 
-	public PayTypeCommId(int id, Date startDate, Date endDate, String code, String name) {
-		this.id = id;
+	public PayTypeCommId(Date startDate, Date endDate, String code, String name) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.code = code;

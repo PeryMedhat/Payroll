@@ -37,5 +37,15 @@ public class InputValueLookupDAOImpl implements InputValueLookupDAO {
 		return theInputValue;
 		}
 
+	@Override
+	public InputValue getIntervalByCode(String code) {
+		// get the session 
+		Session session = sessionFactory.getCurrentSession();
+		Query<InputValue> theQuery = session.createQuery("from InputValue where code =:code",InputValue.class);
+		theQuery.setParameter("code", code);
+		InputValue theInputValue = (InputValue)theQuery.getSingleResult();
+				
+		return theInputValue;
+		}
 
 }

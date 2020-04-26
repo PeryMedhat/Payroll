@@ -106,6 +106,80 @@ CREATE TABLE `payroll-schema`.`company_struct_child` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=big5;
 
 
+CREATE TABLE `country` (
+  `country_id` varchar(45) NOT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`country_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+CREATE TABLE `currency` (
+  `currency_id` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`currency_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+
+CREATE TABLE `paytype` (
+  `paytype_id` int(11) NOT NULL AUTO_INCREMENT,
+  `paytype_commId_id` int(11) NOT NULL,
+  `interval` varchar(45) NOT NULL,
+  `type` varchar(45) NOT NULL,
+  `inputvalue` varchar(45) NOT NULL,
+  `taxes` varchar(45) DEFAULT NULL,
+  `gl_assignemnt` varchar(45) DEFAULT NULL,
+  `cost_center` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`paytype_id`),
+  KEY `fk_paytype_1_idx` (`paytype_commId_id`),
+  KEY `fk_paytype_2_idx` (`interval`),
+  KEY `fk_paytype_3_idx` (`inputvalue`),
+  KEY `fk_paytype_4_idx` (`type`),
+  CONSTRAINT `fk_paytype_1` FOREIGN KEY (`paytype_commId_id`) REFERENCES `paytype_commId` (`paytype_commId_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=big5;
+
+
+
+
+CREATE TABLE `paytype_commId` (
+  `paytype_commId_id` int(11) NOT NULL AUTO_INCREMENT,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`paytype_commId_id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=big5;
+
+CREATE TABLE `paytype_inputvalue` (
+  `code` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+CREATE TABLE `paytype_interval` (
+  `code` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+
+
+CREATE TABLE `paytype_type` (
+  `code` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `description` varchar(45) NOT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+
+
 
 
 
