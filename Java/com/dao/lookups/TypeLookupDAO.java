@@ -5,8 +5,8 @@ import java.util.List;
 import com.entities.lookups.Type;
 
 public interface TypeLookupDAO {
-	public List<Type> getListOfIntervals();
-	public Type getIntervalByName(String name);
-	public Type getIntervalByCode(String code);	
+	public List<Type> getListOfTypes();
+	public Type getTypeByName(String name);
+	public Type getTypeByCode(String code);
 	
 }

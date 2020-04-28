@@ -17,7 +17,7 @@ public class TypeLookupDAOImpl implements TypeLookupDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public List<Type> getListOfIntervals() {
+	public List<Type> getListOfTypes() {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 		Query<Type> theQuery = session.createQuery("from Type",Type.class);
@@ -27,7 +27,7 @@ public class TypeLookupDAOImpl implements TypeLookupDAO {
 	}
 
 	@Override
-	public Type getIntervalByName(String name) {
+	public Type getTypeByName(String name) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 		Query<Type> theQuery = session.createQuery("from Type where name =:name",Type.class);
@@ -38,7 +38,7 @@ public class TypeLookupDAOImpl implements TypeLookupDAO {
 	}
 	
 	@Override
-	public Type getIntervalByCode(String code) {
+	public Type getTypeByCode(String code) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 		Query<Type> theQuery = session.createQuery("from Type where code =:code",Type.class);

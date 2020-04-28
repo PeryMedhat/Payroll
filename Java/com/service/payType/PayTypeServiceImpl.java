@@ -44,8 +44,8 @@ public class PayTypeServiceImpl implements PayTypeService{
 		PayTypeCommId commId=new PayTypeCommId(startDate,endDate,payTypeModel.getCode(),payTypeModel.getName());
 		PayType payTypeObj = new PayType();
 				
-		InputValue inputValue = inputValueDAO.getIntervalByName(payTypeModel.getInputValue());
-		Type type = typeDAO.getIntervalByName(payTypeModel.getType());
+		InputValue inputValue = inputValueDAO.getInputValueByName(payTypeModel.getInputValue());
+		Type type = typeDAO.getTypeByName(payTypeModel.getType());
 		Interval interval =intervalDAO.getIntervalByName(payTypeModel.getInterval());
 		
 		payTypeObj.setCommID(commId);

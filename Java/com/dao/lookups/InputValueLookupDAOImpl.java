@@ -17,7 +17,7 @@ public class InputValueLookupDAOImpl implements InputValueLookupDAO {
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public List<InputValue> getListOfIntervals() {
+	public List<InputValue> getListOfInputValues() {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 		Query<InputValue> theQuery = session.createQuery("from InputValue",InputValue.class);
@@ -27,7 +27,7 @@ public class InputValueLookupDAOImpl implements InputValueLookupDAO {
 	}
 
 	@Override
-	public InputValue getIntervalByName(String name) {
+	public InputValue getInputValueByName(String name) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 		Query<InputValue> theQuery = session.createQuery("from InputValue where name =:name",InputValue.class);
@@ -38,7 +38,7 @@ public class InputValueLookupDAOImpl implements InputValueLookupDAO {
 		}
 
 	@Override
-	public InputValue getIntervalByCode(String code) {
+	public InputValue getInputValueByCode(String code) {
 		// get the session 
 		Session session = sessionFactory.getCurrentSession();
 		Query<InputValue> theQuery = session.createQuery("from InputValue where code =:code",InputValue.class);
