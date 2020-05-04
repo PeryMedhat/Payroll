@@ -29,7 +29,7 @@ public class PayTypeDAOImpl implements PayTypeDAO {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
 		PayType payType ;
-		Query<PayType> theQuery = session.createQuery("From PayType where commID=(select id from CommonID where code =:code)", PayType.class); 
+		Query<PayType> theQuery = session.createQuery("From PayType where commID=(select id from PayTypeCommId where code =:code)", PayType.class); 
 		theQuery.setParameter("code",code);
 		
 		payType = theQuery.getSingleResult();
