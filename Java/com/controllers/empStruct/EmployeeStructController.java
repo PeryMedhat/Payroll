@@ -55,7 +55,7 @@ public class EmployeeStructController {
 				}
 				myMap.put("theChain",myList);
 			
-		}catch(Exception e) {myMap.put("theChain",null);}
+		}catch(Exception e) {myMap.put("theChain",null);e.printStackTrace();}
 		
 		return myMap;
 	}

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "paytype_commId")
@@ -29,6 +30,10 @@ public class PayTypeCommId {
 	
 	@Column(name="name")
 	private String name;
+	
+	@NotNull(message = "is required")
+	@Column(name="delimited")
+	private int deleted;
 	
 	public PayTypeCommId() {
 	}
@@ -79,6 +84,15 @@ public class PayTypeCommId {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public int getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(int deleted) {
+		this.deleted = deleted;
+	}
+	
 	
 
 }

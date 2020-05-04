@@ -456,7 +456,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		CompanyStructParent hisParent = childObject.getParent();
 		CompanyStructSubparent hisSubParent = childObject.getSubParent();
 		if (hisParent != null) {
-			childChainMap.add(getTheChild(childObject.getParent().getCommID().getCode()));
+			childChainMap.add(getTheParent(childObject.getParent().getCommID().getCode()));
 		} else if (hisSubParent != null) {
 			childChainMap.add(getTheSubParent(hisSubParent.getCommID().getCode()));
 			while (hisSubParent.getHasParent() != 0) {

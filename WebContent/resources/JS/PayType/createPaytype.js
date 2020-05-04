@@ -9,48 +9,48 @@ var controller = (function () {
                 format: 'DD/MM/YYYY'
             },
         });
-    
+
         var myCalendar = $('.js-datepicker');
         var isClick = 0;
-    
-        $(window).on('click',function(){
+
+        $(window).on('click', function () {
             isClick = 0;
         });
-    
-        $(myCalendar).on('apply.daterangepicker',function(ev, picker){
+
+        $(myCalendar).on('apply.daterangepicker', function (ev, picker) {
             isClick = 0;
             $(this).val(picker.startDate.format('DD/MM/YYYY'));
-    
+
         });
-    
-        $('.js-btn-calendar').on('click',function(e){
+
+        $('.js-btn-calendar').on('click', function (e) {
             e.stopPropagation();
-    
-            if(isClick === 1) isClick = 0;
-            else if(isClick === 0) isClick = 1;
-    
+
+            if (isClick === 1) isClick = 0;
+            else if (isClick === 0) isClick = 1;
+
             if (isClick === 1) {
                 myCalendar.focus();
             }
         });
-    
-        $(myCalendar).on('click',function(e){
+
+        $(myCalendar).on('click', function (e) {
             e.stopPropagation();
             isClick = 1;
         });
-    
-        $('.daterangepicker').on('click',function(e){
+
+        $('.daterangepicker').on('click', function (e) {
             e.stopPropagation();
         });
-    
-    
-    } catch(er) {console.log(er);}
+
+
+    } catch (er) { console.log(er); }
     /*[ Select 2 Config ]
         ===========================================================*/
-    
+
     try {
         var selectSimple = $('.js-select-simple');
-    
+
         selectSimple.each(function () {
             var that = $(this);
             var selectBox = that.find('select');
@@ -59,7 +59,7 @@ var controller = (function () {
                 dropdownParent: selectDropdown
             });
         });
-    
+
     } catch (err) {
         console.log(err);
     }
@@ -75,12 +75,12 @@ var controller = (function () {
         },
         type: "get",
         url: "http://localhost:8080/Payroll/lookUps/getInputVals",
-        
+
         success: function (response) {
             inputVals = response;
-            for(var i=0;i<inputVals.length;i++){
-                $('#inputValue').append($('<option>').val(inputVals[i].name).text(inputVals[i].name)); 
-        
+            for (var i = 0; i < inputVals.length; i++) {
+                $('#inputValue').append($('<option>').val(inputVals[i].name).text(inputVals[i].name));
+
             }
         },
         error: function (xhr) {
@@ -96,9 +96,9 @@ var controller = (function () {
         url: "http://localhost:8080/Payroll/lookUps/getIntervals",
         success: function (response) {
             intervals = response;
-            for(var i=0;i<intervals.length;i++){
-                $('#interval').append($('<option>').val(intervals[i].name).text(intervals[i].name)); 
-        
+            for (var i = 0; i < intervals.length; i++) {
+                $('#interval').append($('<option>').val(intervals[i].name).text(intervals[i].name));
+
             }
         },
         error: function (xhr) {
@@ -114,9 +114,9 @@ var controller = (function () {
         url: "http://localhost:8080/Payroll/lookUps/getTypes",
         success: function (response) {
             types = response;
-            for(var i=0;i<types.length;i++){
-                $('#type').append($('<option>').val(types[i].name).text(types[i].name)); 
-        
+            for (var i = 0; i < types.length; i++) {
+                $('#type').append($('<option>').val(types[i].name).text(types[i].name));
+
             }
         },
         error: function (xhr) {
@@ -125,7 +125,7 @@ var controller = (function () {
     });
     //
 
-    
+
 
 
 
@@ -202,15 +202,15 @@ var controller = (function () {
                     url: "http://localhost:8080/Payroll/payType/addPayType",
                     data: formData,
                     success: function (response) {
-                        $('#ResultOfPayTypeCreation').modal('show'); 
+                        $('#ResultOfPayTypeCreation').modal('show');
                         $('#success_msg').removeAttr('hidden');
                     },
                     error: function (xhr) {
                         var errorMessage = xhr.responseJSON.message;
-                         $('#success_msg').attr('hidden','');
-                        $('#ResultOfPayTypeCreation').modal('show'); 
+                        $('#success_msg').attr('hidden', '');
+                        $('#ResultOfPayTypeCreation').modal('show');
                         $('#fail_msg').removeAttr('hidden');
-                        document.getElementById('fail_msg').innerHTML = "Error!!"+errorMessage;
+                        document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
                     }
                 });
 
