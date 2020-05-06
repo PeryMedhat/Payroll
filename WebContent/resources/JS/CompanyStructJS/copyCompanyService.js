@@ -71,7 +71,7 @@
         const urlParams = new URLSearchParams(queryString);
         const code = urlParams.get('code');
      
-        var formData=JSON.stringify(empObjectsArray);
+        var formData=JSON.stringify(CompanyObjectsArray);
         
 
 
@@ -81,17 +81,17 @@
               'Content-Type': 'application/json'
           },
           type: "POST",
-          url:"http://localhost:8080/Payroll/employeeStructure/copyEmployeeStructure?code="+code,
+          url:"http://localhost:8080/Payroll/companyStructure/copyCompanyStructure?code="+code,
           data :formData,
           success: function (response) {
            
-                $('#ResultOfEmployeeStructCreation').modal('show'); 
+                $('#ResultOfCompanyStructCreation').modal('show'); 
                  $('#success_msg').removeAttr('hidden');
               
           },
           error: function (xhr) {
            var errorMessage = xhr.responseJSON.message;
-           $('#ResultOfEmployeeStructCreation').modal('show'); 
+           $('#ResultOfCompanyStructCreation').modal('show'); 
             $('#fail_msg').removeAttr('hidden');
             document.getElementById('fail_msg').innerHTML = "Error!!"+errorMessage;
           }
@@ -118,8 +118,8 @@
 
     today = dd+ '/' + mm + '/' + yyyy;
     newCode=code+'_'+today;
-    $('#empstruct_code').val(newCode);
-    $('#empstruct_code').attr('disabled','');
+    $('#Companystruct_code').val(newCode);
+    $('#Companystruct_code').attr('disabled','');
     
     jQuery(document).ready(function ($) {
         $("#buttonSubmit").mouseenter(function () {
@@ -139,7 +139,7 @@
 
 
   var x = 0;
-  var empObjectsArray = Array();
+  var CompanyObjectsArray = Array();
   var newChildInSameLevel = false;
   
   "use strict";
@@ -161,8 +161,8 @@
   // in case of the next condition
   
   if (document.getElementById('yesCheck').checked) {    	
-    var code =document.getElementById("empstruct_code");
-    var name =document.getElementById("empstruct_name");
+    var code =document.getElementById("Companystruct_code");
+    var name =document.getElementById("Companystruct_name");
     var startDate =document.getElementById("start_date");
     var endDate =document.getElementById("end_date");
     
@@ -199,7 +199,7 @@
     var nameValue = name.value;
     var startDateValue = startDate.value;
     var endDateValue = endDate.value;
-    $('#empstruct_code').removeAttr('disabled');
+    $('#Companystruct_code').removeAttr('disabled');
     
     $('#codeisEmpty').attr('hidden','');
     $('#nameisEmpty').attr('hidden','');
@@ -214,13 +214,13 @@
 
 
 
-    if(empObjectsArray.length===0){
-      addEmpObject(false,"",true,codeValue,nameValue,startDateValue,endDateValue);
+    if(CompanyObjectsArray.length===0){
+      addCompanyObject(false,"",true,codeValue,nameValue,startDateValue,endDateValue);
     }
     else{
-      var lastParent = empObjectsArray[empObjectsArray.length - 1]
+      var lastParent = CompanyObjectsArray[CompanyObjectsArray.length - 1]
       var lastParentValue = lastParent.code;
-      addEmpObject(true,lastParentValue	,true,codeValue,nameValue,startDateValue,endDateValue);
+      addCompanyObject(true,lastParentValue	,true,codeValue,nameValue,startDateValue,endDateValue);
     }
     
     
@@ -229,8 +229,8 @@
   if (document.getElementById('noCheck').checked) {
     var lastParent;
     var lastParentValue
-    var code =document.getElementById("empstruct_code");
-    var name =document.getElementById("empstruct_name");
+    var code =document.getElementById("Companystruct_code");
+    var name =document.getElementById("Companystruct_name");
     var startDate =document.getElementById("start_date");
     var endDate =document.getElementById("end_date");
   
@@ -272,9 +272,9 @@
   
     if(newChildInSameLevel){
   
-         for(var i=empObjectsArray.length-1 ;i<empObjectsArray.length;i-- ){
-             if(empObjectsArray[i].hasChild===true){
-         lastParent =empObjectsArray[i];
+         for(var i=CompanyObjectsArray.length-1 ;i<CompanyObjectsArray.length;i-- ){
+             if(CompanyObjectsArray[i].hasChild===true){
+         lastParent =CompanyObjectsArray[i];
          lastParentValue = lastParent.code;
          break;
          
@@ -284,28 +284,28 @@
   
     }else {
   
-       lastParent = empObjectsArray[empObjectsArray.length - 1]
+       lastParent = CompanyObjectsArray[CompanyObjectsArray.length - 1]
        lastParentValue = lastParent.code;
   
     }
     
   
-    addEmpObject(true,lastParentValue,false,codeValue,nameValue,startDateValue,endDateValue);
+    addCompanyObject(true,lastParentValue,false,codeValue,nameValue,startDateValue,endDateValue);
   
     
   
     $('#exampleModalCenter').modal('show'); 
     
-      console.log(empObjectsArray);
+      console.log(CompanyObjectsArray);
   }
   }
   
-  function addEmpObject(hasParent,parentCode,hasChild,code ,name ,startDate,endDate){
+  function addCompanyObject(hasParent,parentCode,hasChild,code ,name ,startDate,endDate){
   var code =code;
   var name = name;
   var startDate = startDate;
   var endDate = endDate;
-  var empObject = {
+  var CompanyObject = {
     "code" : code,
     "name" :name,
     "startDate" :startDate,
@@ -315,13 +315,13 @@
     "hasChild":hasChild	
     
   }
-  empObjectsArray[x] = empObject;
+  CompanyObjectsArray[x] = CompanyObject;
   x++;
-  document.getElementById("empstruct_code").value="";
-  document.getElementById("empstruct_name").value="";
+  document.getElementById("Companystruct_code").value="";
+  document.getElementById("Companystruct_name").value="";
   document.getElementById("start_date").value="";
   document.getElementById("end_date").value="";
-  console.log(empObjectsArray);
+  console.log(CompanyObjectsArray);
   }
   
   function sendToDB(){
@@ -342,16 +342,16 @@
     }
     };
   
-    xhttp.open("POST", "http://localhost:8080/Payroll/employeeStructure/copyEmployeeStructure", true);
+    xhttp.open("POST", "http://localhost:8080/Payroll/companyStructure/copyCompanyStructure", true);
     xhttp.setRequestHeader("Content-type", "application/json");
   
-    xhttp.send(JSON.stringify(empObjectsArray));
+    xhttp.send(JSON.stringify(CompanyObjectsArray));
   }
   
   
   function resetForm(){
-  document.getElementById("empstruct_code").value="";
-  document.getElementById("empstruct_name").value="";
+  document.getElementById("Companystruct_code").value="";
+  document.getElementById("Companystruct_name").value="";
   document.getElementById("start_date").value="";
   document.getElementById("end_date").value="";
   newChildInSameLevel = true;

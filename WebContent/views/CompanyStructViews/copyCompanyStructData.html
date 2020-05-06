@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Copy Employee Structure Payroll</title>
+  	<title>Copy Company Structure Payroll</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -118,7 +118,7 @@
           <div class="wrapper wrapper--w800">
               <div class="card card-4 ">
                   <div class="card-body">
-                      <h2 class="title">Copy Employee Structure</h2>
+                      <h2 class="title">Copy Company Structure</h2>
                      
                         <div class="row row-space paddingtop">
 
@@ -127,7 +127,7 @@
                               <div class="input-group">
                                   <label  class="label"> Code  <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
                                  
-                                  <input class="input--style-4"   maxlength="6" type="text" id="empstruct_code" name="empstruct_code" >
+                                  <input class="input--style-4"   maxlength="6" type="text" id="Companystruct_code" name="Companystruct_code" >
                                   
                               </div>
                           </div>
@@ -135,7 +135,7 @@
                               <div class="input-group">
                                 
                                   <label class="label">Name<h class="rq" id="nameisEmpty" hidden>* Required Field </h></label>
-                                  <input class="input--style-4"   maxlength="20"   type="text" id="empstruct_name" name="empstruct_name">
+                                  <input class="input--style-4"   maxlength="20"   type="text" id="Companystruct_name" name="Companystruct_name">
                               </div>
                           </div>
                       </div>
@@ -210,7 +210,7 @@
                 </div>
               </div>
             </div>
-            <div class="modal fade" id="ResultOfEmployeeStructCreation" tabindex="-1" role="dialog">
+            <div class="modal fade" id="ResultOfCompanyStructCreation" tabindex="-1" role="dialog">
               <div class="modal-dialog" style=" padding-top: 170px" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -221,10 +221,10 @@
                   </div>
                   <div class="modal-body" style="height: 67px;">
                     <div id="success_msg" hidden>
-                     The Employee structure is Copied successfully.
+                     The Company structure is Copied successfully.
                     </div>
                     <div  id="fail_msg" hidden>
-                      The Employee structure cannot be Copied.
+                      The Company structure cannot be Copied.
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -254,6 +254,6 @@
     <script src="../../resources/JS/moment.min.js"></script>
     <script src="../../resources/JS/daterangepicker.js"></script>
 
-    <script src="../../resources/JS/EmployeeStructJS/copyEmpStructService.js"></script>
+    <script src="../../resources/JS/CompanyStructJS/copyCompanyService.js"></script>
   </body>
 </html>

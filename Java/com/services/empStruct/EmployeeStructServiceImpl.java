@@ -661,19 +661,19 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 	@Transactional
 	public void copyEmployeeStructure(EmployeeStructModel employeeStructModel, String todayDate) throws Exception {
 		EmployeeStructModel newModel = new EmployeeStructModel();
-		
 		newModel.setCode(employeeStructModel.getCode());
 		newModel.setEndDate(employeeStructModel.getEndDate());
 		newModel.setStartDate(employeeStructModel.getStartDate());
 		newModel.setName(employeeStructModel.getName());
 		newModel.setHasParent(employeeStructModel.getHasParent());
 		newModel.setHasChild(employeeStructModel.getHasChild());
-		if (employeeStructModel.getHasParent() == false) {
-			newModel.setParentCode(null);
-			delmitParent(employeeStructModel.getCode(), todayDate);
-		} else {
-			newModel.setParentCode(employeeStructModel.getParentCode());
-		}
+		newModel.setParentCode(employeeStructModel.getParentCode());
+		/*
+		 * if (employeeStructModel.getHasParent() == false) {
+		 * newModel.setParentCode(null); delmitParent(employeeStructModel.getCode(),
+		 * todayDate); } else {
+		 * newModel.setParentCode(employeeStructModel.getParentCode()); }
+		 */
 		processTheIncommingModel(newModel);
 	}
 

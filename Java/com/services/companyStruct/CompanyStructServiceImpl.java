@@ -659,21 +659,22 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 
 	@Override
 	@Transactional
-	public void copyCompanyStructure(CompanyStructModel employeeStructModel, String todayDate) throws Exception {
+	public void copyCompanyStructure(CompanyStructModel companyStructModel, String todayDate) throws Exception {
 		CompanyStructModel newModel = new CompanyStructModel();
 		
-		newModel.setCode(employeeStructModel.getCode());
-		newModel.setEndDate(employeeStructModel.getEndDate());
-		newModel.setStartDate(employeeStructModel.getStartDate());
-		newModel.setName(employeeStructModel.getName());
-		newModel.setHasParent(employeeStructModel.getHasParent());
-		newModel.setHasChild(employeeStructModel.getHasChild());
-		if (employeeStructModel.getHasParent() == false) {
-			newModel.setParentCode(null);
-			delmitParent(employeeStructModel.getCode(), todayDate);
-		} else {
-			newModel.setParentCode(employeeStructModel.getParentCode());
-		}
+		newModel.setCode(companyStructModel.getCode());
+		newModel.setEndDate(companyStructModel.getEndDate());
+		newModel.setStartDate(companyStructModel.getStartDate());
+		newModel.setName(companyStructModel.getName());
+		newModel.setHasParent(companyStructModel.getHasParent());
+		newModel.setHasChild(companyStructModel.getHasChild());
+		newModel.setParentCode(companyStructModel.getParentCode());
+		/*
+		 * if (employeeStructModel.getHasParent() == false) {
+		 * newModel.setParentCode(null); delmitParent(employeeStructModel.getCode(),
+		 * todayDate); } else {
+		 * newModel.setParentCode(employeeStructModel.getParentCode()); }
+		 */
 		processTheIncommingModel(newModel);
 	}
 

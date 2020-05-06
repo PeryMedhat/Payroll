@@ -117,11 +117,13 @@ public class CompanyStructController {
 
 	@RequestMapping(value = { "/copyCompanyStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public void copyCompanyStructure(@RequestBody List<CompanyStructModel> companyModel) throws Exception {
+	public void copyCompanyStructure(@RequestBody List<CompanyStructModel> companyModel,@RequestParam("code") String code) throws Exception {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String todayDate=dtf.format(now);
+		companyService.delmitParent(code, todayDate);
+		
 		for(int i=0;i<companyModel.size();i++) {
 			companyService.copyCompanyStructure(companyModel.get(i),todayDate);
 		}

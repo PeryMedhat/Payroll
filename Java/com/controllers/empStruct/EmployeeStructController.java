@@ -135,14 +135,14 @@ public class EmployeeStructController {
 	
 	@RequestMapping(value = { "/copyEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public void copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws ParseException, Exception {
+	public void copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel,@RequestParam("code") String code) throws ParseException, Exception {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
 		String todayDate=dtf.format(now);
+		empService.delmitParent(code, todayDate);
 		for(int i=0;i<employeeModel.size();i++) {
 			empService.copyEmployeeStructure(employeeModel.get(i),todayDate);
 		}
-		
 	}
 }
 		
