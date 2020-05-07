@@ -79,8 +79,11 @@ var controller = (function () {
         success: function (response) {
             inputVals = response;
             for (var i = 0; i < inputVals.length; i++) {
-                $('#inputValue').append($('<option>').val(inputVals[i].name).text(inputVals[i].name));
-
+                if (i == 0) {
+                    $('#inputValue').append($('<option selected>').val(inputVals[i].name).text(inputVals[i].name));
+                } else {
+                    $('#inputValue').append($('<option>').val(inputVals[i].name).text(inputVals[i].name));
+                }
             }
         },
         error: function (xhr) {
@@ -97,8 +100,11 @@ var controller = (function () {
         success: function (response) {
             intervals = response;
             for (var i = 0; i < intervals.length; i++) {
-                $('#interval').append($('<option>').val(intervals[i].name).text(intervals[i].name));
-
+                if (i == 0) {
+                    $('#interval').append($('<option selected>').val(intervals[i].name).text(intervals[i].name));
+                } else {
+                    $('#interval').append($('<option>').val(intervals[i].name).text(intervals[i].name));
+                }
             }
         },
         error: function (xhr) {
@@ -115,8 +121,11 @@ var controller = (function () {
         success: function (response) {
             types = response;
             for (var i = 0; i < types.length; i++) {
-                $('#type').append($('<option>').val(types[i].name).text(types[i].name));
-
+                if (i == 0) {
+                    $('#type').append($('<option selected>').val(types[i].name).text(types[i].name));
+                } else {
+                    $('#type').append($('<option>').val(types[i].name).text(types[i].name));
+                }
             }
         },
         error: function (xhr) {

@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-  <title>Create PayType </title>
+  <title>PayType </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-
+    
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
   <link href="../../resources/CSS/select2.min.css" rel="stylesheet" media="all">
   <link href="../../resources/CSS/daterangepicker.css" rel="stylesheet" media="all">
@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="../../resources/CSS/style.css">
   <link rel="stylesheet" href="../../resources/CSS/stylesheet.css">
 </head>
+
 
 <body>
 
@@ -128,8 +129,8 @@
         <div class="wrapper wrapper--w800">
           <div class="card card-4 ">
             <div class="card-body">
-              <h2 class="title">Create PayType</h2>
-
+              <h2 class="title">PayType</h2>
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               <div class="row row-space paddingtop">
 
 
@@ -203,7 +204,7 @@
 
               <div class="row row-space paddingtop">
 
-                <div class="col-8">
+                <div class="col-4">
                   <div class="dropdown">
                     <label class="label">Input value <h class="rq" id="inputValueisEmpty" hidden>* Required Field </h>
                       </label>
@@ -237,14 +238,13 @@
           <div class="modal-dialog" style=" padding-top: 170px" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Create PayType</h5>
+                <h5 class="modal-title">PayType</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body" style="height: 67px;">
                 <div id="success_msg" hidden>
-                  The PayType is Created successfully.
                 </div>
                 <div id="fail_msg" hidden>
 
@@ -252,7 +252,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" id="modalOkButton" class="btn btn-secondary"
-                  onClick="javascript:BackToCreateStructureClean();" data-dismiss="modal">Ok</button>
+                 data-dismiss="modal">Ok</button>
               </div>
             </div>
           </div>
@@ -279,7 +279,7 @@
   <script src="../../resources/JS/moment.min.js"></script>
   <script src="../../resources/JS/daterangepicker.js"></script>
 
-  <script src="../../resources/JS/PayType/createPaytype.js"></script>
+  <script src="../../resources/JS/PayType/showPayTypeElement.js"></script>
 </body>
 
 </html>
