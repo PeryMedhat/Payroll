@@ -36,7 +36,6 @@ public class PayTypeRestController {
 		return payTypeService.getPayType(code);	
 	}
 	
-	
 	@RequestMapping(value = { "/updatePayType" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public void updatePayType(@RequestBody PayTypeModel payTypeModel) throws ParseException {

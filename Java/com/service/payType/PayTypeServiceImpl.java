@@ -129,12 +129,16 @@ public class PayTypeServiceImpl implements PayTypeService{
 			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(payTypeModel.getEndDate());
 			String code = payTypeModel.getCode();
 			PayType payType = payTypeDAO.getPayType(code);
+			String intervalCode =intervalDAO.getIntervalByName(payTypeModel.getInterval()).getCode() ;
+			String typeCode = typeDAO.getTypeByName(payTypeModel.getType()).getCode();
+			String intputValCode = inputValueDAO.getInputValueByName(payTypeModel.getInputValue()).getCode();
+			
 			payType.getCommID().setName(payTypeModel.getName());
 			payType.getCommID().setStartDate(startDate);
 			payType.getCommID().setEndDate(endDate);
-			payType.setInputvalue(payTypeModel.getInputValue());
-			payType.setType(payTypeModel.getType());
-			payType.setInterval(payTypeModel.getInterval());
+			payType.setInputvalue(intputValCode);
+			payType.setType(typeCode);
+			payType.setInterval(intervalCode);
 			
 			payTypeDAO.addPayType(payType);
 		

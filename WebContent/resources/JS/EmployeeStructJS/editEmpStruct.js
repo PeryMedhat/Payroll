@@ -1,4 +1,3 @@
-//my IIFE front Controller
 
 var controller = (function () {
     var code;

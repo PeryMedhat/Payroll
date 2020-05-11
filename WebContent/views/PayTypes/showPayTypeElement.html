@@ -6,7 +6,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
+
+
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
   <link href="../../resources/CSS/select2.min.css" rel="stylesheet" media="all">
   <link href="../../resources/CSS/daterangepicker.css" rel="stylesheet" media="all">
@@ -123,140 +124,158 @@
         </div>
       </nav>
 
-
-      <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+      <div class="modal fade" id="payTypeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">PayType Payroll</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger " id="fail_msg">
+                <strong>Fail!</strong>There is no PayType with that code.
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="modalOkButton" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins" id="showPayType" >
 
         <div class="wrapper wrapper--w800">
           <div class="card card-4 ">
             <div class="card-body">
-              <h2 class="title">PayType</h2>
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-              <div class="row row-space paddingtop">
 
-
-                <div class="col-4">
-                  <div class="input-group">
-                    <label class="label"> Code <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
-
-                    <input class="input--style-4" maxlength="6" type="text" id="payType_code" name="payType_code">
-
-                  </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <h2 class="title">PayType</h2>
                 </div>
-                <div class="col-8">
-                  <div class="input-group">
-
-                    <label class="label">Name<h class="rq" id="nameisEmpty" hidden>* Required Field </h></label>
-                    <input class="input--style-4" maxlength="20" type="text" id="payType_name" name="payType_name">
+                <div class="col-sm-8">
+                  <i class="fa fa-pencil-square-o" style="font-size: x-large; position:absolute; left : 60%; top:9%;"
+                    aria-hidden="true" id="edit"></i>
+                  <div class="bg-secondary" style="position:absolute; left : 60%; top:20%;" id="edit-text" hidden>
+                    <p class="text-light">Edit</p>
                   </div>
+                  <i class="fa fa-files-o" style="font-size: x-large; position:absolute; left : 70%; top:9%;"
+                    aria-hidden="true" id="copy"></i>
+                    <div class="bg-secondary" style="position:absolute; left : 70%; top:20%;" id="copy-text" hidden>
+                      <p class="text-light">copy</p></div>
+                  <i class="fa fa-ioxhost" style="font-size: x-large; position:absolute; left : 80%; top:9%;"
+                    aria-hidden="true" id="delimit"></i>
+                    <div class="bg-secondary" style="position:absolute; left : 80%; top:20%;" id="delimit-text" hidden>
+                      <p class="text-light">delimit</p></div>
+                  <i class="fa fa-trash" style="font-size: x-large; position:absolute; left : 90%; top:9%;"
+                    aria-hidden="true" id="delete"></i>
+                    <div class="bg-secondary" style="position:absolute; left : 90%; top:20%;" id="delete-text" hidden>
+                      <p class="text-light">delete</p></div>
+
                 </div>
+
               </div>
 
               <div class="row row-space paddingtop">
 
-                <div class="col-5">
-                  <div class="input-group">
-                    <label class="label">Start Date<h class="rq" id="startDateisEmpty" hidden>* Required Field </h>
+                <div class="row row-space paddingtop" aria-hidden="true"></i>
+
+                  <div class="col-4">
+                    <div class="input-group">
+                      <label class="label"> Code <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
+
+                      <input class="input--style-4" maxlength="6" type="text" id="payType_code" name="payType_code"
+                        disabled>
+
+                    </div>
+                  </div>
+                  <div class="col-8">
+                    <div class="input-group">
+
+                      <label class="label">Name<h class="rq" id="nameisEmpty" hidden>* Required Field </h></label>
+                      <input class="input--style-4" maxlength="20" type="text" id="payType_name" name="payType_name"
+                        disabled>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row row-space paddingtop">
+
+                  <div class="col-5">
+                    <div class="input-group">
+                      <label class="label">Start Date<h class="rq" id="startDateisEmpty" hidden>* Required Field </h>
                       </label>
-                    <div class="input-group-icon">
-                      <input readonly='true' class="input--style-4 js-datepicker" id="start_date" type="text"
-                        name="start_date">
-                      <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                      <div class="input-group-icon">
+                        <input readonly='true' class="input--style-4 js-datepicker" id="start_date" type="text"
+                          name="start_date" disabled>
+                        <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-5">
+                    <div class="input-group">
+                      <label class="label">End Date <h class="rq" id="endDateisEmpty" hidden>* Required Field </h>
+                        </label>
+                      <div class="input-group-icon">
+                        <input readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
+                          name="birthday" disabled>
+                        <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row row-space paddingtop">
+
+                  <div class="col-5">
+                    <div class="input-group">
+                      <label class="label">Interval<h class="rq" id="intervalisEmpty" hidden>* Required Field </h>
+                        </label>
+                      <input class="input--style-4" maxlength="6" type="text" id="interval" name="interval" disabled>
+
+
+                    </div>
+                  </div>
+
+                  <div class="col-5">
+                    <div class="input-group">
+                      <label class="label" for="type">Type <h class="rq" id="typeisEmpty" hidden>* Required Field </h>
+                      </label>
+                      <input class="input--style-4" maxlength="6" type="text" id="type" name="type" disabled>
+
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row row-space paddingtop">
+
+                  <div class="col-4">
+                    <div class="input-group">
+                      <label class="label">Input value <h class="rq" id="inputValueisEmpty" hidden>* Required Field </h>
+                      </label>
+                      <input class="input--style-4" maxlength="6" type="text" id="inputValue" name="inputValue"
+                        disabled>
+
                     </div>
                   </div>
                 </div>
 
 
-                <div class="col-5">
-                  <div class="input-group">
-                    <label class="label">End Date <h class="rq" id="endDateisEmpty" hidden>* Required Field </h></label>
-                    <div class="input-group-icon">
-                      <input readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
-                        name="birthday">
-                      <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                    </div>
-                  </div>
-                </div>
 
-              </div>
-              <div class="row row-space paddingtop">
-
-                <div class="col-5">
-                  <div  class="dropdown">
-                    <label class="label">Interval<h class="rq" id="intervalisEmpty" hidden>* Required Field </h></label>
-                    <select class="custom-select"  id="interval">
-
-                    </select>
-                  </div>
-                </div>
-
-                <div class="col-5">
-                  <div  class="dropdown">
-                    <label class="label" for="type">Type <h class="rq" id="typeisEmpty" hidden>* Required Field </h>
-                      </label>
-                    <select class="custom-select"  id="type">
-
-                    </select>
-
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="row row-space paddingtop">
-
-                <div class="col-4">
-                  <div class="dropdown">
-                    <label class="label">Input value <h class="rq" id="inputValueisEmpty" hidden>* Required Field </h>
-                      </label>
-                      <select class="custom-select" id="inputValue">
-
-                     </select>
-                   
-
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="row row-space paddingtop">
-
-                <div style="position: relative;left: 70%;">
-
-                  <button type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary">submit</button>
-
-                </div>
               </div>
 
             </div>
-
-          </div>
+          </div>>
         </div>
 
 
 
-        <div class="modal fade" id="ResultOfPayTypeCreation" tabindex="-1" role="dialog">
-          <div class="modal-dialog" style=" padding-top: 170px" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">PayType</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" style="height: 67px;">
-                <div id="success_msg" hidden>
-                </div>
-                <div id="fail_msg" hidden>
 
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" id="modalOkButton" class="btn btn-secondary"
-                 data-dismiss="modal">Ok</button>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
