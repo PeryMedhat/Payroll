@@ -50,7 +50,7 @@ var controller = (function () {
         });
 
         $('#edit').click(function (e) {
-            location = "editpayTypeData.html?code="+code;
+            window.location = "editpayTypeData.html?code="+code;
         });
 
         $('#copy').mouseenter(function () {
@@ -69,6 +69,10 @@ var controller = (function () {
             $('#delimit-text').attr('hidden','');
         });
 
+        $('#delimit').click(function (e) {
+            window.location = "delimitPayType.html?code="+code;
+        });
+
         $('#delete').mouseenter(function () {
             $('#delete-text').removeAttr('hidden');
         });
@@ -76,7 +80,7 @@ var controller = (function () {
         $('#delete').mouseout(function () {
             $('#delete-text').attr('hidden','');
         });
-        $('#showPayType').click(function (e) {
+        $('#modalOkButton').click(function (e) {
             location = 'editPayType.html';
         });
     

@@ -72,7 +72,6 @@ var controller = (function () {
     queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
-    const theCode = urlParams.get('theCode');
     jQuery(document).ready(function ($) {
         $("#buttonSubmit").mouseenter(function () {
             $(this).removeClass('btn-primary');
@@ -96,7 +95,7 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "get", 
-                url: "http://localhost:8080/Payroll/employeeStructure/delemitEmployeeStructure",
+                url: "http://localhost:8080/Payroll/payType/delemitPayType",
                 data: {
                     code: code,
                     endDate:endDate
@@ -104,11 +103,10 @@ var controller = (function () {
                 success: function (response) {
                     $('#success_msg').removeAttr('hidden');
                     $("#modalOkButton").click(function (e) {
-                            location='showEditTable.html?code='+theCode;
+                            location='showPayTypeElement.html?code='+code;
                         });
                    
-                        
-                    
+                                          
                 },
                 error: function (xhr) {
                     $('#fail_msg').removeAttr('hidden');
