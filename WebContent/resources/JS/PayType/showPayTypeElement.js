@@ -21,7 +21,8 @@ var controller = (function () {
             $('#interval').val(response.interval);
             $('#type').val(response.type);
             $('#inputValue').val(response.inputValue);
-
+            
+            $('#showPayType').removeAttr('hidden');
 
         },
         error: function (xhr) {
@@ -79,6 +80,9 @@ var controller = (function () {
 
         $('#delete').mouseout(function () {
             $('#delete-text').attr('hidden','');
+        });
+        $('#delete').click(function (e) {
+            window.location = "deletePayType.html?code="+code;
         });
         $('#modalOkButton').click(function (e) {
             location = 'editPayType.html';

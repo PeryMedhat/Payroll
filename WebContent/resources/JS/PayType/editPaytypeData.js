@@ -180,7 +180,10 @@ var controller = (function () {
         });
 
         $("#modalOkButton").click(function (e) {
-            location = '../../index.html';
+            queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const code = urlParams.get('code');
+            window.location ='showPayTypeElement.html?code='+code;
         });
 
         $("#buttonSubmit").click(function (e) {

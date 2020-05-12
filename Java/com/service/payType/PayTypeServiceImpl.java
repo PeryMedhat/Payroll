@@ -100,6 +100,7 @@ public class PayTypeServiceImpl implements PayTypeService{
 		try {
 			payTypeDAO.deletePayType(code);	
 		}catch(Exception e) {
+			e.printStackTrace();
 			throw new NotFoundException("Cannot Delete! -the PayType code :"+code+" is not saved");
 		}
 	}
