@@ -3,6 +3,8 @@ package com.controllers.payType;
 
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -54,6 +56,13 @@ public class PayTypeRestController {
 		payTypeService.delimitPayType(code, endDate);
 	}
 	
-	
-	
+	@RequestMapping(value = { "/copyPayType" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public void copyEmployeeStructure(@RequestBody PayTypeModel payTypeModel,@RequestParam("code") String code) throws ParseException, Exception {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDateTime now = LocalDateTime.now();
+		String todayDate=dtf.format(now);
+		payTypeService.delimitPayType(code, todayDate);
+		payTypeService.addPayType(payTypeModel);		
+	}
 }

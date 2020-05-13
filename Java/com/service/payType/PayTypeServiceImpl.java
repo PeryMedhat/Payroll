@@ -147,11 +147,4 @@ public class PayTypeServiceImpl implements PayTypeService{
 	}
 	
 	
-	@Override
-	@Transactional
-	public void copyPayType(PayTypeModel payTypeModel, String todayDate) throws Exception {
-		
-		
-	}
-	
 }

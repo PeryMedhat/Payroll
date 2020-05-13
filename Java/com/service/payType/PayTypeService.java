@@ -10,5 +10,4 @@ public interface PayTypeService {
 	public void deletePayType(String code);
 	public void delimitPayType(String code, String endDate) throws ParseException;
 	public void updatePayTypeData(PayTypeModel payTypeModel) throws ParseException;
-	public void copyPayType(PayTypeModel payTypeModel, String todayDate) throws Exception;
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Create PayType </title>
+  <title>Copy PayType </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -23,49 +23,52 @@
         <a hef="#" class="img logo rounded-circle mb-5" style="background-image: url(../../logo.jpg);"></a>
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee Structure</a>
+            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee
+              Structure</a>
             <ul class="collapse list-unstyled" id="EmpStructSubMenu">
               <li>
                 <a href="../EmpStructureViews/createEmpStruct.html">Create Employee Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../EmpStructureViews/editEmpStruct.html">Edit Employee Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../EmpStructureViews/assignPayTypeToEmpStruct.html">Assign Paytype to Employee Structure</a>
-            </li>
+              </li>
             </ul>
           </li>
-          
 
-          
+
+
           <li>
-            <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company Structure</a>
+            <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company
+              Structure</a>
             <ul class="collapse list-unstyled" id="compStructSubmenu">
               <li>
                 <a href="../CompanyStructViews/createCompanyStruct.html">Create Company Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../CompanyStructViews/editCompanyStruct.html">Edit Company Structure</a>
-            </li>
-            <li>
-                <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
-            </li>
+              </li>
+              <li>
+                <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company
+                  Structure</a>
+              </li>
             </ul>
           </li>
-        
-           <li>
-             <a href="#payTypeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pay Types</a>
-             <ul class="collapse list-unstyled" id="payTypeSubmenu">
-               <li>
-                   <a href="../PayTypes/createPayType.html">Create Pay Types</a>
-               </li>
-               <li>
-                   <a href="../PayTypes/editPayType.html">Edit Pay Types</a>
-               </li>
-          
-             </ul>
-            </li>
+
+          <li>
+            <a href="#payTypeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pay Types</a>
+            <ul class="collapse list-unstyled" id="payTypeSubmenu">
+              <li>
+                <a href="../PayTypes/createPayType.html">Create Pay Types</a>
+              </li>
+              <li>
+                <a href="../PayTypes/editPayType.html">Edit Pay Types</a>
+              </li>
+
+            </ul>
+          </li>
 
 
 
@@ -125,16 +128,15 @@
         <div class="wrapper wrapper--w800">
           <div class="card card-4 ">
             <div class="card-body">
-              <h2 class="title">Create PayType</h2>
+              <h2 class="title">Copy PayType</h2>
 
               <div class="row row-space paddingtop">
-
 
                 <div class="col-4">
                   <div class="input-group">
                     <label class="label"> Code <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
 
-                    <input class="input--style-4" maxlength="6" type="text" id="payType_code" name="payType_code">
+                    <input class="input--style-4"  type="text" id="payType_code" name="payType_code" disabled>
 
                   </div>
                 </div>
@@ -179,7 +181,7 @@
                 <div class="col-5">
                   <div  class="dropdown">
                     <label class="label">Interval<h class="rq" id="intervalisEmpty" hidden>* Required Field </h></label>
-                    <select class="custom-select" style="height: 50px;" id="interval">
+                    <select class="custom-select" style="height: 50px;"  id="interval">
 
                     </select>
                   </div>
@@ -200,7 +202,7 @@
 
               <div class="row row-space paddingtop">
 
-                <div class="col-5">
+                <div class="col-8">
                   <div class="dropdown">
                     <label class="label">Input value <h class="rq" id="inputValueisEmpty" hidden>* Required Field </h>
                       </label>
@@ -230,18 +232,18 @@
 
 
 
-        <div class="modal fade" id="ResultOfPayTypeCreation" tabindex="-1" role="dialog">
+        <div class="modal fade" id="ResultOfPayType" tabindex="-1" role="dialog">
           <div class="modal-dialog" style=" padding-top: 170px" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Create PayType</h5>
+                <h5 class="modal-title">CopyPayType</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body" style="height: 67px;">
                 <div id="success_msg" hidden>
-                  The PayType is Created successfully.
+                  The PayType is Copied successfully.
                 </div>
                 <div id="fail_msg" hidden>
 
@@ -276,7 +278,9 @@
   <script src="../../resources/JS/moment.min.js"></script>
   <script src="../../resources/JS/daterangepicker.js"></script>
 
-  <script src="../../resources/JS/PayType/createPaytype.js"></script>
+  <script src="../../resources/JS/PayType/copyPaytype.js"></script>
 </body>
 
 </html>
+
+

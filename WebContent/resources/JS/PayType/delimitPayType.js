@@ -83,6 +83,9 @@ var controller = (function () {
             $(this).addClass('btn-primary');
         });
 
+        $("#modalOkButton").click(function (e) {
+            location='showPayTypeElement.html?code='+code;
+        });
 
         $("#buttonSubmit").click(function (e) {
             $('#success_msg').attr('hidden','');
@@ -102,11 +105,7 @@ var controller = (function () {
                 },
                 success: function (response) {
                     $('#success_msg').removeAttr('hidden');
-                    $("#modalOkButton").click(function (e) {
-                            location='showPayTypeElement.html?code='+code;
-                        });
-                   
-                                          
+                                       
                 },
                 error: function (xhr) {
                     $('#fail_msg').removeAttr('hidden');

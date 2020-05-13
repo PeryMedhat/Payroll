@@ -62,6 +62,10 @@ var controller = (function () {
             $('#copy-text').attr('hidden','');
         });
 
+        $('#copy').click(function (e) {
+            window.location = "copyPayType.html?code="+code;
+        });
+
         $('#delimit').mouseenter(function () {
             $('#delimit-text').removeAttr('hidden');
         });
