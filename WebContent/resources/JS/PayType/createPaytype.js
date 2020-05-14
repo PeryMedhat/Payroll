@@ -132,10 +132,6 @@ var controller = (function () {
             console.log(xhr);
         }
     });
-    //
-
-
-
 
 
     jQuery(document).ready(function ($) {
@@ -231,10 +227,10 @@ var controller = (function () {
 
 
     });
+
+
+
+
 })();
-
-
-
-
 
 
