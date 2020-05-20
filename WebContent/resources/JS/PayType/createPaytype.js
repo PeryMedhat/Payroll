@@ -1,4 +1,3 @@
-
 var controller = (function () {
     try {
         $('.js-datepicker').daterangepicker({
@@ -232,5 +231,3 @@ var controller = (function () {
 
 
 })();
-
-

@@ -6,11 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dao.lookups.CountryLookupDAO;
+import com.dao.lookups.CurrencyLookupDAO;
 import com.dao.lookups.InputValueLookupDAO;
 import com.dao.lookups.IntervalLookupDAO;
+import com.dao.lookups.PayrollValuationLookupDAO;
 import com.dao.lookups.TypeLookupDAO;
+import com.entities.lookups.Country;
+import com.entities.lookups.Currency;
 import com.entities.lookups.InputValue;
 import com.entities.lookups.Interval;
+import com.entities.lookups.PayrollValuation;
 import com.entities.lookups.Type;
 
 @Service
@@ -24,6 +30,15 @@ public class LookUpsService {
 	@Autowired
 	private TypeLookupDAO typeDAO;
 	
+	@Autowired
+	private PayrollValuationLookupDAO payrollValDAO;
+	
+	@Autowired
+	private CountryLookupDAO countryDAO;
+	
+	@Autowired
+	private CurrencyLookupDAO currencyDAO;
+	
 	@Transactional
 	public List<InputValue> getAllInputValues() {
 		return inputValDAO.getListOfInputValues();
@@ -36,6 +51,21 @@ public class LookUpsService {
 	public List<Type> getAllTypes() {
 		return typeDAO.getListOfTypes();
 	}
-	
+	@Transactional
+	public List<PayrollValuation> getAllPayrollValuations() {
+		return payrollValDAO.getListOfPayrollValuations();
+	}
 
+	@Transactional
+	public List<Country> getAllCountries() {
+		return countryDAO.getListOfCountrys();
+	}
+	
+	@Transactional
+	public List<Currency> getAllCurrencies() {
+		return currencyDAO.getListOfCurrencys();
+		
+	}
+
+	
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Create PayType </title>
+  <title>Create Payroll Structure </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -23,49 +23,52 @@
         <a hef="#" class="img logo rounded-circle mb-5" style="background-image: url(../../logo.jpg);"></a>
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee Structure</a>
+            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee
+              Structure</a>
             <ul class="collapse list-unstyled" id="EmpStructSubMenu">
               <li>
                 <a href="../EmpStructureViews/createEmpStruct.html">Create Employee Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../EmpStructureViews/editEmpStruct.html">Edit Employee Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../EmpStructureViews/assignPayTypeToEmpStruct.html">Assign Paytype to Employee Structure</a>
-            </li>
+              </li>
             </ul>
           </li>
-          
 
-          
+
+
           <li>
-            <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company Structure</a>
+            <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company
+              Structure</a>
             <ul class="collapse list-unstyled" id="compStructSubmenu">
               <li>
                 <a href="../CompanyStructViews/createCompanyStruct.html">Create Company Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../CompanyStructViews/editCompanyStruct.html">Edit Company Structure</a>
-            </li>
-            <li>
-                <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
-            </li>
+              </li>
+              <li>
+                <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company
+                  Structure</a>
+              </li>
             </ul>
           </li>
-        
-           <li>
-             <a href="#payTypeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pay Types</a>
-             <ul class="collapse list-unstyled" id="payTypeSubmenu">
-               <li>
-                   <a href="../PayTypes/createPayType.html">Create Pay Types</a>
-               </li>
-               <li>
-                   <a href="../PayTypes/editPayType.html">Edit Pay Types</a>
-               </li>
-          
-             </ul>
-            </li>
+
+          <li>
+            <a href="#payTypeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pay Types</a>
+            <ul class="collapse list-unstyled" id="payTypeSubmenu">
+              <li>
+                <a href="../PayTypes/createPayType.html">Create Pay Types</a>
+              </li>
+              <li>
+                <a href="../PayTypes/editPayType.html">Edit Pay Types</a>
+              </li>
+
+            </ul>
+          </li>
 
 
 
@@ -118,14 +121,37 @@
           </div>
         </div>
       </nav>
+      <div class="page-wrapper editEmp bg-gra-02 p-t-130 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w800">
+          <div class="card card-4">
+            <div class="card-body">
+              <h2 class="title">Edit Payroll Structure</h2>
+              <div class="row row-space">
+                <div class="col-8">
+                  <div class="input-group">
+                    <label class="label">Code</label>
+                    <input class="input--style-4" required maxlength="15" type="text" id="payrollStruct_code"
+                      name="payrollStruct_code">
+                  </div>
+                </div>
+                <div class="col-4">
+                  <button style="position: relative;top: 30%;" type="submit" id="buttonSubmit"
+                    class="btn  submitbtn btn-primary">Send</button>
+                </div>
+              </div>
 
+            </div>
+
+          </div>
+        </div>
+      </div>
 
     </div>
 
 
 
 
-
+  </div>
 
   </div>
 
@@ -139,6 +165,7 @@
   <script src="../../resources/JS/select2.min.js"></script>
   <script src="../../resources/JS/moment.min.js"></script>
   <script src="../../resources/JS/daterangepicker.js"></script>
+  <script src="../../resources/JS/payrollStructJS/editPayrollStruct.js"></script>
 
 </body>
 

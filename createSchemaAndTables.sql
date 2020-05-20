@@ -176,7 +176,55 @@ CREATE TABLE `payroll-schema`.`paytype_type` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
+CREATE TABLE `payroll-schema`.`payroll_struct_commonID` (
+  `commonID_id` int(11) NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `delimited` int(11) NOT NULL,
+  PRIMARY KEY (`commonID_id`),
+  UNIQUE KEY `commonID_id_UNIQUE` (`commonID_id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
+
+CREATE TABLE `payroll-schema`.`payroll_struct` (
+  `payroll_id` int(11) NOT NULL,
+  `commonID_id` int(11) NOT NULL,
+  `interval` varchar(45) NOT NULL,
+  `country` varchar(45) NOT NULL,
+  `currency` varchar(45) NOT NULL,
+  `company` varchar(45) NOT NULL,
+  `tax_settlement` varchar(45) NOT NULL,
+  `payroll_valuation` varchar(45) NOT NULL,
+  PRIMARY KEY (`payroll_id`),
+  KEY `fk_payroll_struct_1_idx` (`commonID_id`),
+  CONSTRAINT `fk_payroll_struct_1` FOREIGN KEY (`commonID_id`) REFERENCES `payroll_struct_commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+
+CREATE TABLE `payroll-schema`.`grading_salary_structure` (
+  `id` int(11) NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `grade` varchar(45) NOT NULL,
+  `level` varchar(45) NOT NULL,
+  `min` decimal(45,10) NOT NULL,
+  `mid` decimal(45,10) NOT NULL,
+  `max` decimal(45,10) NOT NULL,
+  `basic_salary` decimal(45,10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+CREATE TABLE `payroll-schema`.`payroll_valuation` (
+  `id` int(11) NOT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
 

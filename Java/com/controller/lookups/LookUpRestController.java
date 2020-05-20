@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.entities.lookups.Country;
+import com.entities.lookups.Currency;
 import com.entities.lookups.InputValue;
 import com.entities.lookups.Interval;
+import com.entities.lookups.PayrollValuation;
 import com.entities.lookups.Type;
 import com.service.lookups.LookUpsService;
 
@@ -41,6 +44,23 @@ public class LookUpRestController {
 		return lookUpsService.getAllTypes();
 	}
 	
+	@RequestMapping(value = { "/getPayrollValuations" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<PayrollValuation> getPayrollValuations() {	
+		return lookUpsService.getAllPayrollValuations();
+	}
 	
+	@RequestMapping(value = { "/getCountries" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Country> getCountries() {	
+		return lookUpsService.getAllCountries();
+	}
 	
+	@RequestMapping(value = { "/getCurrencies" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Currency> getCurrencies() {	
+		return lookUpsService.getAllCurrencies();
+		
+	}
+		
 }

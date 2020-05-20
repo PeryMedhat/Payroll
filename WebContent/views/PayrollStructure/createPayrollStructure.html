@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Create PayType </title>
+  <title>Create Payroll Structure </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -23,49 +23,52 @@
         <a hef="#" class="img logo rounded-circle mb-5" style="background-image: url(../../logo.jpg);"></a>
         <ul class="list-unstyled components mb-5">
           <li class="active">
-            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee Structure</a>
+            <a href="#EmpStructSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Employee
+              Structure</a>
             <ul class="collapse list-unstyled" id="EmpStructSubMenu">
               <li>
                 <a href="../EmpStructureViews/createEmpStruct.html">Create Employee Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../EmpStructureViews/editEmpStruct.html">Edit Employee Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../EmpStructureViews/assignPayTypeToEmpStruct.html">Assign Paytype to Employee Structure</a>
-            </li>
+              </li>
             </ul>
           </li>
-          
 
-          
+
+
           <li>
-            <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company Structure</a>
+            <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company
+              Structure</a>
             <ul class="collapse list-unstyled" id="compStructSubmenu">
               <li>
                 <a href="../CompanyStructViews/createCompanyStruct.html">Create Company Structure</a>
-            </li>
-            <li>
+              </li>
+              <li>
                 <a href="../CompanyStructViews/editCompanyStruct.html">Edit Company Structure</a>
-            </li>
-            <li>
-                <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
-            </li>
+              </li>
+              <li>
+                <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company
+                  Structure</a>
+              </li>
             </ul>
           </li>
-        
-           <li>
-             <a href="#payTypeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pay Types</a>
-             <ul class="collapse list-unstyled" id="payTypeSubmenu">
-               <li>
-                   <a href="../PayTypes/createPayType.html">Create Pay Types</a>
-               </li>
-               <li>
-                   <a href="../PayTypes/editPayType.html">Edit Pay Types</a>
-               </li>
-          
-             </ul>
-            </li>
+
+          <li>
+            <a href="#payTypeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pay Types</a>
+            <ul class="collapse list-unstyled" id="payTypeSubmenu">
+              <li>
+                <a href="../PayTypes/createPayType.html">Create Pay Types</a>
+              </li>
+              <li>
+                <a href="../PayTypes/editPayType.html">Edit Pay Types</a>
+              </li>
+
+            </ul>
+          </li>
 
 
 
@@ -120,10 +123,188 @@
       </nav>
 
 
+
+
+      <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+
+        <div class="wrapper wrapper--w800">
+          <div class="card card-4 ">
+            <div class="card-body">
+              <h2 class="title">Create Payroll Structure</h2>
+
+              <div class="row row-space paddingtop">
+
+
+                <div class="col-4">
+                  <div class="input-group">
+                    <label class="label"> Code <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
+
+                    <input class="input--style-4" maxlength="6" type="text" id="payrollStruct_code"
+                      name="payrollStruct_code">
+
+                  </div>
+                </div>
+                <div class="col-8">
+                  <div class="input-group">
+
+                    <label class="label">Name<h class="rq" id="nameisEmpty" hidden>* Required Field </h></label>
+                    <input class="input--style-4" maxlength="20" type="text" id="payrollStruct_name"
+                      name="payrollStruct_name">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row row-space paddingtop">
+
+                <div class="col-5">
+                  <div class="input-group">
+                    <label class="label">Start Date<h class="rq" id="startDateisEmpty" hidden>* Required Field </h>
+                    </label>
+                    <div class="input-group-icon">
+                      <input readonly='true' class="input--style-4 js-datepicker" id="start_date" type="text"
+                        name="start_date">
+                      <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-5">
+                  <div class="input-group">
+                    <label class="label">End Date <h class="rq" id="endDateisEmpty" hidden>* Required Field </h></label>
+                    <div class="input-group-icon">
+                      <input readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
+                        name="birthday">
+                      <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row row-space paddingtop">
+
+                <div class="col-4">
+                  <div class="dropdown">
+                    <label class="label">Interval<h class="rq" id="intervalisEmpty" hidden>* Required Field </h></label>
+                    <select class="custom-select" style="height: 50px;" id="interval">
+
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="dropdown">
+                    <label class="label" for="country">Country <h class="rq" id="countryisEmpty" hidden>* Required Field
+                      </h>
+                    </label>
+                    <select class="custom-select" style="height: 50px;" id="country">
+
+                    </select>
+
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="dropdown">
+                    <label class="label">Currency<h class="rq" id="currencyisEmpty" hidden>* Required Field </h>
+                    </label>
+                    <select class="custom-select" style="height: 50px;" id="currency">
+
+                    </select>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row row-space paddingtop">
+
+                <div class="col-4">
+                  <div class="dropdown">
+                    <label class="label" for="payrollValuation">Payroll Valuation <h class="rq"
+                        id="payrollValuationisEmpty" hidden>* Required Field </h>
+                    </label>
+                    <select class="custom-select" style="height: 50px;" id="payrollValuation">
+
+                    </select>
+
+                  </div>
+                </div>
+
+
+                <div class="col-4">
+                  <div class="input-group">
+                    <label class="label"> Company <h class="rq" id="companyisEmpty" hidden>* Required Field </h></label>
+
+                    <input class="input--style-4" type="text" id="payrollStruct_company" name="payrollStruct_code"
+                      disabled>
+
+                  </div>
+                </div>
+
+                <div class="col-4 input-group" id="taxSettlementId" hidden >
+                  <label class="label"> Tax Settlement <h class="rq" id="companyisEmpty" hidden>* Required Field </h>
+                  </label>
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    
+
+                    <label class="btn btn-secondary active" id="annually" >
+                      <input type="radio" name="annually" autocomplete="off" checked> Annually
+
+                    </label>
+                    <label class="btn btn-secondary" id="monthly">
+                      <input type="radio" name="monthly" autocomplete="off"> Monthly
+
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div class="row row-space paddingtop">
+
+                <div style="position: relative;left: 70%;">
+
+                  <button type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary">submit</button>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="modal fade" id="ResultOfpayrollStructCreation" tabindex="-1" role="dialog">
+          <div class="modal-dialog" style=" padding-top: 170px" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Create payroll Structure</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="height: 67px;">
+                <div id="success_msg" hidden>
+                  The Payroll Structure is Created successfully.
+                </div>
+                <div id="fail_msg" hidden>
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="modalOkButton" class="btn btn-secondary"
+                  onClick="javascript:BackToCreateStructureClean();" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-
-
-
 
 
 
@@ -140,7 +321,7 @@
   <script src="../../resources/JS/moment.min.js"></script>
   <script src="../../resources/JS/daterangepicker.js"></script>
 
-  <script src="../../resources/JS/PayType/createPaytype.js"></script>
+  <script src="../../resources/JS/payrollStructJS/createPayrollStruct.js"></script>
 </body>
 
 </html>
