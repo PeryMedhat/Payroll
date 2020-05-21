@@ -25,12 +25,12 @@ public class GradingAndSalaryDAOImpl implements GradingAndSalaryDAO {
 	}
 
 	@Override
-	public GradingAndSalary getGradingAndSalary(String code) {
+	public GradingAndSalary getGradingAndSalary(String grade) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
 		GradingAndSalary GradingAndSalary ;
-		Query<GradingAndSalary> theQuery = session.createQuery("From GradingAndSalary where id =:id)", GradingAndSalary.class); 
-		theQuery.setParameter("id",code);
+		Query<GradingAndSalary> theQuery = session.createQuery("From GradingAndSalary where grade =:grade", GradingAndSalary.class); 
+		theQuery.setParameter("grade",grade);
 		
 		GradingAndSalary = theQuery.getSingleResult();
 		
@@ -46,9 +46,9 @@ public class GradingAndSalaryDAOImpl implements GradingAndSalaryDAO {
 	}
 	
 	@Override
-	public void deleteGradingAndSalary(String code) {
+	public void deleteGradingAndSalary(String grade) {
 		Session session = sessionFactory.getCurrentSession();
-		GradingAndSalary GradingAndSalary=getGradingAndSalary(code);
+		GradingAndSalary GradingAndSalary=getGradingAndSalary(grade);
 		session.delete(GradingAndSalary);
 	}
 	
@@ -64,13 +64,6 @@ public class GradingAndSalaryDAOImpl implements GradingAndSalaryDAO {
 		GradingAndSalarys = theQuery.getResultList();
 		return GradingAndSalarys;		
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

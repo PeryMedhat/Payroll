@@ -9,7 +9,7 @@ public class GradingAndSalaryModel {
 	private String min;
 	private String mid;
 	private String max;
-	private String basicSalary;
+	private String basicSalary;//payTypeCode
 	
 	public GradingAndSalaryModel() {	}
 

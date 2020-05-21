@@ -203,10 +203,8 @@ CREATE TABLE `payroll-schema`.`payroll_struct` (
   CONSTRAINT `fk_payroll_struct_1` FOREIGN KEY (`commonID_id`) REFERENCES `payroll_struct_commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
-
-
 CREATE TABLE `payroll-schema`.`grading_salary_structure` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
   `grade` varchar(45) NOT NULL,
@@ -214,10 +212,11 @@ CREATE TABLE `payroll-schema`.`grading_salary_structure` (
   `min` decimal(45,10) NOT NULL,
   `mid` decimal(45,10) NOT NULL,
   `max` decimal(45,10) NOT NULL,
-  `basic_salary` decimal(45,10) NOT NULL,
-  PRIMARY KEY (`id`)
+  `basic_salary` varchar(45) NOT NULL,
+  `delimited` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `grade_UNIQUE` (`grade`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
-
 
 CREATE TABLE `payroll-schema`.`payroll_valuation` (
   `id` int(11) NOT NULL,

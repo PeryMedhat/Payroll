@@ -5,6 +5,7 @@ package com.controllers.payType;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -65,4 +66,11 @@ public class PayTypeRestController {
 		payTypeService.delimitPayType(code, todayDate);
 		payTypeService.addPayType(payTypeModel);		
 	}
+	
+	@RequestMapping(value = { "/getAllPayTypes" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<PayTypeModel> getAllPayTypes() {
+		return payTypeService.getAllPayTypes();
+	}
+	
 }

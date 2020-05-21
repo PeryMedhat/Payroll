@@ -3,7 +3,9 @@ package com.service.payType;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,7 +78,6 @@ public class PayTypeServiceImpl implements PayTypeService{
 			Type type = typeDAO.getTypeByCode(payType.getType());
 			Interval interval =intervalDAO.getIntervalByCode(payType.getInterval());
 			
-			
 			String startDate = dateFormat.format(payType.getCommID().getStartDate());
 			String endDate = dateFormat.format(payType.getCommID().getEndDate());
 			
@@ -144,6 +145,41 @@ public class PayTypeServiceImpl implements PayTypeService{
 			payTypeDAO.addPayType(payType);
 		
 		}
+	}
+
+
+	@Override
+	@Transactional
+	public List<PayTypeModel> getAllPayTypes() {
+		List<PayType> payTypeObj= new ArrayList<PayType>();
+		try {
+			payTypeObj = payTypeDAO.getAllPayTypes();
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		List<PayTypeModel> payTypeModel = new ArrayList<PayTypeModel>();
+		for(int i=0;i<payTypeObj.size();i++) {
+			PayTypeModel payType =new PayTypeModel();
+			DateFormat dateFormat = new SimpleDateFormat();
+			InputValue inputValue = inputValueDAO.getInputValueByCode(payTypeObj.get(i).getInputvalue());
+			Type type = typeDAO.getTypeByCode(payTypeObj.get(i).getType());
+			Interval interval =intervalDAO.getIntervalByCode(payTypeObj.get(i).getInterval());
+			String startDate = dateFormat.format(payTypeObj.get(i).getCommID().getStartDate());
+			String endDate = dateFormat.format(payTypeObj.get(i).getCommID().getEndDate());
+			
+			payType.setCode(payTypeObj.get(i).getCommID().getCode());
+			payType.setEndDate(endDate.substring(0, 6));
+			payType.setStartDate(startDate.substring(0, 6));
+			payType.setName(payTypeObj.get(i).getCommID().getName());
+			payType.setInputValue(inputValue.getName());
+			payType.setInterval(interval.getName());
+			payType.setType(type.getName());
+			
+			payTypeModel.add(payType);
+		}
+		return payTypeModel;
+		
 	}
 	
 	

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="grading_salary_structure")
@@ -40,14 +41,18 @@ public class GradingAndSalary {
 	private float max;
 	
 	@Column(name="basic_salary")
-	private float basicSalary;
+	private String basicSalary;
+	
+	@NotNull(message = "is required")
+	@Column(name="delimited")
+	private int delimited;
 	
 	public GradingAndSalary() {
 		
 	}
 
 	public GradingAndSalary(Date startDate, Date endDate, String grade, String level, float min, float mid, float max,
-			float basicSalary) {
+			String basicSalary) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.grade = grade;
@@ -122,12 +127,22 @@ public class GradingAndSalary {
 		this.max = max;
 	}
 
-	public float getBasicSalary() {
+	
+	
+	public String getBasicSalary() {
 		return basicSalary;
 	}
 
-	public void setBasicSalary(float basicSalary) {
+	public void setBasicSalary(String basicSalary) {
 		this.basicSalary = basicSalary;
+	}
+
+	public int getDelimited() {
+		return delimited;
+	}
+
+	public void setDelimited(int delimited) {
+		this.delimited = delimited;
 	}
 	
 
