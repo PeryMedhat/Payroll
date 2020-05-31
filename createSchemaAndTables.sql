@@ -160,13 +160,13 @@ CREATE TABLE `payroll-schema`.`paytype_inputvalue` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
+
 CREATE TABLE `payroll-schema`.`paytype_interval` (
   `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
-
 
 
 CREATE TABLE `payroll-schema`.`paytype_type` (
@@ -219,20 +219,11 @@ CREATE TABLE `payroll-schema`.`grading_salary_structure` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 CREATE TABLE `payroll-schema`.`payroll_valuation` (
-  `id` int(11) NOT NULL,
-  `code` varchar(45) DEFAULT NULL,
+ `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `description` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
-
-
-
-
-
-
-
-
-
 
 
 
