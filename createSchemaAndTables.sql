@@ -69,19 +69,20 @@ CREATE TABLE `payroll-schema`.`company_struct_child` (
 
 
 CREATE TABLE `payroll-schema`.`country` (
-  `country_id` varchar(45) NOT NULL,
+ `country_id` varchar(45) NOT NULL,
   `code` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
-
+  
 CREATE TABLE `payroll-schema`.`currency` (
   `currency_id` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `code` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`currency_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
 
 CREATE TABLE `payroll-schema`.`emp_struct_parent` (
   `parent_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -132,7 +133,7 @@ CREATE TABLE `payroll-schema`.`paytype_commId` (
   `delimited` int(11) NOT NULL,
   PRIMARY KEY (`paytype_commId_id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=big5;
 
 
 CREATE TABLE `payroll-schema`.`paytype` (
@@ -150,7 +151,7 @@ CREATE TABLE `payroll-schema`.`paytype` (
   KEY `fk_paytype_3_idx` (`inputvalue`),
   KEY `fk_paytype_4_idx` (`type`),
   CONSTRAINT `fk_paytype_1` FOREIGN KEY (`paytype_commId_id`) REFERENCES `paytype_commId` (`paytype_commId_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=big5;
 
 
 CREATE TABLE `payroll-schema`.`paytype_inputvalue` (
@@ -177,7 +178,7 @@ CREATE TABLE `payroll-schema`.`paytype_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 CREATE TABLE `payroll-schema`.`payroll_struct_commonID` (
-  `commonID_id` int(11) NOT NULL,
+  `commonID_id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
   `code` varchar(45) NOT NULL,
@@ -186,22 +187,23 @@ CREATE TABLE `payroll-schema`.`payroll_struct_commonID` (
   PRIMARY KEY (`commonID_id`),
   UNIQUE KEY `commonID_id_UNIQUE` (`commonID_id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=big5;
 
 
 CREATE TABLE `payroll-schema`.`payroll_struct` (
-  `payroll_id` int(11) NOT NULL,
+  `payroll_id` int(11) NOT NULL AUTO_INCREMENT,
   `commonID_id` int(11) NOT NULL,
   `interval` varchar(45) NOT NULL,
   `country` varchar(45) NOT NULL,
   `currency` varchar(45) NOT NULL,
-  `company` varchar(45) NOT NULL,
-  `tax_settlement` varchar(45) NOT NULL,
+  `company` varchar(45) DEFAULT NULL,
+  `tax_settlement` varchar(45) DEFAULT NULL,
   `payroll_valuation` varchar(45) NOT NULL,
   PRIMARY KEY (`payroll_id`),
   KEY `fk_payroll_struct_1_idx` (`commonID_id`),
-  CONSTRAINT `fk_payroll_struct_1` FOREIGN KEY (`commonID_id`) REFERENCES `payroll_struct_commonID` (`commonID_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
+  CONSTRAINT `fk_payroll_struct_1` FOREIGN KEY (`commonID_id`) REFERENCES `payroll_struct_commonID` (`commonID_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=big5;
+
 
 CREATE TABLE `payroll-schema`.`grading_salary_structure` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -216,15 +218,15 @@ CREATE TABLE `payroll-schema`.`grading_salary_structure` (
   `delimited` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `grade_UNIQUE` (`grade`)
-) ENGINE=InnoDB DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=big5;
+
 
 CREATE TABLE `payroll-schema`.`payroll_valuation` (
- `code` varchar(45) NOT NULL,
+  `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
-
 
 
 
