@@ -97,6 +97,35 @@ public class PayTypeServiceImpl implements PayTypeService{
 	
 	@Override
 	@Transactional
+	public PayTypeModel getPayTypeByName(String name) {
+		try {
+			PayTypeModel payTypeModel= new PayTypeModel();
+			PayType payType = payTypeDAO.getPayTypeByName(name);
+			DateFormat dateFormat = new SimpleDateFormat();
+
+			InputValue inputValue = inputValueDAO.getInputValueByCode(payType.getInputvalue());
+			Type type = typeDAO.getTypeByCode(payType.getType());
+			Interval interval =intervalDAO.getIntervalByCode(payType.getInterval());
+			
+			String startDate = dateFormat.format(payType.getCommID().getStartDate());
+			String endDate = dateFormat.format(payType.getCommID().getEndDate());
+			
+			payTypeModel.setCode(payType.getCommID().getCode());
+			payTypeModel.setEndDate(endDate.substring(0, 6));
+			payTypeModel.setStartDate(startDate.substring(0, 6));
+			payTypeModel.setName(payType.getCommID().getName());
+			payTypeModel.setInputValue(inputValue.getName());
+			payTypeModel.setInterval(interval.getName());
+			payTypeModel.setType(type.getName());
+			return payTypeModel;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new NotFoundException("There is no payType with name: "+name+" exsits!");
+		}
+	}
+	
+	@Override
+	@Transactional
 	public void deletePayType(String code) {
 		try {
 			payTypeDAO.deletePayType(code);	

@@ -11,4 +11,5 @@ public interface PayTypeDAO {
 	public PayType getPayTypeById(int id);
 	public void deletePayType(String code);
 	public List<PayType> getAllPayTypes();
+	public PayType getPayTypeByName(String name);
 }

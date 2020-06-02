@@ -12,15 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dao.gradingandsalary.GradingAndSalaryDAO;
 import com.entities.gradingandsalary.GradingAndSalary;
 import com.models.gradingandsalary.GradingAndSalaryModel;
+import com.models.payType.PayTypeModel;
 import com.rest.errorhandling.NotFoundException;
 import com.rest.errorhandling.UniqunessException;
+import com.service.payType.PayTypeService;
 
 @Service
 public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 	
 	@Autowired
 	private GradingAndSalaryDAO GradingAndSalaryDAO;
-	
+	@Autowired
+	private PayTypeService payTypeService;
 	
 	@Override
 	@Transactional
@@ -32,6 +35,8 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 		float max = Float.parseFloat(GradingAndSalaryModel.getMax());
 		float mid = Float.parseFloat(GradingAndSalaryModel.getMid());
 
+		PayTypeModel payTypeForBasicSalary =payTypeService.getPayTypeByName(GradingAndSalaryModel.getBasicSalary());
+		String payTypeCode =payTypeForBasicSalary.getCode();
 		GradingAndSalary GradingAndSalaryObj = new GradingAndSalary();
 		GradingAndSalaryObj.setDelimited(0);
 		
@@ -42,7 +47,7 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 		GradingAndSalaryObj.setMin(min);
 		GradingAndSalaryObj.setMax(max);
 		GradingAndSalaryObj.setMid(mid);
-		GradingAndSalaryObj.setBasicSalary(GradingAndSalaryModel.getBasicSalary());
+		GradingAndSalaryObj.setBasicSalary(payTypeCode);
 		
 		try {
 			GradingAndSalaryDAO.addGradingAndSalary(GradingAndSalaryObj);

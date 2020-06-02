@@ -36,6 +36,19 @@ public class PayTypeDAOImpl implements PayTypeDAO {
 		
 		return payType;		
 	}
+	
+	@Override
+	public PayType getPayTypeByName(String name) {
+		// get the session
+		Session session = sessionFactory.getCurrentSession();
+		PayType payType ;
+		Query<PayType> theQuery = session.createQuery("From PayType where commID=(select id from PayTypeCommId where name =:name)", PayType.class); 
+		theQuery.setParameter("name",name);
+		
+		payType = theQuery.getSingleResult();
+		
+		return payType;		
+	}
 
 	
 	@Override

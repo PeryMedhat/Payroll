@@ -12,4 +12,5 @@ public interface PayTypeService {
 	public void delimitPayType(String code, String endDate) throws ParseException;
 	public void updatePayTypeData(PayTypeModel payTypeModel) throws ParseException;
 	public List<PayTypeModel> getAllPayTypes();
+	public PayTypeModel getPayTypeByName(String name);
 }
