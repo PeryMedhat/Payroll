@@ -41,6 +41,9 @@ public class PayType {
 	@Column(name="cost_center")
 	private String costCenter;
 	
+	@Column(name="unit")
+	private String unit;
+	
 	public PayType() {
 		
 	}
@@ -120,4 +123,13 @@ public class PayType {
 		this.costCenter = costCenter;
 	}
 
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	
 }

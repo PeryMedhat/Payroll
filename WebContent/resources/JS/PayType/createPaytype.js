@@ -66,6 +66,7 @@ var controller = (function () {
     var inputVals;
     var intervals;
     var types;
+    var Taxes;
 
     $.ajax({
         headers: {
@@ -110,6 +111,30 @@ var controller = (function () {
             console.log(xhr);
         }
     });
+
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "get",
+        url: "http://localhost:8080/Payroll/lookUps/gettaxes",
+        success: function (response) {
+            Taxes = response;
+            for (var i = 0; i < Taxes.length; i++) {
+                if (i == 0) {
+                    $('#Taxes').append($('<option selected>').val(Taxes[i].name).text(Taxes[i].name));
+                } else {
+                    $('#Taxes').append($('<option>').val(Taxes[i].name).text(Taxes[i].name));
+                }
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        }
+    });
+
+
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -149,6 +174,15 @@ var controller = (function () {
             location = '../../index.html';
         });
 
+        $('#inputValue').on('change', function (e) {
+            if($('#inputValue').val()=== "unit"||$('#inputValue').val()=== "both") {
+                $('#payTypeUnit').removeAttr('hidden','');
+            } 
+            if(!($('#inputValue').val()=== "unit"||$('#inputValue').val()=== "both")) {
+                $('#payTypeUnit').attr('hidden','');
+            } 
+        });
+
         $("#buttonSubmit").click(function (e) {
             var code = document.getElementById("payType_code");
             var name = document.getElementById("payType_name");
@@ -157,9 +191,15 @@ var controller = (function () {
             var interval = document.getElementById("interval");
             var type = document.getElementById("type");
             var inputValue = document.getElementById("inputValue");
-            //validations 
-            if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || type.value == '' || inputValue.value == '') {
+            var unit = document.getElementById("unit");
+            var taxes =document.getElementById("Taxes");
 
+            if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || type.value == '' || inputValue.value == ''||((inputValue.value==="unit"||inputValue.value=== "both")&&unit.value == '')) {
+                if (unit.value == '' ) {
+                    var codeisEmpty = document.getElementById("unitisEmpty");
+                    unitisEmpty.removeAttribute('hidden');
+                    unit.setAttribute("class", "input--style-4-redBorder");
+                }
                 if (code.value == '') {
                     var codeisEmpty = document.getElementById("codeisEmpty");
                     codeisEmpty.removeAttribute('hidden');
@@ -184,6 +224,7 @@ var controller = (function () {
                 }
 
             } else {
+                
                 var payTypeModel = {
                     "code": code.value,
                     "name": name.value,
@@ -191,12 +232,11 @@ var controller = (function () {
                     "endDate": endDate.value,
                     "interval": interval.value,
                     "type": type.value,
-                    "inputValue": inputValue.value
+                    "inputValue": inputValue.value,
+                    "unit":unit.value,
+                    "taxes":taxes.value
                 };
-
                 var formData = JSON.stringify(payTypeModel);
-
-
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -219,15 +259,10 @@ var controller = (function () {
                 });
 
             }
+            
 
         });
 
-
-
-
     });
-
-
-
 
 })();

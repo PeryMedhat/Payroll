@@ -1,10 +1,10 @@
-
 queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const code = urlParams.get('code');
 var theInterval;
 var theType;
 var theInputValue;
+var theTaxes;
 
 $.ajax({
     headers: {
@@ -24,6 +24,14 @@ $.ajax({
         theInterval = response.interval;
         theType = response.type;
         theInputValue = response.inputValue;
+
+        if(theInputValue==='both'||theInputValue==='unit'){
+            $('#payTypeUnit').removeAttr('hidden','');
+            $('#unit').val(response.unit);
+        }
+
+
+        theTaxes = response.taxes;
     },
     error: function (xhr) {
         console.log(xhr);
@@ -100,6 +108,30 @@ var controller = (function () {
     var inputVals;
     var intervals;
     var types;
+    var taxes;
+
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "get",
+        url: "http://localhost:8080/Payroll/lookUps/gettaxes",
+
+        success: function (response) {
+            taxes = response;
+            for (var i = 0; i < taxes.length; i++) {
+                if (theTaxes.localeCompare(taxes[i].name)==0) {
+                    $('#taxes').append($('<option selected>').val(taxes[i].name).text(taxes[i].name));
+                } else {
+                    $('#taxes').append($('<option>').val(taxes[i].name).text(taxes[i].name));
+                }
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        }
+    });
 
     $.ajax({
         headers: {
@@ -145,6 +177,7 @@ var controller = (function () {
             console.log(xhr);
         }
     });
+
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -168,6 +201,15 @@ var controller = (function () {
     });
 
     jQuery(document).ready(function ($) {
+
+
+        if(inputValue.value==="unit"||inputValue.value=== "both"){
+            if (unit.value == '') {
+                var codeisEmpty = document.getElementById("unitisEmpty");
+                unitisEmpty.removeAttribute('hidden');
+                unit.setAttribute("class", "input--style-4-redBorder");
+            }
+        }
 
         $("#buttonSubmit").mouseenter(function () {
             $(this).removeClass('btn-primary');
@@ -194,16 +236,15 @@ var controller = (function () {
             var interval = document.getElementById("interval");
             var type = document.getElementById("type");
             var inputValue = document.getElementById("inputValue");
-            //validations 
-            if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || type.value == '' || inputValue.value == '') {
+            var unit = document.getElementById("unit");
+            var taxes =document.getElementById("taxes");
 
+            if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || type.value == '' || inputValue.value == '') {
                 if (code.value == '') {
                     var codeisEmpty = document.getElementById("codeisEmpty");
                     codeisEmpty.removeAttribute('hidden');
                     code.setAttribute("class", "input--style-4-redBorder");
-
                 }
-
                 if (name.value == '') {
                     var nameisEmpty = document.getElementById("nameisEmpty");
                     nameisEmpty.removeAttribute('hidden');
@@ -219,7 +260,6 @@ var controller = (function () {
                     endDateisEmpty.removeAttribute('hidden');
                     endDate.setAttribute("class", "input--style-4-redBorder");
                 }
-
             } else {
                 var payTypeModel = {
                     "code": code.value,
@@ -228,12 +268,11 @@ var controller = (function () {
                     "endDate": endDate.value,
                     "interval": interval.value,
                     "type": type.value,
-                    "inputValue": inputValue.value
+                    "inputValue": inputValue.value,
+                    "unit":unit.value,
+                    "taxes":taxes.value
                 };
-
                 var formData = JSON.stringify(payTypeModel);
-
-
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -254,19 +293,8 @@ var controller = (function () {
                         document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
                     }
                 });
-
             }
-
         });
-
-
-
-
     });
 })();
-
-
-
-
-
 

@@ -161,7 +161,7 @@
                   <div class="input-group">
                     <label class="label"> Code <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
 
-                    <input class="input--style-4"  type="text" id="payType_code" name="payType_code" disabled>
+                    <input class="input--style-4"  type="text" id="payType_code" name="payType_code"maxlength="15" disabled>
 
                   </div>
                 </div>
@@ -169,7 +169,7 @@
                   <div class="input-group">
 
                     <label class="label">Name<h class="rq" id="nameisEmpty" hidden>* Required Field </h></label>
-                    <input class="input--style-4" maxlength="20" type="text" id="payType_name" name="payType_name">
+                    <input style="background:#0000;" class="input--style-4" maxlength="60" type="text" id="payType_name" name="payType_name">
                   </div>
                 </div>
               </div>
@@ -181,7 +181,7 @@
                     <label class="label">Start Date<h class="rq" id="startDateisEmpty" hidden>* Required Field </h>
                       </label>
                     <div class="input-group-icon">
-                      <input readonly='true' class="input--style-4 js-datepicker" id="start_date" type="text"
+                      <input style="background:#0000;" readonly='true' class="input--style-4 js-datepicker" id="start_date" type="text"
                         name="start_date">
                       <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                     </div>
@@ -193,7 +193,7 @@
                   <div class="input-group">
                     <label class="label">End Date <h class="rq" id="endDateisEmpty" hidden>* Required Field </h></label>
                     <div class="input-group-icon">
-                      <input readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
+                      <input style="background:#0000;" readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
                         name="birthday">
                       <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                     </div>
@@ -227,7 +227,7 @@
 
               <div class="row row-space paddingtop">
 
-                <div class="col-8">
+                <div class="col-5">
                   <div class="dropdown">
                     <label class="label">Input value <h class="rq" id="inputValueisEmpty" hidden>* Required Field </h>
                       </label>
@@ -238,8 +238,34 @@
 
                   </div>
                 </div>
+
+                <div id="payTypeUnit" class="col-5">
+                  <div class="input-group">
+                    <label class="label">Unit <h class="rq" id="unitisEmpty" hidden>* Required Field </h></label>
+                    <div class="input-group-icon">
+                      <input style="background:#0000;" class="input--style-4" maxlength="15" type="text" id="unit" >
+
+                      <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
+              <div class="row row-space paddingtop">
+
+                <div class="col-5">
+                  <div class="dropdown">
+                    <label class="label">Taxes <h class="rq" id="TaxesisEmpty" hidden>* Required Field </h>
+                      </label>
+                      <select class="custom-select" style="height: 50px;" id="Taxes">
+
+                     </select>
+                   
+
+                  </div>
+                </div>
+              </div>
 
               <div class="row row-space paddingtop">
 

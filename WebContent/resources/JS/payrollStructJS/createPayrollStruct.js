@@ -178,10 +178,12 @@ var controller = (function () {
             location = '../../index.html';
         });
 
-       
         $('#country').on('change', function (e) {
             if($('#country').val()=== "Egypt") {
                 $('#taxSettlementId').removeAttr('hidden','');
+            } 
+            if(!($('#country').val()=== "Egypt")) {
+                $('#taxSettlementId').attr('hidden','');
             } 
           });
 

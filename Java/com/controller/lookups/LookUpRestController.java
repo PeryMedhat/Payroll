@@ -14,6 +14,7 @@ import com.entities.lookups.Currency;
 import com.entities.lookups.InputValue;
 import com.entities.lookups.Interval;
 import com.entities.lookups.PayrollValuation;
+import com.entities.lookups.TaxesLookUp;
 import com.entities.lookups.Type;
 import com.service.lookups.LookUpsService;
 
@@ -61,6 +62,12 @@ public class LookUpRestController {
 	public List<Currency> getCurrencies() {	
 		return lookUpsService.getAllCurrencies();
 		
+	}
+	
+	@RequestMapping(value = { "/gettaxes" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<TaxesLookUp> gettaxes() {	
+		return lookUpsService.getAllTaxesLookUps();
 	}
 		
 }

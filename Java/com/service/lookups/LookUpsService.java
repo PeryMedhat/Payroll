@@ -11,12 +11,14 @@ import com.dao.lookups.CurrencyLookupDAO;
 import com.dao.lookups.InputValueLookupDAO;
 import com.dao.lookups.IntervalLookupDAO;
 import com.dao.lookups.PayrollValuationLookupDAO;
+import com.dao.lookups.TaxesLookupDAO;
 import com.dao.lookups.TypeLookupDAO;
 import com.entities.lookups.Country;
 import com.entities.lookups.Currency;
 import com.entities.lookups.InputValue;
 import com.entities.lookups.Interval;
 import com.entities.lookups.PayrollValuation;
+import com.entities.lookups.TaxesLookUp;
 import com.entities.lookups.Type;
 
 @Service
@@ -38,6 +40,9 @@ public class LookUpsService {
 	
 	@Autowired
 	private CurrencyLookupDAO currencyDAO;
+	
+	@Autowired
+	private TaxesLookupDAO taxesDAO;
 	
 	@Transactional
 	public List<InputValue> getAllInputValues() {
@@ -65,6 +70,11 @@ public class LookUpsService {
 	public List<Currency> getAllCurrencies() {
 		return currencyDAO.getListOfCurrencys();
 		
+	}
+	
+	@Transactional
+	public List<TaxesLookUp> getAllTaxesLookUps() {
+		return taxesDAO.getListOfTaxesLookUp();
 	}
 
 	

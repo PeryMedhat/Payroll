@@ -9,6 +9,8 @@ public class PayTypeModel {
 	private String interval;
 	private String type;
 	private String inputValue;
+	private String unit;
+	private String taxes;
 	
 	public PayTypeModel() {	}
 
@@ -77,6 +79,22 @@ public class PayTypeModel {
 
 	public void setInputValue(String inputValue) {
 		this.inputValue = inputValue;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getTaxes() {
+		return taxes;
+	}
+
+	public void setTaxes(String taxes) {
+		this.taxes = taxes;
 	}
 	
 	

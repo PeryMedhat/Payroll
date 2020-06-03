@@ -130,7 +130,6 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 			float max = Float.parseFloat(GradingAndSalaryModel.getMax());
 			float mid = Float.parseFloat(GradingAndSalaryModel.getMid());
 
-				
 			GradingAndSalary GradingAndSalary = GradingAndSalaryDAO.getGradingAndSalary(grade);
 			
 			//Update the data of this GradingAndSalary 
@@ -142,6 +141,7 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 			GradingAndSalary.setMid(mid);
 			GradingAndSalary.setMax(max);
 			GradingAndSalaryDAO.addGradingAndSalary(GradingAndSalary);
+			
 		}
 		
 	}

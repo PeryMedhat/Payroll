@@ -13,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.lookups.InputValueLookupDAO;
 import com.dao.lookups.IntervalLookupDAO;
+import com.dao.lookups.TaxesLookupDAO;
 import com.dao.lookups.TypeLookupDAO;
 import com.dao.payType.PayTypeDAO;
 import com.entities.lookups.InputValue;
 import com.entities.lookups.Interval;
+import com.entities.lookups.TaxesLookUp;
 import com.entities.lookups.Type;
 import com.entities.payType.PayType;
 import com.entities.payType.PayTypeCommId;
@@ -38,6 +40,10 @@ public class PayTypeServiceImpl implements PayTypeService{
 	@Autowired
 	private TypeLookupDAO typeDAO;
 	
+	@Autowired
+	private TaxesLookupDAO taxesDAO;
+	
+	
 	@Override
 	@Transactional
 	public void addPayType(PayTypeModel payTypeModel) throws ParseException {
@@ -52,14 +58,20 @@ public class PayTypeServiceImpl implements PayTypeService{
 		InputValue inputValue = inputValueDAO.getInputValueByName(payTypeModel.getInputValue());
 		Type type = typeDAO.getTypeByName(payTypeModel.getType());
 		Interval interval =intervalDAO.getIntervalByName(payTypeModel.getInterval());
+		TaxesLookUp taxes =taxesDAO.getTaxesLookUpByName(payTypeModel.getTaxes());
 		
+		if(payTypeModel.getInputValue().equals("calculated")||payTypeModel.getInputValue().equals("value")) {
+			payTypeObj.setUnit(null);
+		}else {payTypeObj.setUnit(payTypeModel.getUnit());}
 		payTypeObj.setCommID(commId);
 		payTypeObj.setCostCenter(null);
 		payTypeObj.setGlAssignemnt(null);
-		payTypeObj.setTaxes(null);
+		payTypeObj.setTaxes(taxes.getCode());
 		payTypeObj.setInputvalue(inputValue.getCode());
 		payTypeObj.setInterval(interval.getCode());
 		payTypeObj.setType(type.getCode());
+		
+		
 		try {
 			payTypeDAO.addPayType(payTypeObj);
 		}catch(Exception e) {throw new UniqunessException("payType with code:"+payTypeModel.getCode()+ " is already saved!");}
@@ -77,6 +89,7 @@ public class PayTypeServiceImpl implements PayTypeService{
 			InputValue inputValue = inputValueDAO.getInputValueByCode(payType.getInputvalue());
 			Type type = typeDAO.getTypeByCode(payType.getType());
 			Interval interval =intervalDAO.getIntervalByCode(payType.getInterval());
+			TaxesLookUp taxes = taxesDAO.getTaxesLookUpByCode(payType.getTaxes());
 			
 			String startDate = dateFormat.format(payType.getCommID().getStartDate());
 			String endDate = dateFormat.format(payType.getCommID().getEndDate());
@@ -88,6 +101,9 @@ public class PayTypeServiceImpl implements PayTypeService{
 			payTypeModel.setInputValue(inputValue.getName());
 			payTypeModel.setInterval(interval.getName());
 			payTypeModel.setType(type.getName());
+			payTypeModel.setUnit(payType.getUnit());
+			payTypeModel.setTaxes(taxes.getName());
+			
 			return payTypeModel;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -106,7 +122,8 @@ public class PayTypeServiceImpl implements PayTypeService{
 			InputValue inputValue = inputValueDAO.getInputValueByCode(payType.getInputvalue());
 			Type type = typeDAO.getTypeByCode(payType.getType());
 			Interval interval =intervalDAO.getIntervalByCode(payType.getInterval());
-			
+			TaxesLookUp taxes = taxesDAO.getTaxesLookUpByCode(payType.getTaxes());
+
 			String startDate = dateFormat.format(payType.getCommID().getStartDate());
 			String endDate = dateFormat.format(payType.getCommID().getEndDate());
 			
@@ -117,6 +134,9 @@ public class PayTypeServiceImpl implements PayTypeService{
 			payTypeModel.setInputValue(inputValue.getName());
 			payTypeModel.setInterval(interval.getName());
 			payTypeModel.setType(type.getName());
+			payTypeModel.setUnit(payType.getUnit());
+			payTypeModel.setTaxes(taxes.getName());
+
 			return payTypeModel;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -163,14 +183,16 @@ public class PayTypeServiceImpl implements PayTypeService{
 			String intervalCode =intervalDAO.getIntervalByName(payTypeModel.getInterval()).getCode() ;
 			String typeCode = typeDAO.getTypeByName(payTypeModel.getType()).getCode();
 			String intputValCode = inputValueDAO.getInputValueByName(payTypeModel.getInputValue()).getCode();
-			
+			TaxesLookUp taxes = taxesDAO.getTaxesLookUpByCode(payType.getTaxes());
+
 			payType.getCommID().setName(payTypeModel.getName());
 			payType.getCommID().setStartDate(startDate);
 			payType.getCommID().setEndDate(endDate);
 			payType.setInputvalue(intputValCode);
 			payType.setType(typeCode);
 			payType.setInterval(intervalCode);
-			
+			payType.setUnit(payTypeModel.getUnit());
+			payType.setTaxes(taxes.getCode());
 			payTypeDAO.addPayType(payType);
 		
 		}
@@ -194,6 +216,8 @@ public class PayTypeServiceImpl implements PayTypeService{
 			InputValue inputValue = inputValueDAO.getInputValueByCode(payTypeObj.get(i).getInputvalue());
 			Type type = typeDAO.getTypeByCode(payTypeObj.get(i).getType());
 			Interval interval =intervalDAO.getIntervalByCode(payTypeObj.get(i).getInterval());
+			
+			
 			String startDate = dateFormat.format(payTypeObj.get(i).getCommID().getStartDate());
 			String endDate = dateFormat.format(payTypeObj.get(i).getCommID().getEndDate());
 			
@@ -204,7 +228,9 @@ public class PayTypeServiceImpl implements PayTypeService{
 			payType.setInputValue(inputValue.getName());
 			payType.setInterval(interval.getName());
 			payType.setType(type.getName());
-			
+			payType.setUnit(payTypeObj.get(i).getUnit());
+			payType.setTaxes(payTypeObj.get(i).getTaxes());
+
 			payTypeModel.add(payType);
 		}
 		return payTypeModel;

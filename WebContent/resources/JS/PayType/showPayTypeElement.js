@@ -21,7 +21,12 @@ var controller = (function () {
             $('#interval').val(response.interval);
             $('#type').val(response.type);
             $('#inputValue').val(response.inputValue);
-            
+            $('#Taxes').val(response.taxes);
+
+            if(response.unit !=null){
+                $('#unit').val(response.unit);
+                $('#payTypeUnit').removeAttr('hidden');
+            }
             $('#showPayType').removeAttr('hidden');
 
         },
