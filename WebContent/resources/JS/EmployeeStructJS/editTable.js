@@ -1,5 +1,73 @@
 var controller = (function () {
-    queryString = window.location.search;
+    'use strict';
+    /*==================================================================
+        [ Daterangepicker ]*/
+    try {
+        $('.js-datepicker').daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "autoUpdateInput": false,
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+        });
+    
+        var myCalendar = $('.js-datepicker');
+        var isClick = 0;
+    
+        $(window).on('click',function(){
+            isClick = 0;
+        });
+    
+        $(myCalendar).on('apply.daterangepicker',function(ev, picker){
+            isClick = 0;
+            $(this).val(picker.startDate.format('DD/MM/YYYY'));
+    
+        });
+    
+        $('.js-btn-calendar').on('click',function(e){
+            e.stopPropagation();
+    
+            if(isClick === 1) isClick = 0;
+            else if(isClick === 0) isClick = 1;
+    
+            if (isClick === 1) {
+                myCalendar.focus();
+            }
+        });
+    
+        $(myCalendar).on('click',function(e){
+            e.stopPropagation();
+            isClick = 1;
+        });
+    
+        $('.daterangepicker').on('click',function(e){
+            e.stopPropagation();
+        });
+    
+    
+    } catch(er) {console.log(er);}
+    /*[ Select 2 Config ]
+        ===========================================================*/
+    
+    try {
+        var selectSimple = $('.js-select-simple');
+    
+        selectSimple.each(function () {
+            var that = $(this);
+            var selectBox = that.find('select');
+            var selectDropdown = that.find('.select-dropdown');
+            selectBox.select2({
+                dropdownParent: selectDropdown
+            });
+        });
+    
+    } catch (err) {
+        console.log(err);
+    }
+    
+
+    var queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
     var arrayOfTotalChain;
@@ -22,7 +90,7 @@ var controller = (function () {
                 var sortedArray = new Array();
                 var children = new Array();
                 var subs = new Array();
-                for (index = 0; index < arrayOfTotalChain.length; index++) {
+                for (var index = 0; index < arrayOfTotalChain.length; index++) {
                     if (arrayOfTotalChain[index].hasParent == false) {
                         sortedArray[0] = arrayOfTotalChain[index];
                     } else if (arrayOfTotalChain[index].hasChild == true) {
@@ -102,6 +170,10 @@ var controller = (function () {
         $("#modalOkButton").click(function (e) {
             location = 'editEmpStruct.html';
 
+        });
+
+        $("#valid_date").on('apply.daterangepicker',function() { 
+            console.log("Changed"); 
         });
 
     });

@@ -1,7 +1,7 @@
 var controller = (function () {
     queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const code = urlParams.get('code');
+    const grade = urlParams.get('grade');
 
     $.ajax({
         headers: {
@@ -9,9 +9,9 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/payType/getPayType",
+        url: "http://localhost:8080/Payroll/GradingAndSalary/getGradingAndSalary",
         data: {
-            code: code
+            grade: grade
         },
         success: function (response) {
             $('#payType_code').val(response.code);
@@ -24,8 +24,7 @@ var controller = (function () {
             $('#Taxes').val(response.taxes);
 
             if(response.unit !=null){
-                var newUnit=response.unit*100;
-                $('#unit').val(newUnit);
+                $('#unit').val(response.unit);
                 $('#payTypeUnit').removeAttr('hidden');
             }
             $('#showPayType').removeAttr('hidden');

@@ -196,7 +196,7 @@ var controller = (function () {
 
             if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || type.value == '' || inputValue.value == ''||((inputValue.value==="unit"||inputValue.value=== "both")&&unit.value == '')) {
                 if (unit.value == '' ) {
-                    var codeisEmpty = document.getElementById("unitisEmpty");
+                    var unitisEmpty = document.getElementById("unitisEmpty");
                     unitisEmpty.removeAttribute('hidden');
                     unit.setAttribute("class", "input--style-4-redBorder");
                 }
@@ -223,8 +223,13 @@ var controller = (function () {
                     endDate.setAttribute("class", "input--style-4-redBorder");
                 }
 
+            }else if(isNaN(unit.value)){
+                var unitisEmpty = document.getElementById("unitisEmpty");
+                $('#unitisEmpty').html('*should be a number');
+                unit.setAttribute("class", "input--style-4-redBorder");
+                unitisEmpty.removeAttribute('hidden');
             } else {
-                
+                var percentageUnit = unit.value /100;
                 var payTypeModel = {
                     "code": code.value,
                     "name": name.value,
@@ -233,7 +238,7 @@ var controller = (function () {
                     "interval": interval.value,
                     "type": type.value,
                     "inputValue": inputValue.value,
-                    "unit":unit.value,
+                    "unit":percentageUnit,
                     "taxes":taxes.value
                 };
                 var formData = JSON.stringify(payTypeModel);

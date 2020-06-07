@@ -118,7 +118,7 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			for (Integer i = 0; i < subParents.size(); i++) {
 				// create a model
 				EmployeeStructModel model = new EmployeeStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 				String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
@@ -126,8 +126,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setParentCode(parentCode);
 				model.setHasChild(true);
 				model.setHasParent(true);
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(subParents.get(i).getCommID().getCode());
 				model.setName(subParents.get(i).getCommID().getName());
 				listOfSubParents.add(model);
@@ -150,16 +150,16 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		try {
 			EmpStructParent parent = employeeDAO.getParent(code);
 			EmployeeStructModel model = new EmployeeStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
-
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			
 			String startDate = dateFormat.format(parent.getCommID().getStartDate());
 			String endDate = dateFormat.format(parent.getCommID().getEndDate());
 
 			model.setHasChild(true);
 			model.setHasParent(false);
 			model.setParentCode(null);
-			model.setStartDate(startDate.substring(0, 6));
-			model.setEndDate(endDate.substring(0, 6));
+			model.setStartDate(startDate);
+			model.setEndDate(endDate);
 			model.setCode(parent.getCommID().getCode());
 			model.setName(parent.getCommID().getName());
 
@@ -175,8 +175,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		try {
 			EmpStructSubparent subParent = employeeDAO.getSubParent(code);
 			EmployeeStructModel model = new EmployeeStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
-
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			
 			String startDate = dateFormat.format(subParent.getCommID().getStartDate());
 			String endDate = dateFormat.format(subParent.getCommID().getEndDate());
 			EmpStructParent parent = subParent.getParent();
@@ -187,8 +187,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 			} else {
 				model.setParentCode(subParent.getParentCode());
 			}
-			model.setStartDate(startDate.substring(0, 6));
-			model.setEndDate(endDate.substring(0, 6));
+			model.setStartDate(startDate);
+			model.setEndDate(endDate);
 			model.setCode(subParent.getCommID().getCode());
 			model.setName(subParent.getCommID().getName());
 
@@ -202,8 +202,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		try {
 			EmpStructChild child = employeeDAO.getChild(code);
 			EmployeeStructModel model = new EmployeeStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
-
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			
 			String startDate = dateFormat.format(child.getCommID().getStartDate());
 			String endDate = dateFormat.format(child.getCommID().getEndDate());
 
@@ -218,8 +218,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setParentCode(child.getSubParent().getCommID().getCode());
 			}
 
-			model.setStartDate(startDate.substring(0, 6));
-			model.setEndDate(endDate.substring(0, 6));
+			model.setStartDate(startDate);
+			model.setEndDate(endDate);
 			model.setCode(child.getCommID().getCode());
 			model.setName(child.getCommID().getName());
 
@@ -239,8 +239,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		if (subParentsOfParent != null) {
 			for (Integer i = 0; i < subParentsOfParent.size(); i++) {
 				EmployeeStructModel model = new EmployeeStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
-
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				
 				String startDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getEndDate());
 
@@ -248,8 +248,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setParentCode(code);
 				model.setHasChild(true);
 
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(subParentsOfParent.get(i).getCommID().getCode());
 				model.setName(subParentsOfParent.get(i).getCommID().getName());
 
@@ -270,8 +270,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		if (childrenOfSub != null) {
 			for (Integer i = 0; i < childrenOfSub.size(); i++) {
 				EmployeeStructModel model = new EmployeeStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
-
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				
 				String startDate = dateFormat.format(childrenOfSub.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(childrenOfSub.get(i).getCommID().getEndDate());
 
@@ -279,8 +279,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setParentCode(subCode);
 				model.setHasChild(false);
 
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(childrenOfSub.get(i).getCommID().getCode());
 				model.setName(childrenOfSub.get(i).getCommID().getName());
 				listOfChildren.add(model);
@@ -303,8 +303,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		if (childrenOfParent != null) {
 			for (Integer i = 0; i < childrenOfParent.size(); i++) {
 				EmployeeStructModel model = new EmployeeStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
-
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				
 				String startDate = dateFormat.format(childrenOfParent.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(childrenOfParent.get(i).getCommID().getEndDate());
 
@@ -312,8 +312,8 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 				model.setParentCode(parentCode);
 				model.setHasChild(false);
 
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(childrenOfParent.get(i).getCommID().getCode());
 				model.setName(childrenOfParent.get(i).getCommID().getName());
 				listOfChildren.add(model);

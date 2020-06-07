@@ -23,127 +23,134 @@ import com.services.empStruct.EmployeeStructService;
 @RestController
 @RequestMapping("/employeeStructure")
 public class EmployeeStructController {
-	
+
 	@Autowired
 	EmployeeStructService empService;
-	
-	@RequestMapping(value = { "/addEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = {
+			"/addEmployeeStructure" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public void addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws Exception {	
-		for(Integer i =0;i<employeeModel.size();i++) {
+	public void addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws Exception {
+		for (Integer i = 0; i < employeeModel.size(); i++) {
 			empService.processTheIncommingModel(employeeModel.get(i));
 		}
-		
+
 	}
-	
-	@RequestMapping(value = { "/showEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = {
+			"/addEmployeeStructureElement" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String,Object>  showEmployeeStructure(@RequestParam("code") String code) {
-		Map<String,Object> myMap = new HashMap<String,Object>();
+	public void addEmployeeStructureElement(@RequestBody EmployeeStructModel employeeModel) throws Exception {
+		empService.processTheIncommingModel(employeeModel);
+	}
+
+	@RequestMapping(value = {
+			"/showEmployeeStructure" }, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String, Object> showEmployeeStructure(@RequestParam("code") String code) {
+		Map<String, Object> myMap = new HashMap<String, Object>();
 		List<EmployeeStructModel> myList = new ArrayList<EmployeeStructModel>();
 		try {
 			Boolean isParent = empService.isParent(code);
 			Boolean isSub = empService.isSubParent(code);
-			
-				if(isParent) {
-					myList.addAll(empService.getParentChain(code));
-				}
-				else if(isSub) {
-					myList.addAll(empService.getSubParentChain(code));
-				}else {
-					myList.addAll(empService.getChildChain(code));
-				}
-				myMap.put("theChain",myList);
-			
-		}catch(Exception e) {myMap.put("theChain",null);e.printStackTrace();}
-		
+
+			if (isParent) {
+				myList.addAll(empService.getParentChain(code));
+			} else if (isSub) {
+				myList.addAll(empService.getSubParentChain(code));
+			} else {
+				myList.addAll(empService.getChildChain(code));
+			}
+			myMap.put("theChain", myList);
+
+		} catch (Exception e) {
+			myMap.put("theChain", null);
+			e.printStackTrace();
+		}
+
 		return myMap;
 	}
 
-	
-	@RequestMapping(value = { "/getEmployeeStructureElement" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = {
+			"/getEmployeeStructureElement" }, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String,Object>  getEmployeeStructureElement(@RequestParam("code") String code) {
-		Map<String,Object> myMap = new HashMap<String,Object>();
-		EmployeeStructModel model= new EmployeeStructModel(); 
+	public Map<String, Object> getEmployeeStructureElement(@RequestParam("code") String code) {
+		Map<String, Object> myMap = new HashMap<String, Object>();
+		EmployeeStructModel model = new EmployeeStructModel();
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
-		
+
 		try {
-			if(isParent) {
-				model =empService.getTheParent(code);
+			if (isParent) {
+				model = empService.getTheParent(code);
+			} else if (isSub) {
+				model = empService.getTheSubParent(code);
+			} else {
+				model = empService.getTheChild(code);
 			}
-			else if(isSub) {
-				model =empService.getTheSubParent(code);
-			}else {
-				model =empService.getTheChild(code);
-			}
-			myMap.put("theModel",model);
-		}catch(Exception e) {
-			myMap.put("theChain",null);
+			myMap.put("theModel", model);
+		} catch (Exception e) {
+			myMap.put("theChain", null);
 		}
 		return myMap;
 	}
 
-	
-	
-	@RequestMapping(value = { "/updateEmployeeStructure" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = {
+			"/updateEmployeeStructure" }, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public void updateEmployeeStructure(@RequestBody EmployeeStructModel employeeModel) throws ParseException {
-			empService.updateEmployeeStructure(employeeModel);
+		empService.updateEmployeeStructure(employeeModel);
 	}
 
-	@RequestMapping(value = { "/deleteEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = {
+			"/deleteEmployeeStructure" }, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public void deleteEmployeeStructure(@RequestParam("code") String code) {
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
-		
-			if(isParent) {
+
+		if (isParent) {
 			empService.deleteParent(code);
-			}
-			else if(isSub) {
-				empService.deleteSubParent(code);				
-			}else {
-				empService.deleteChild(code);
-			}
-		
+		} else if (isSub) {
+			empService.deleteSubParent(code);
+		} else {
+			empService.deleteChild(code);
+		}
+
 	}
-	
-	
-	@RequestMapping(value = { "/delemitEmployeeStructure" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(value = {
+			"/delemitEmployeeStructure" }, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delemitEmployeeStructure(@RequestParam("code") String code,@RequestParam("endDate") String endDate) throws ParseException {
+	public String delemitEmployeeStructure(@RequestParam("code") String code, @RequestParam("endDate") String endDate)
+			throws ParseException {
 		String isDelemited = "false";
 		Boolean isParent = empService.isParent(code);
 		Boolean isSub = empService.isSubParent(code);
-		
-		
-		if(isParent) {
-			empService.delmitParent(code,endDate);
-		}
-		else if(isSub) {
-			empService.delmitSubParent(code,endDate);			
-		}else {
-			empService.delmitChild(code,endDate);
+
+		if (isParent) {
+			empService.delmitParent(code, endDate);
+		} else if (isSub) {
+			empService.delmitSubParent(code, endDate);
+		} else {
+			empService.delmitChild(code, endDate);
 		}
 		isDelemited = "true";
-	
+
 		return isDelemited;
 	}
 
-	
-	@RequestMapping(value = { "/copyEmployeeStructure" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = {
+			"/copyEmployeeStructure" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public void copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel,@RequestParam("code") String code) throws ParseException, Exception {
+	public void copyEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel,
+			@RequestParam("code") String code) throws ParseException, Exception {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDateTime now = LocalDateTime.now();
-		String todayDate=dtf.format(now);
+		String todayDate = dtf.format(now);
 		empService.delmitParent(code, todayDate);
-		for(int i=0;i<employeeModel.size();i++) {
-			empService.copyEmployeeStructure(employeeModel.get(i),todayDate);
+		for (int i = 0; i < employeeModel.size(); i++) {
+			empService.copyEmployeeStructure(employeeModel.get(i), todayDate);
 		}
 	}
 }
-		
-		

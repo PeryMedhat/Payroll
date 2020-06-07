@@ -53,17 +53,18 @@
           <li>
             <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company
               Structure</a>
-              <ul class="collapse list-unstyled" id="compStructSubmenu">
-                <li>
-                  <a href="../CompanyStructViews/createCompanyStruct.html">Create Company Structure</a>
+            <ul class="collapse list-unstyled" id="compStructSubmenu">
+              <li>
+                <a href="../CompanyStructViews/createCompanyStruct.html">Create Company Structure</a>
               </li>
               <li>
-                  <a href="../CompanyStructViews/editCompanyStruct.html">Edit Company Structure</a>
+                <a href="../CompanyStructViews/editCompanyStruct.html">Edit Company Structure</a>
               </li>
               <li>
-                  <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
+                <a href="../CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company
+                  Structure</a>
               </li>
-              </ul>
+            </ul>
           </li>
 
           <li>
@@ -79,29 +80,31 @@
             </ul>
           </li>
           <li>
-            <a href="#payrollStructureSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Payroll Structure</a>
+            <a href="#payrollStructureSubmenu" data-toggle="collapse" aria-expanded="false"
+              class="dropdown-toggle">Payroll Structure</a>
             <ul class="collapse list-unstyled" id="payrollStructureSubmenu">
               <li>
-                  <a href="../PayrollStructure/createPayrollStructure.html">Create Payroll Structure</a>
+                <a href="../PayrollStructure/createPayrollStructure.html">Create Payroll Structure</a>
               </li>
               <li>
-                  <a href="../PayrollStructure/editPayrollStructure.html">Edit Payroll Structure</a>
+                <a href="../PayrollStructure/editPayrollStructure.html">Edit Payroll Structure</a>
               </li>
-         
+
             </ul>
-           </li>
-           <li>
-            <a href="#gradingStructureSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Grading and Salary Structure</a>
+          </li>
+          <li>
+            <a href="#gradingStructureSubmenu" data-toggle="collapse" aria-expanded="false"
+              class="dropdown-toggle">Grading and Salary Structure</a>
             <ul class="collapse list-unstyled" id="gradingStructureSubmenu">
               <li>
-                  <a href="../GradingAndSalaryViews/createGradingStructure.html">Create Grading and Salary Structure</a>
+                <a href="../GradingAndSalaryViews/createGradingStructure.html">Create Grading and Salary Structure</a>
               </li>
               <li>
-                  <a href="../GradingAndSalaryViews/editGradingStructure.html">Edit Grading and Salary Structure</a>
+                <a href="../GradingAndSalaryViews/editGradingStructure.html">Edit Grading and Salary Structure</a>
               </li>
-         
+
             </ul>
-           </li>
+          </li>
 
         </ul>
 
@@ -175,34 +178,58 @@
         </div>
       </div>
       <div id="theEmpStruct" hidden>
-        <h1>The Employee Structure</h1>
-          <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
-            <table class="table table-hover table-bordered" id="EmpStructTable">
-              <thead style="background-color:#f8b739;">
-                <tr>
-                  <th style="text-align:center;">Type</th>
-                  <th style="text-align:center;">Code</th>
-                  <th style="text-align:center;">Name</th>
-                  <th style="text-align:center;">Start Date</th>
-                  <th style="text-align:center;">End Date</th>
-                  <th style="width: 30%;text-align:center;">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-               
-                </tr>
-              </tbody>
-            </table>
+       
+        <div class="row row-space paddingtop">
+          <div class="col-5">
+            <h1>The Employee Structure</h1>
+
+          </div>
+          <div class="col-5">
+            <div class="input-group">
+              <label class="label" style="font-size: 20px;
+              color: #555;
+              text-transform: capitalize;
+              display: block;
+              margin-bottom: 5px;
+              margin-top: auto;
+              margin-right: 11px;">Valid from<h class="rq" id="validDateisEmpty" hidden>*
+                  Required Field </h>
+              </label>
+              <div class="input-group-icon">
+                <input readonly='true' class="input--style-4 js-datepicker" id="valid_date" type="text"
+                  name="valid_date">
+                <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+              </div>
+            </div>
           </div>
         </div>
-  
+        <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
+          <table class="table table-hover table-bordered" id="EmpStructTable">
+            <thead style="background-color:#f8b739;">
+              <tr>
+                <th style="text-align:center;">Type</th>
+                <th style="text-align:center;">Code</th>
+                <th style="text-align:center;">Name</th>
+                <th style="text-align:center;">Start Date</th>
+                <th style="text-align:center;">End Date</th>
+                <th style="width: 30%;text-align:center;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
+    </div>
+  </div>
 
 
-   
+
+
   </div>
 
 
