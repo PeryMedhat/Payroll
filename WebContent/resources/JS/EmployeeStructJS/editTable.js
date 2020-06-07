@@ -66,7 +66,10 @@ var controller = (function () {
         console.log(err);
     }
     
-
+    var table = document.getElementById("EmpStructTable");
+    var sortedArray = new Array();
+    var children = new Array();
+    var subs = new Array();
     var queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
@@ -86,10 +89,7 @@ var controller = (function () {
                 $('#employeeStructModal').modal('show');
             } else {
                 arrayOfTotalChain = response.theChain;
-                var table = document.getElementById("EmpStructTable");
-                var sortedArray = new Array();
-                var children = new Array();
-                var subs = new Array();
+               
                 for (var index = 0; index < arrayOfTotalChain.length; index++) {
                     if (arrayOfTotalChain[index].hasParent == false) {
                         sortedArray[0] = arrayOfTotalChain[index];
@@ -114,6 +114,7 @@ var controller = (function () {
                         + '&theCode='
                         + theCode;
                     var row = table.insertRow(-1);
+                    row.id = sortedArray[index].code;
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
                     var cell3 = row.insertCell(2);
@@ -173,7 +174,22 @@ var controller = (function () {
         });
 
         $("#valid_date").on('apply.daterangepicker',function() { 
-            console.log("Changed"); 
+            for (var index = 0; index < sortedArray.length; index++) {
+                var startDateString = sortedArray[index].startDate;
+                var sday =startDateString.slice(0, 3); 
+                var smo = startDateString.slice(3,6);
+                var syear = startDateString.slice(6, 11);
+                var modifiedStartDate = new Date(smo+'/'+sday+'/'+syear);
+                var validDate = $("#valid_date").val();
+                var vday = validDate.slice(0,3);
+                var vmo = validDate.slice(3,6);
+                var vyear = validDate.slice(6,11);
+                var modifiedValidDate = new Date(vmo+'/'+vday+'/'+vyear);
+                if(modifiedStartDate<modifiedValidDate){
+                   var trCode = sortedArray[index].code;
+                    $('#'+trCode).remove();
+                }
+            }
         });
 
     });
