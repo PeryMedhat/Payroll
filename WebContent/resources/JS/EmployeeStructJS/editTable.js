@@ -89,82 +89,90 @@ var controller = (function () {
                 $('#employeeStructModal').modal('show');
             } else {
                 arrayOfTotalChain = response.theChain;
-               
-                for (var index = 0; index < arrayOfTotalChain.length; index++) {
-                    if (arrayOfTotalChain[index].hasParent == false) {
-                        sortedArray[0] = arrayOfTotalChain[index];
-                    } else if (arrayOfTotalChain[index].hasChild == true) {
-                        subs.push(arrayOfTotalChain[index]);
-                    } else {
-                        children.push(arrayOfTotalChain[index]);
-                    }
-                }
-                sortedArray = sortedArray.concat(subs).concat(children);
-                for (index = 0; index < sortedArray.length; index++) {
-                    var theCode = code;
-                    var theHrefForEdit = 'editEmpStructData.html?code='
-                        + sortedArray[index].code + '&theCode='
-                        + theCode;
-                    var theHrefFordelemit = 'delemitEmpStructData.html?code='
-                        + sortedArray[index].code
-                        + '&theCode='
-                        + theCode;
-                    var theHrefFordelete = 'deleteEmpStructData.html?code='
-                        + sortedArray[index].code
-                        + '&theCode='
-                        + theCode;
-                    var row = table.insertRow(-1);
-                    row.id = sortedArray[index].code;
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    var cell5 = row.insertCell(4);
-                    var cell6 = row.insertCell(5);
-                    if (sortedArray[index].hasParent == false) {
-                        cell1.innerHTML = "Parent";
-                        var theHrefForCopy = 'copyEmpStructData.html?code='
-                            + sortedArray[index].code
-                            + '&theCode='
-                            + theCode;
-                        var theHrefFordeleteParent = 'deleteEmpStructParentData.html?code='
-                            + sortedArray[index].code
-                            + '&theCode='
-                            + theCode;
-                        cell6.innerHTML = "<a href=" + theHrefForEdit
-                            + ">Edit    </a>" + "<a href="
-                            + theHrefFordelemit + ">   Delimit</a>"
-                            + "<a href=" + theHrefFordeleteParent
-                            + ">   Delete</a>" + "<a href="
-                            + theHrefForCopy + ">   Copy</a>";
-                    } else if (sortedArray[index].hasChild == true) {
-                        cell1.innerHTML = "SubParent";
-                        cell6.innerHTML = "<a href=" + theHrefForEdit
-                            + ">Edit    </a>" + "<a href="
-                            + theHrefFordelemit + ">   Delimit</a>"
-                            + "<a href=" + theHrefFordelete
-                            + ">   Delete</a>";
-                    } else {
-                        cell1.innerHTML = "Child";
-                        cell6.innerHTML = "<a href=" + theHrefForEdit
-                            + ">Edit    </a>" + "<a href="
-                            + theHrefFordelemit + ">   Delimit</a>"
-                            + "<a href=" + theHrefFordelete
-                            + ">   Delete</a>";
-                    }
-                    cell2.innerHTML = sortedArray[index].code;
-                    cell3.innerHTML = sortedArray[index].name;
-                    cell4.innerHTML = sortedArray[index].startDate;
-                    cell5.innerHTML = sortedArray[index].endDate;
-
-                }$('#theEmpStruct').removeAttr('hidden');
-            }
-
-            
+                showTheEmpStructTable();
+            }            
         },
         error: function (xhr) {
         }
     });
+
+    function showTheEmpStructTable(){
+        sortedArray = new Array();
+        var children = new Array();
+        var subs = new Array();
+        for (var index = 0; index < arrayOfTotalChain.length; index++) {
+            if (arrayOfTotalChain[index].hasParent == false) {
+                sortedArray[0] = arrayOfTotalChain[index];
+            } else if (arrayOfTotalChain[index].hasChild == true) {
+                subs.push(arrayOfTotalChain[index]);
+            } else {
+                children.push(arrayOfTotalChain[index]);
+            }
+        }
+        sortedArray = sortedArray.concat(subs).concat(children);
+
+        console.log(arrayOfTotalChain);
+        console.log(sortedArray);
+
+        for (index = 0; index < sortedArray.length; index++) {
+            var theCode = code;
+            var theHrefForEdit = 'editEmpStructData.html?code='
+                + sortedArray[index].code + '&theCode='
+                + theCode;
+            var theHrefFordelemit = 'delemitEmpStructData.html?code='
+                + sortedArray[index].code
+                + '&theCode='
+                + theCode;
+            var theHrefFordelete = 'deleteEmpStructData.html?code='
+                + sortedArray[index].code
+                + '&theCode='
+                + theCode;
+            var row = table.insertRow(-1);
+            row.id = sortedArray[index].code;
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            if (sortedArray[index].hasParent == false) {
+                cell1.innerHTML = "Parent";
+                var theHrefForCopy = 'copyEmpStructData.html?code='
+                    + sortedArray[index].code
+                    + '&theCode='
+                    + theCode;
+                var theHrefFordeleteParent = 'deleteEmpStructParentData.html?code='
+                    + sortedArray[index].code
+                    + '&theCode='
+                    + theCode;
+                cell6.innerHTML = "<a href=" + theHrefForEdit
+                    + ">Edit    </a>" + "<a href="
+                    + theHrefFordelemit + ">   Delimit</a>"
+                    + "<a href=" + theHrefFordeleteParent
+                    + ">   Delete</a>" + "<a href="
+                    + theHrefForCopy + ">   Copy</a>";
+            } else if (sortedArray[index].hasChild == true) {
+                cell1.innerHTML = "SubParent";
+                cell6.innerHTML = "<a href=" + theHrefForEdit
+                    + ">Edit    </a>" + "<a href="
+                    + theHrefFordelemit + ">   Delimit</a>"
+                    + "<a href=" + theHrefFordelete
+                    + ">   Delete</a>";
+            } else {
+                cell1.innerHTML = "Child";
+                cell6.innerHTML = "<a href=" + theHrefForEdit
+                    + ">Edit    </a>" + "<a href="
+                    + theHrefFordelemit + ">   Delimit</a>"
+                    + "<a href=" + theHrefFordelete
+                    + ">   Delete</a>";
+            }
+            cell2.innerHTML = sortedArray[index].code;
+            cell3.innerHTML = sortedArray[index].name;
+            cell4.innerHTML = sortedArray[index].startDate;
+            cell5.innerHTML = sortedArray[index].endDate;
+
+        }$('#theEmpStruct').removeAttr('hidden');
+    }
 
     jQuery(document).ready(function ($) {
 
@@ -174,6 +182,9 @@ var controller = (function () {
         });
 
         $("#valid_date").on('apply.daterangepicker',function() { 
+            $("tbody").remove();
+            $('#EmpStructTable').append($('<tbody> <tr> </tr> </tbody>'));
+            showTheEmpStructTable();
             for (var index = 0; index < sortedArray.length; index++) {
                 var startDateString = sortedArray[index].startDate;
                 var sday =startDateString.slice(0, 3); 
