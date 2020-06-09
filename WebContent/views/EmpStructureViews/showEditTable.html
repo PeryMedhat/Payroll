@@ -177,14 +177,16 @@
           </div>
         </div>
       </div>
+
+
       <div id="theEmpStruct" hidden>
        
         <div class="row row-space paddingtop">
-          <div class="col-5">
+          <div class="col-8">
             <h1>The Employee Structure</h1>
 
           </div>
-          <div class="col-5">
+          <div class="col-4">
             <div class="input-group">
               <label class="label" style="font-size: 20px;
               color: #555;
@@ -204,25 +206,31 @@
           </div>
         </div>
         <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
-          <table class="table table-hover table-bordered" id="EmpStructTable">
+          <table class="table table-hover table-bordered" id="EmpStructTable" style="text-align: center;">
             <thead style="background-color:#f8b739;">
               <tr>
-                <th style="text-align:center;">Type</th>
-                <th style="text-align:center;">Code</th>
-                <th style="text-align:center;">Name</th>
-                <th style="text-align:center;">Start Date</th>
-                <th style="text-align:center;">End Date</th>
-                <th style="width: 30%;text-align:center;">Actions</th>
+                <th>Type</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-
-              </tr>
+            <tbody >
+              
             </tbody>
           </table>
         </div>
       </div>
+
+      <div id="tableIsEmptyMSG" class="warning" hidden>
+        <div class="alert alert-warning">
+          <strong>Warning!</strong>There is no Employee structure valid from that date.
+        </div>
+      </div>
+
+
 
     </div>
   </div>

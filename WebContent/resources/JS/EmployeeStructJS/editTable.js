@@ -11,48 +11,48 @@ var controller = (function () {
                 format: 'DD/MM/YYYY'
             },
         });
-    
+
         var myCalendar = $('.js-datepicker');
         var isClick = 0;
-    
-        $(window).on('click',function(){
+
+        $(window).on('click', function () {
             isClick = 0;
         });
-    
-        $(myCalendar).on('apply.daterangepicker',function(ev, picker){
+
+        $(myCalendar).on('apply.daterangepicker', function (ev, picker) {
             isClick = 0;
             $(this).val(picker.startDate.format('DD/MM/YYYY'));
-    
+
         });
-    
-        $('.js-btn-calendar').on('click',function(e){
+
+        $('.js-btn-calendar').on('click', function (e) {
             e.stopPropagation();
-    
-            if(isClick === 1) isClick = 0;
-            else if(isClick === 0) isClick = 1;
-    
+
+            if (isClick === 1) isClick = 0;
+            else if (isClick === 0) isClick = 1;
+
             if (isClick === 1) {
                 myCalendar.focus();
             }
         });
-    
-        $(myCalendar).on('click',function(e){
+
+        $(myCalendar).on('click', function (e) {
             e.stopPropagation();
             isClick = 1;
         });
-    
-        $('.daterangepicker').on('click',function(e){
+
+        $('.daterangepicker').on('click', function (e) {
             e.stopPropagation();
         });
-    
-    
-    } catch(er) {console.log(er);}
+
+
+    } catch (er) { console.log(er); }
     /*[ Select 2 Config ]
         ===========================================================*/
-    
+
     try {
         var selectSimple = $('.js-select-simple');
-    
+
         selectSimple.each(function () {
             var that = $(this);
             var selectBox = that.find('select');
@@ -61,11 +61,11 @@ var controller = (function () {
                 dropdownParent: selectDropdown
             });
         });
-    
+
     } catch (err) {
         console.log(err);
     }
-    
+
     var table = document.getElementById("EmpStructTable");
     var sortedArray = new Array();
     var children = new Array();
@@ -89,14 +89,42 @@ var controller = (function () {
                 $('#employeeStructModal').modal('show');
             } else {
                 arrayOfTotalChain = response.theChain;
+
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+
+                today = dd + '/' + mm + '/' + yyyy;
+                $("#valid_date").val(today);
+
+                $("tbody").remove();
+                $('#EmpStructTable').append($('<tbody> <tr> </tr> </tbody>'));
                 showTheEmpStructTable();
-            }            
+                for (var index = 0; index < sortedArray.length; index++) {
+                    var startDateString = sortedArray[index].startDate;
+                    var sday = startDateString.slice(0, 3);
+                    var smo = startDateString.slice(3, 6);
+                    var syear = startDateString.slice(6, 11);
+                    var modifiedStartDate = new Date(smo + '/' + sday + '/' + syear);
+                    var validDate = $("#valid_date").val();
+                    var vday = validDate.slice(0, 3);
+                    var vmo = validDate.slice(3, 6);
+                    var vyear = validDate.slice(6, 11);
+                    var modifiedValidDate = new Date(vmo + '/' + vday + '/' + vyear);
+                    if (modifiedStartDate < modifiedValidDate) {
+                        var trCode = sortedArray[index].code;
+                        $('#' + trCode).remove();
+                    }
+                }
+
+            }
         },
         error: function (xhr) {
         }
     });
 
-    function showTheEmpStructTable(){
+    function showTheEmpStructTable() {
         sortedArray = new Array();
         var children = new Array();
         var subs = new Array();
@@ -110,9 +138,6 @@ var controller = (function () {
             }
         }
         sortedArray = sortedArray.concat(subs).concat(children);
-
-        console.log(arrayOfTotalChain);
-        console.log(sortedArray);
 
         for (index = 0; index < sortedArray.length; index++) {
             var theCode = code;
@@ -171,7 +196,7 @@ var controller = (function () {
             cell4.innerHTML = sortedArray[index].startDate;
             cell5.innerHTML = sortedArray[index].endDate;
 
-        }$('#theEmpStruct').removeAttr('hidden');
+        } $('#theEmpStruct').removeAttr('hidden');
     }
 
     jQuery(document).ready(function ($) {
@@ -181,25 +206,31 @@ var controller = (function () {
 
         });
 
-        $("#valid_date").on('apply.daterangepicker',function() { 
+        $("#valid_date").on('apply.daterangepicker', function () {
+            $('#tableIsEmptyMSG').attr('hidden','');
             $("tbody").remove();
             $('#EmpStructTable').append($('<tbody> <tr> </tr> </tbody>'));
             showTheEmpStructTable();
+            $('#EmpStructTable').removeAttr('hidden');
             for (var index = 0; index < sortedArray.length; index++) {
                 var startDateString = sortedArray[index].startDate;
-                var sday =startDateString.slice(0, 3); 
-                var smo = startDateString.slice(3,6);
+                var sday = startDateString.slice(0, 3);
+                var smo = startDateString.slice(3, 6);
                 var syear = startDateString.slice(6, 11);
-                var modifiedStartDate = new Date(smo+'/'+sday+'/'+syear);
+                var modifiedStartDate = new Date(smo + '/' + sday + '/' + syear);
                 var validDate = $("#valid_date").val();
-                var vday = validDate.slice(0,3);
-                var vmo = validDate.slice(3,6);
-                var vyear = validDate.slice(6,11);
-                var modifiedValidDate = new Date(vmo+'/'+vday+'/'+vyear);
-                if(modifiedStartDate<modifiedValidDate){
-                   var trCode = sortedArray[index].code;
-                    $('#'+trCode).remove();
+                var vday = validDate.slice(0, 3);
+                var vmo = validDate.slice(3, 6);
+                var vyear = validDate.slice(6, 11);
+                var modifiedValidDate = new Date(vmo + '/' + vday + '/' + vyear);
+                if (modifiedStartDate < modifiedValidDate) {
+                    var trCode = sortedArray[index].code;
+                    $('#' + trCode).remove();
                 }
+            }
+            if(($("#EmpStructTable > tbody > tr").length-1)==0){
+                $('#EmpStructTable').attr('hidden','');
+                $('#tableIsEmptyMSG').removeAttr('hidden','');
             }
         });
 
