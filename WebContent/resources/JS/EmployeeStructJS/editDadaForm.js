@@ -75,6 +75,7 @@ var controller = (function () {
     const code = urlParams.get('code');
     const theCode = urlParams.get('theCode');
     var model;
+
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -90,7 +91,12 @@ var controller = (function () {
             $("#empstruct_code").val(model.code);    
             $("#empstruct_name").val(model.name); 
             $("#start_date").val(model.startDate); 
-            $("#end_date").val(model.endDate); 
+            $("#end_date").val(model.endDate);
+            var hasParent=model.hasParent; 
+            var hasChild=model.hasChild;
+            if(hasParent && !hasChild){
+                $('#changeToSubParentBtn').removeAttr('hidden','')
+            }
         },
         error: function (xhr) {
             console.log(xhr);
@@ -111,8 +117,21 @@ var controller = (function () {
         $("#modalOkButton").click(function (e) {
             location='showEditTable.html?code='+theCode;
         });
-       
+        //functions for the change to subParent btn//
+        $("#changeToSubParentBtn").mouseenter(function () {
+            $(this).removeClass('btn-primary');
+            $(this).addClass('bg-success');
+        });
 
+        $("#changeToSubParentBtn").mouseout(function () {
+            $(this).removeClass('bg-success');
+            $(this).addClass('btn-primary');
+        });
+
+        $("#changeToSubParentBtn").click(function (e) {
+            location='changeToSubParent.html?code='+code+'&theCode'+theCode;
+        });
+       
         $("#buttonSubmit").click(function (e) {
            
             var empObject = {

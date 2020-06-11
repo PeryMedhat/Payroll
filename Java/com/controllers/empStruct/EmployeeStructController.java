@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.models.empStuct.EmployeeStructModel;
+import com.rest.errorhandling.NotFoundException;
 import com.services.empStruct.EmployeeStructService;
 
 @RestController
@@ -31,6 +32,17 @@ public class EmployeeStructController {
 			"/addEmployeeStructure" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public void addEmployeeStructure(@RequestBody List<EmployeeStructModel> employeeModel) throws Exception {
+		for (Integer i = 0; i < employeeModel.size(); i++) {
+			empService.processTheIncommingModel(employeeModel.get(i));
+		}
+
+	}
+
+	@RequestMapping(value = {
+			"/chaningChildToSubParent" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public void chaningChildToSubParent(@RequestBody List<EmployeeStructModel> employeeModel,@RequestParam("code") String code) throws Exception {
+		empService.deleteChild(code);
 		for (Integer i = 0; i < employeeModel.size(); i++) {
 			empService.processTheIncommingModel(employeeModel.get(i));
 		}
@@ -90,7 +102,7 @@ public class EmployeeStructController {
 			}
 			myMap.put("theModel", model);
 		} catch (Exception e) {
-			myMap.put("theChain", null);
+			throw new NotFoundException("Not fount element");
 		}
 		return myMap;
 	}

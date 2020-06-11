@@ -11,7 +11,6 @@ public class EmployeeStructModel {
 	private String parentCode;
 	private Boolean hasChild;
 	
-	
 	public EmployeeStructModel() {
 		
 	}
