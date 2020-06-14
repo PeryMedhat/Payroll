@@ -129,7 +129,7 @@ var controller = (function () {
         });
 
         $("#changeToSubParentBtn").click(function (e) {
-            location='changeToSubParent.html?code='+code+'&theCode'+theCode;
+            location='changeToSubParent.html?code='+code+'&theCode='+theCode;
         });
        
         $("#buttonSubmit").click(function (e) {

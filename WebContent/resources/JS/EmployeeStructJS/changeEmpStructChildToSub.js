@@ -3,8 +3,11 @@ var queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const code = urlParams.get('code');
 const theCode = urlParams.get('theCode');
+var x = 0;
+var empObjectsArray = Array();
 var model;
 var parentModelCode;
+
 $.ajax({
     headers: {
         'Accept': 'application/json',
@@ -34,12 +37,39 @@ $.ajax({
         $("#end_date").removeAttr('style');
 
         parentModelCode=model.parentCode;
-       
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "get",
+            url: "http://localhost:8080/Payroll/employeeStructure/getEmployeeStructureElement?code="+model.parentCode,
+            success: function (response) {
+                var parentModel = response.theModel;
+                var empObject = {
+                    "code": parentModel.code,
+                    "name": parentModel.name,
+                    "startDate": parentModel.startDate,
+                    "endDate":  parentModel.endDate,
+                    "hasParent": parentModel.hasParent,
+                    "parentCode": parentModel.parentCode,
+                    "hasChild": parentModel.hasChild
+
+                }
+                empObjectsArray[x] = empObject;
+                x++;
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        
     },
     error: function (xhr) {
         console.log(xhr);
     }
 });
+
 
     'use strict';
     /*==================================================================
@@ -112,7 +142,7 @@ $.ajax({
     $("#SendToDB").click(function (e) {
         for (var i = 0; i < empObjectsArray.length; i++) {
             empObjectsArray[i] = empObjectsArray[i + 1];
-        }
+        }empObjectsArray.length = empObjectsArray.length-1;
         var formData = JSON.stringify(empObjectsArray);
         $.ajax({
             headers: {
@@ -120,7 +150,7 @@ $.ajax({
                 'Content-Type': 'application/json'
             },
             type: "POST",
-            url: "http://localhost:8080/Payroll/employeeStructure/chaningChildToSubParent?code" + code,
+            url: "http://localhost:8080/Payroll/employeeStructure/chaningChildToSubParent?code=" + code,
             data: formData,
             success: function (response) {
 
@@ -138,28 +168,7 @@ $.ajax({
 
     });
 
-   
-    console.log(parentModelCode);
-
-    var x = 0;
-    var empObjectsArray = Array();
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        type: "get",
-        url: "http://localhost:8080/Payroll/employeeStructure/getEmployeeStructureElement?code="+parentModelCode,
-        success: function (response) {
-            var parentModel = response.theModel;
-            addEmpObject(parentModel.hasParent, parentModel.parentCode, parentModel.hasChild, parentModel.code, parentModel.name, parentModel.startDate, parentModel.endDate);
-        },
-        error: function (xhr) {
-            console.log(xhr);
-        }
-    });
-
-
+    
 var newChildInSameLevel = false;
 "use strict";
 
@@ -328,6 +337,16 @@ function addEmpObject(hasParent, parentCode, hasChild, code, name, startDate, en
     document.getElementById("empstruct_name").value = "";
     document.getElementById("start_date").value = "";
     document.getElementById("end_date").value = "";
+    $("#empstruct_code").removeAttr('disabled', '');
+    $("#empstruct_name").removeAttr('disabled', '');
+    $("#start_date").removeAttr('disabled', '');
+    $("#end_date").removeAttr('disabled', '');
+
+    $("#empstruct_code").attr('style','background:#0000;');
+    $("#empstruct_name").attr('style','background:#0000;');
+    $("#start_date").attr('style','background:#0000;');
+    $("#end_date").attr('style','background:#0000;');
+           
     console.log(empObjectsArray);
 }
 
@@ -349,12 +368,12 @@ function sendToDB() {
         }
     };
 
-    xhttp.open("POST", "http://localhost:8080/Payroll/employeeStructure/chaningChildToSubParent?code" + code, true);
+    xhttp.open("POST", "http://localhost:8080/Payroll/employeeStructure/chaningChildToSubParent?code=" + code, true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     for (var i = 0; i < empObjectsArray.length; i++) {
         empObjectsArray[i] = empObjectsArray[i + 1];
-    }
+    }empObjectsArray.length = empObjectsArray.length-1;
 
     xhttp.send(JSON.stringify(empObjectsArray));
 }
@@ -373,3 +392,11 @@ function resetForm() {
 function BackToCreateStructureClean() {
     window.location = '../../index.html';
 }
+
+
+jQuery(document).ready(function ($) {
+
+    $("#modalOkButton").click(function (e) {
+        location='showEditTable.html?code='+theCode;
+    });
+})();
