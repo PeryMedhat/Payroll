@@ -66,6 +66,7 @@ var controller = (function () {
         console.log(err);
     }
 
+    
     var table = document.getElementById("EmpStructTable");
     var sortedArray = new Array();
     var children = new Array();
@@ -152,6 +153,12 @@ var controller = (function () {
                 + sortedArray[index].code
                 + '&theCode='
                 + theCode;
+
+            var theHrefForAddSub = 'addSubParent.html?code='    
+            + sortedArray[index].code
+            + '&theCode='
+            + theCode;
+
             var row = table.insertRow(-1);
             row.id = sortedArray[index].code;
             var cell1 = row.insertCell(0);
@@ -175,14 +182,17 @@ var controller = (function () {
                     + theHrefFordelemit + ">   Delimit</a>"
                     + "<a href=" + theHrefFordeleteParent
                     + ">   Delete</a>" + "<a href="
-                    + theHrefForCopy + ">   Copy</a>";
+                    + theHrefForCopy + ">   Copy</a>"
+                    +"<a href=" +theHrefForAddSub+ ">Add </a>" ;
             } else if (sortedArray[index].hasChild == true) {
                 cell1.innerHTML = "SubParent";
                 cell6.innerHTML = "<a href=" + theHrefForEdit
                     + ">Edit    </a>" + "<a href="
                     + theHrefFordelemit + ">   Delimit</a>"
                     + "<a href=" + theHrefFordelete
-                    + ">   Delete</a>";
+                    + ">   Delete</a>"
+                    +"<a href=" +theHrefForAddSub
+                    + ">Add</a>" ;
             } else {
                 cell1.innerHTML = "Child";
                 cell6.innerHTML = "<a href=" + theHrefForEdit
