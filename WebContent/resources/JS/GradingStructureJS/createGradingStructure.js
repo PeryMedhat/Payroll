@@ -113,51 +113,83 @@ var controller = (function () {
             var mid = document.getElementById("grading_mid");
             var max = document.getElementById("grading_max");
             var basicSalary = document.getElementById("basicSalary");
+            var gradeisEmpty = document.getElementById("gradeisEmpty");
+            var levelisEmpty = document.getElementById("levelisEmpty");
+            var startDateisEmpty = document.getElementById("startDateisEmpty");
+            var endDateisEmpty = document.getElementById("endDateisEmpty");
+            var minisEmpty = document.getElementById("minisEmpty");
+            var midisEmpty = document.getElementById("midisEmpty");
+            var maxisEmpty = document.getElementById("maxisEmpty");
+
+            grade.setAttribute("class", "input--style-4");
+            level.setAttribute("class", "input--style-4");
+            startDate.setAttribute("class", "input--style-4");
+            endDate.setAttribute("class", "input--style-4");
+            min.setAttribute("class", "input--style-4");
+            mid.setAttribute("class", "input--style-4");
+            max.setAttribute("class", "input--style-4");
+            document.getElementById('minisEmpty').innerHTML ="* Required Field ";
+            document.getElementById('midisEmpty').innerHTML ="* Required Field ";
+            document.getElementById('maxisEmpty').innerHTML ="* Required Field ";
+            gradeisEmpty.setAttribute('hidden','');
+            levelisEmpty.setAttribute('hidden','');
+            startDateisEmpty.setAttribute('hidden','');
+            endDateisEmpty.setAttribute('hidden','');
+            minisEmpty.setAttribute('hidden','');
+            midisEmpty.setAttribute('hidden','');
+            maxisEmpty.setAttribute('hidden','');
+
             //validations 
             if (grade.value == '' || level.value == '' || startDate.value == '' || endDate.value == '' || min.value == '' || mid.value == '' || max.value == ''|| basicSalary.value == '') {
-
                 if (grade.value == '') {
-                    var gradeisEmpty = document.getElementById("gradeisEmpty");
                     gradeisEmpty.removeAttribute('hidden');
                     grade.setAttribute("class", "input--style-4-redBorder");
 
                 }
                 if (level.value == '') {
-                    var levelisEmpty = document.getElementById("levelisEmpty");
                     levelisEmpty.removeAttribute('hidden');
                     level.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (startDate.value == '') {
-                    var startDateisEmpty = document.getElementById("startDateisEmpty");
                     startDateisEmpty.removeAttribute('hidden');
                     startDate.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (endDate.value == '') {
-                    var endDateisEmpty = document.getElementById("endDateisEmpty");
                     endDateisEmpty.removeAttribute('hidden');
                     endDate.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (min.value == '') {
-                    var minisEmpty = document.getElementById("minisEmpty");
                     minisEmpty.removeAttribute('hidden');
                     min.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (mid.value == '') {
-                    var minisEmpty = document.getElementById("midisEmpty");
                     midisEmpty.removeAttribute('hidden');
                     mid.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (max.value == '') {
-                    var maxisEmpty = document.getElementById("maxisEmpty");
                     maxisEmpty.removeAttribute('hidden');
                     max.setAttribute("class", "input--style-4-redBorder");
                 }
 
             }else if(isNaN(min.value)||isNaN(mid.value)||isNaN(max.value)){
-                $('#success_msg').attr('hidden', '');
-                $('#ResultOfGradingStructureCreation').modal('show');
-                $('#fail_msg').removeAttr('hidden');
-                document.getElementById('fail_msg').innerHTML = "Error!!" + "Please enter the correct min/mid/max value (should be a number)";
+
+                if(isNaN(min.value)){
+                    minisEmpty.removeAttribute('hidden');
+                    min.setAttribute("class", "input--style-4-redBorder");
+                    document.getElementById('minisEmpty').innerHTML = "should be a number";
+    
+                }if(isNaN(mid.value)){
+                    midisEmpty.removeAttribute('hidden');
+                    mid.setAttribute("class", "input--style-4-redBorder");
+                    document.getElementById('midisEmpty').innerHTML = "should be a number";
+    
+                }if(isNaN(max.value)){
+                    maxisEmpty.removeAttribute('hidden');
+                    max.setAttribute("class", "input--style-4-redBorder");
+                    document.getElementById('maxisEmpty').innerHTML = "should be a number";
+                    
+                }
+
             }else {
                 var gradingModel = {
                     "grade": grade.value,
