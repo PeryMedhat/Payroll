@@ -9,42 +9,36 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/GradingAndSalary/getGradingAndSalary",
+        url: "http://localhost:8080/Payroll/GradingStruct/getGradingAndSalary",
         data: {
             grade: grade
         },
         success: function (response) {
-            $('#payType_code').val(response.code);
-            $('#payType_name').val(response.name);
+            $('#gradingStruct_grade').val(response.grade);
+            $('#gradingStruct_level').val(response.level);
             $('#start_date').val(response.startDate);
             $('#end_date').val(response.endDate);
-            $('#interval').val(response.interval);
-            $('#type').val(response.type);
-            $('#inputValue').val(response.inputValue);
-            $('#Taxes').val(response.taxes);
-
-            if(response.unit !=null){
-                $('#unit').val(response.unit);
-                $('#payTypeUnit').removeAttr('hidden');
-            }
-            $('#showPayType').removeAttr('hidden');
-
+            $('#grading_min').val(response.min);
+            $('#grading_mid').val(response.mid);
+            $('#grading_max').val(response.max);
+            $('#basicSalary').val(response.basicSalary);
+            $('#showGradingStruct').removeAttr('hidden');
         },
         error: function (xhr) {
-            $('#payTypeModal').modal('show');
-            $('#showPayType').attr('hidden','');
+            $('#gradingStructModal').modal('show');
+            $('#showGradingStruct').attr('hidden','');
             console.log(xhr);
         }
     });
-
+    
 
     jQuery(document).ready(function ($) {
         queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const code = urlParams.get('code');
+        const grade = urlParams.get('grade');
 
         $("#modalOkButton").click(function (e) {
-            location = 'editPayType.html';
+            location = 'editGradingStructure.html';
         });
 
         $('#edit').mouseenter(function () {
@@ -56,7 +50,7 @@ var controller = (function () {
         });
 
         $('#edit').click(function (e) {
-            window.location = "editpayTypeData.html?code="+code;
+            window.location = "editGradingData.html?grade="+grade;
         });
 
         $('#copy').mouseenter(function () {
@@ -68,7 +62,7 @@ var controller = (function () {
         });
 
         $('#copy').click(function (e) {
-            window.location = "copyPayType.html?code="+code;
+            window.location = "copyGradingStruct.html?grade="+grade;
         });
 
         $('#delimit').mouseenter(function () {
@@ -80,7 +74,7 @@ var controller = (function () {
         });
 
         $('#delimit').click(function (e) {
-            window.location = "delimitPayType.html?code="+code;
+            window.location = "delimitGradingStruct.html?grade="+grade;
         });
 
         $('#delete').mouseenter(function () {
@@ -91,12 +85,8 @@ var controller = (function () {
             $('#delete-text').attr('hidden','');
         });
         $('#delete').click(function (e) {
-            window.location = "deletePayType.html?code="+code;
+            window.location = "deleteGradingStruct.html?grade="+grade;
         });
-        $('#modalOkButton').click(function (e) {
-            location = 'editPayType.html';
-        });
-    
     });
 
 })();

@@ -62,9 +62,39 @@ var controller = (function () {
     } catch (err) {
         console.log(err);
     }
+
     //dropdowns
     var payTypes;
-    
+    queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const grade = urlParams.get('grade');
+
+    var gradingAndSalaryObject;
+    var theBasicSalary;
+
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        type: "get",
+        url: "http://localhost:8080/Payroll/GradingStruct/getGradingAndSalary?grade="+grade,
+
+        success: function (response) {
+            gradingAndSalaryObject = response;
+            $('#grading_grade').val(gradingAndSalaryObject.grade);
+            $('#grading_level').val(gradingAndSalaryObject.level);
+            $('#start_date').val(gradingAndSalaryObject.startDate);
+            $('#end_date').val(gradingAndSalaryObject.endDate);
+            $('#grading_min').val(gradingAndSalaryObject.min);
+            $('#grading_mid').val(gradingAndSalaryObject.mid);
+            $('#grading_max').val(gradingAndSalaryObject.max);
+            theBasicSalary = gradingAndSalaryObject.basicSalary;
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        }
+    });
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -76,10 +106,9 @@ var controller = (function () {
         success: function (response) {
             payTypes = response;
             for (var i = 0; i < payTypes.length; i++) {
-                if (i == 0) {
+                if (theBasicSalary.localeCompare(payTypes[i].name)==0) {
                     $('#basicSalary').append($('<option selected>').val(payTypes[i].name).text(payTypes[i].name));
                 } else {
-                    
                     $('#basicSalary').append($('<option>').val(payTypes[i].name).text(payTypes[i].name));
                 }
             }
@@ -102,7 +131,7 @@ var controller = (function () {
         });
 
         $("#modalOkButton").click(function (e) {
-            location = '../../index.html';
+            location = 'showGradingStruct.html?grade='+grade;
         });
 
         $("#buttonSubmit").click(function (e) {
@@ -208,8 +237,8 @@ var controller = (function () {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    type: "post",
-                    url: "http://localhost:8080/Payroll/GradingStruct/addGradingAndSalary",
+                    type: "put",
+                    url: "http://localhost:8080/Payroll/GradingStruct/updateGradingAndSalary",
                     data: formData,
                     success: function (response) {
                         $('#ResultOfGradingStructureCreation').modal('show');

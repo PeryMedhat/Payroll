@@ -62,6 +62,7 @@ var controller = (function () {
     } catch (err) {
         console.log(err);
     }
+
     //dropdowns
     var payTypes;
     
@@ -89,6 +90,20 @@ var controller = (function () {
         }
     });
     
+    queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const grade = urlParams.get('grade');
+    
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd+ '/' + mm + '/' + yyyy;
+    newGrade=grade+'_'+today;
+    
+    $('#grading_grade').val(newGrade);
+
     jQuery(document).ready(function ($) {
 
         $("#buttonSubmit").mouseenter(function () {
@@ -191,8 +206,22 @@ var controller = (function () {
                 }
 
             }else {
+                queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const grade = urlParams.get('grade');
+                
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+
+                today = dd+ '/' + mm + '/' + yyyy;
+                newGrade=grade+'_'+today;
+
+
+
                 var gradingModel = {
-                    "grade": grade.value,
+                    "grade": newGrade,
                     "level": level.value,
                     "startDate": startDate.value,
                     "endDate": endDate.value,
@@ -209,7 +238,7 @@ var controller = (function () {
                         'Content-Type': 'application/json'
                     },
                     type: "post",
-                    url: "http://localhost:8080/Payroll/GradingStruct/addGradingAndSalary",
+                    url: "http://localhost:8080/Payroll/GradingStruct/copyGradingSalary?grade="+grade,
                     data: formData,
                     success: function (response) {
                         $('#ResultOfGradingStructureCreation').modal('show');
@@ -226,12 +255,6 @@ var controller = (function () {
             }
         });
 
-
-
-
     });
-
-
-
 
 })();

@@ -1,5 +1,5 @@
 var controller = (function () {
-    var code;
+    var grade;
     jQuery(document).ready(function ($) {
 
         $("#buttonSubmit").mouseenter(function () {

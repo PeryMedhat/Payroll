@@ -63,19 +63,20 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 		try {
 			GradingAndSalaryModel GradingAndSalaryModel= new GradingAndSalaryModel();
 			GradingAndSalary GradingAndSalary = GradingAndSalaryDAO.getGradingAndSalary(grade);
-			DateFormat dateFormat = new SimpleDateFormat();
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 			String startDate = dateFormat.format(GradingAndSalary.getStartDate());
 			String endDate = dateFormat.format(GradingAndSalary.getEndDate());
 			String max =Float.toString(GradingAndSalary.getMax());
 			String mid =Float.toString(GradingAndSalary.getMid());
 			String min =Float.toString(GradingAndSalary.getMin());
-			
-			GradingAndSalaryModel.setEndDate(endDate.substring(0, 6));
-			GradingAndSalaryModel.setStartDate(startDate.substring(0, 6));
+			PayTypeModel payTypeForBasicSalary =payTypeService.getPayType(GradingAndSalary.getBasicSalary());
+
+			GradingAndSalaryModel.setEndDate(endDate);
+			GradingAndSalaryModel.setStartDate(startDate);
 			GradingAndSalaryModel.setLevel(GradingAndSalary.getLevel());
 			GradingAndSalaryModel.setGrade(grade);
-			GradingAndSalaryModel.setBasicSalary(GradingAndSalary.getBasicSalary());
+			GradingAndSalaryModel.setBasicSalary(payTypeForBasicSalary.getName());
 			GradingAndSalaryModel.setMax(max);
 			GradingAndSalaryModel.setMid(mid);
 			GradingAndSalaryModel.setMin(min);
@@ -125,7 +126,8 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 			Date endDate = new SimpleDateFormat("dd/MM/yyyy").parse(GradingAndSalaryModel.getEndDate());
 			String grade = GradingAndSalaryModel.getGrade();
 			String level = GradingAndSalaryModel.getLevel();
-			
+			PayTypeModel payTypeForBasicSalary =payTypeService.getPayTypeByName(GradingAndSalaryModel.getBasicSalary());
+
 			float min = Float.parseFloat(GradingAndSalaryModel.getMin());
 			float max = Float.parseFloat(GradingAndSalaryModel.getMax());
 			float mid = Float.parseFloat(GradingAndSalaryModel.getMid());
@@ -136,7 +138,7 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 			GradingAndSalary.setLevel(level);
 			GradingAndSalary.setStartDate(startDate);
 			GradingAndSalary.setEndDate(endDate);
-			GradingAndSalary.setBasicSalary(GradingAndSalaryModel.getBasicSalary());
+			GradingAndSalary.setBasicSalary(payTypeForBasicSalary.getCode());
 			GradingAndSalary.setMin(min);
 			GradingAndSalary.setMid(mid);
 			GradingAndSalary.setMax(max);

@@ -17,7 +17,7 @@ import com.models.gradingandsalary.GradingAndSalaryModel;
 import com.service.gradingandsalary.GradingAndSalaryService;
 
 @RestController
-@RequestMapping("/GradingAndSalary")
+@RequestMapping("/GradingStruct")
 public class GradingAndSalaryRestController {
 
 	@Autowired
@@ -53,7 +53,7 @@ public class GradingAndSalaryRestController {
 		GradingAndSalaryService.delimitGradingAndSalary(grade, endDate);
 	}
 	
-	@RequestMapping(value = { "/copyGradingAndSalary" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = { "/copyGradingSalary" }, method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public void copyEmployeeStructure(@RequestBody GradingAndSalaryModel GradingAndSalaryModel,@RequestParam("grade") String grade) throws ParseException, Exception {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
