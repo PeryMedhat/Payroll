@@ -25,17 +25,6 @@ $.ajax({
         $("#start_date").val(model.startDate);
         $("#end_date").val(model.endDate);
 
-
-        $("#empstruct_code").attr('disabled', '');
-        $("#empstruct_name").attr('disabled', '');
-        $("#start_date").attr('disabled', '');
-        $("#end_date").attr('disabled', '');
-
-        $("#empstruct_code").removeAttr('style');
-        $("#empstruct_name").removeAttr('style');
-        $("#start_date").removeAttr('style');
-        $("#end_date").removeAttr('style');
-
         parentModelCode=model.parentCode;
         $.ajax({
             headers: {
@@ -54,7 +43,6 @@ $.ajax({
                     "hasParent": parentModel.hasParent,
                     "parentCode": parentModel.parentCode,
                     "hasChild": parentModel.hasChild
-
                 }
                 empObjectsArray[x] = empObject;
                 x++;
@@ -63,14 +51,11 @@ $.ajax({
                     console.log(xhr);
                 }
             });
-        
     },
     error: function (xhr) {
         console.log(xhr);
     }
 });
-
-
     'use strict';
     /*==================================================================
         [ Daterangepicker ]*/
@@ -231,17 +216,13 @@ function NextOrSubmit() {
 
         if (empObjectsArray.length === 0) {
             addEmpObject(false, "", true, codeValue, nameValue, startDateValue, endDateValue);
-        }
-        else {
+        }else {
             var lastParent = empObjectsArray[empObjectsArray.length - 1]
             var lastParentValue = lastParent.code;
             addEmpObject(true, lastParentValue, true, codeValue, nameValue, startDateValue, endDateValue);
         }
-
-
     }
     // in case of submission condition "we reached a child"
-    
     if (document.getElementById('noCheck').checked) {
         var lastParent;
         var lastParentValue

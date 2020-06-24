@@ -65,8 +65,7 @@ var controller = (function () {
     } catch (err) {
         console.log(err);
     }
-
-    
+   
     var table = document.getElementById("EmpStructTable");
     var sortedArray = new Array();
     var children = new Array();
@@ -75,6 +74,8 @@ var controller = (function () {
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code');
     var arrayOfTotalChain;
+    var arrangedArray=new Array();
+    var index=0;
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -118,6 +119,10 @@ var controller = (function () {
                         $('#' + trCode).remove();
                     }
                 }
+                if(($("#EmpStructTable > tbody > tr").length-1)==0){
+                    $('#EmpStructTable').attr('hidden','');
+                    $('#tableIsEmptyMSG').removeAttr('hidden','');
+                }
 
             }
         },
@@ -140,74 +145,108 @@ var controller = (function () {
         }
         sortedArray = sortedArray.concat(subs).concat(children);
 
-        for (index = 0; index < sortedArray.length; index++) {
+        arrangedArray=new Array();
+        arrangeTheTable();
+        for (index = 0; index < arrangedArray.length; index++) {
             var theCode = code;
             var theHrefForEdit = 'editEmpStructData.html?code='
-                + sortedArray[index].code + '&theCode='
+                + arrangedArray[index].code + '&theCode='
                 + theCode;
             var theHrefFordelemit = 'delemitEmpStructData.html?code='
-                + sortedArray[index].code
+                + arrangedArray[index].code
                 + '&theCode='
                 + theCode;
             var theHrefFordelete = 'deleteEmpStructData.html?code='
-                + sortedArray[index].code
+                + arrangedArray[index].code
                 + '&theCode='
                 + theCode;
 
             var theHrefForAddSub = 'addSubParent.html?code='    
-            + sortedArray[index].code
+            + arrangedArray[index].code
             + '&theCode='
             + theCode;
 
             var row = table.insertRow(-1);
-            row.id = sortedArray[index].code;
+            row.id = arrangedArray[index].code;
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
             var cell4 = row.insertCell(3);
             var cell5 = row.insertCell(4);
             var cell6 = row.insertCell(5);
-            if (sortedArray[index].hasParent == false) {
+            var cell7 = row.insertCell(6);
+            if (arrangedArray[index].hasParent == false) {
                 cell1.innerHTML = "Parent";
+                row.setAttribute('class', 'parent');
                 var theHrefForCopy = 'copyEmpStructData.html?code='
-                    + sortedArray[index].code
+                    + arrangedArray[index].code
                     + '&theCode='
                     + theCode;
                 var theHrefFordeleteParent = 'deleteEmpStructParentData.html?code='
-                    + sortedArray[index].code
+                    + arrangedArray[index].code
                     + '&theCode='
                     + theCode;
-                cell6.innerHTML = "<a href=" + theHrefForEdit
+                    cell7.innerHTML = "<a href=" + theHrefForEdit
                     + ">Edit    </a>" + "<a href="
                     + theHrefFordelemit + ">   Delimit</a>"
                     + "<a href=" + theHrefFordeleteParent
                     + ">   Delete</a>" + "<a href="
                     + theHrefForCopy + ">   Copy</a>"
                     +"<a href=" +theHrefForAddSub+ ">Add </a>" ;
-            } else if (sortedArray[index].hasChild == true) {
+                    row.removeAttribute('hidden');
+            } else if (arrangedArray[index].hasChild == true) {
                 cell1.innerHTML = "SubParent";
-                cell6.innerHTML = "<a href=" + theHrefForEdit
+                cell7.innerHTML = "<a href=" + theHrefForEdit
                     + ">Edit    </a>" + "<a href="
                     + theHrefFordelemit + ">   Delimit</a>"
                     + "<a href=" + theHrefFordelete
                     + ">   Delete</a>"
                     +"<a href=" +theHrefForAddSub
-                    + ">Add</a>" ;
+                    + ">Add</a>" ;               
             } else {
                 cell1.innerHTML = "Child";
-                cell6.innerHTML = "<a href=" + theHrefForEdit
+                cell7.innerHTML = "<a href=" + theHrefForEdit
                     + ">Edit    </a>" + "<a href="
                     + theHrefFordelemit + ">   Delimit</a>"
                     + "<a href=" + theHrefFordelete
                     + ">   Delete</a>";
             }
-            cell2.innerHTML = sortedArray[index].code;
-            cell3.innerHTML = sortedArray[index].name;
-            cell4.innerHTML = sortedArray[index].startDate;
-            cell5.innerHTML = sortedArray[index].endDate;
+            cell2.innerHTML = arrangedArray[index].code;
+            cell3.innerHTML = arrangedArray[index].parentCode;
+            cell4.innerHTML = arrangedArray[index].name;
+            cell5.innerHTML = arrangedArray[index].startDate;
+            cell6.innerHTML = arrangedArray[index].endDate;
 
         } $('#theEmpStruct').removeAttr('hidden');
     }
+
+   
+    function arrangeTheTable(){
+        var parentCode;
+         for(;index<sortedArray.length;index++){
+            parentCode=sortedArray[index].code;
+            arrangedArray.push(sortedArray[index]);
+            console.log(sortedArray[index]);
+            var isThisParent = sortedArray[index].hasChild;
+            sortedArray.splice(index,1);
+            if(isThisParent){
+                for(var i=0;i<sortedArray.length;i++){
+                    if(parentCode.localeCompare(sortedArray[i].parentCode)==0){
+                        index=i-1;
+                        break;
+                    }
+                }
+            }else{
+                index=-1;
+            }
+            
+         }
+         if(!sortedArray.length==0){
+            console.log(arrangedArray);
+            arrangeTheTable();
+         }
+    }
+
 
     jQuery(document).ready(function ($) {
 
@@ -222,8 +261,8 @@ var controller = (function () {
             $('#EmpStructTable').append($('<tbody> <tr> </tr> </tbody>'));
             showTheEmpStructTable();
             $('#EmpStructTable').removeAttr('hidden');
-            for (var index = 0; index < sortedArray.length; index++) {
-                var startDateString = sortedArray[index].startDate;
+            for (var index = 0; index < arrangedArray.length; index++) {
+                var startDateString = arrangedArray[index].startDate;
                 var sday = startDateString.slice(0, 3);
                 var smo = startDateString.slice(3, 6);
                 var syear = startDateString.slice(6, 11);
@@ -234,7 +273,7 @@ var controller = (function () {
                 var vyear = validDate.slice(6, 11);
                 var modifiedValidDate = new Date(vmo + '/' + vday + '/' + vyear);
                 if (modifiedStartDate < modifiedValidDate) {
-                    var trCode = sortedArray[index].code;
+                    var trCode = arrangedArray[index].code;
                     $('#' + trCode).remove();
                 }
             }
@@ -243,6 +282,13 @@ var controller = (function () {
                 $('#tableIsEmptyMSG').removeAttr('hidden','');
             }
         });
+
+        $("#modalOkButton").click(function (e) {
+            location = 'editEmpStruct.html';
+        });
+
+        
+
 
     });
 })();
