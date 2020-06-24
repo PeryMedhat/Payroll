@@ -1,8 +1,8 @@
-CREATE DATABASE `payroll-schema` /*!40100 DEFAULT CHARACTER SET big5 */;
+CREATE DATABASE `payrollschema` /*!40100 DEFAULT CHARACTER SET big5 */;
 
 
 /*Employee and Company Structure */
-CREATE TABLE `payroll-schema`.`commonID` (
+CREATE TABLE `payrollschema`.`commonID` (
   `commonID_id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `payroll-schema`.`commonID` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`companyCommonID` (
+CREATE TABLE `payrollschema`.`companyCommonID` (
   `companyCommonID_id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `payroll-schema`.`companyCommonID` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`company_struct_parent` (
+CREATE TABLE `payrollschema`.`company_struct_parent` (
   `companyParent_id` int(11) NOT NULL AUTO_INCREMENT,
   `companyCommonID_id` int(11) NOT NULL,
   PRIMARY KEY (`companyParent_id`),
@@ -38,7 +38,7 @@ CREATE TABLE `payroll-schema`.`company_struct_parent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`company_struct_subparent` (
+CREATE TABLE `payrollschema`.`company_struct_subparent` (
   `companySubparent_id` int(11) NOT NULL AUTO_INCREMENT,
   `companyCommonID_id` int(11) NOT NULL,
   `has_parent` int(11) DEFAULT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE `payroll-schema`.`company_struct_subparent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`company_struct_child` (
+CREATE TABLE `payrollschema`.`company_struct_child` (
   `companyChild_id` int(11) NOT NULL AUTO_INCREMENT,
   `companyParent_id` int(11) DEFAULT NULL,
   `companySubparent_id` int(11) DEFAULT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `payroll-schema`.`company_struct_child` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`country` (
+CREATE TABLE `payrollschema`.`country` (
   `country_id` varchar(45) NOT NULL,
   `code` varchar(45) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE `payroll-schema`.`country` (
 
 
   
-CREATE TABLE `payroll-schema`.`currency` (
+CREATE TABLE `payrollschema`.`currency` (
   `currency_id` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `code` varchar(45) DEFAULT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE `payroll-schema`.`currency` (
 
 
 
-CREATE TABLE `payroll-schema`.`emp_struct_parent` (
+CREATE TABLE `payrollschema`.`emp_struct_parent` (
   `parent_id` int(11) NOT NULL AUTO_INCREMENT,
   `commonID_id` int(11) NOT NULL,
   PRIMARY KEY (`parent_id`),
@@ -97,7 +97,7 @@ CREATE TABLE `payroll-schema`.`emp_struct_parent` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`emp_struct_subparent` (
+CREATE TABLE `payrollschema`.`emp_struct_subparent` (
   `subparent_id` int(11) NOT NULL AUTO_INCREMENT,
   `has_parent` int(11) DEFAULT NULL,
   `parent_code` varchar(45) DEFAULT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE `payroll-schema`.`emp_struct_subparent` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`emp_struct_child` (
+CREATE TABLE `payrollschema`.`emp_struct_child` (
   `child_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
   `subparent_id` int(11) DEFAULT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE `payroll-schema`.`emp_struct_child` (
 
 
 
-CREATE TABLE `payroll-schema`.`paytype_commId` (
+CREATE TABLE `payrollschema`.`paytype_commId` (
   `paytype_commId_id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE `payroll-schema`.`paytype_commId` (
 
 
 
-CREATE TABLE `payroll-schema`.`paytype` (
+CREATE TABLE `payrollschema`.`paytype` (
   `paytype_id` int(11) NOT NULL AUTO_INCREMENT,
   `paytype_commId_id` int(11) NOT NULL,
   `interval` varchar(45) NOT NULL,
@@ -162,7 +162,7 @@ CREATE TABLE `payroll-schema`.`paytype` (
 
 
 
-CREATE TABLE `payroll-schema`.`paytype_inputvalue` (
+CREATE TABLE `payrollschema`.`paytype_inputvalue` (
   `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
@@ -171,7 +171,7 @@ CREATE TABLE `payroll-schema`.`paytype_inputvalue` (
 
 
 
-CREATE TABLE `payroll-schema`.`paytype_interval` (
+CREATE TABLE `payrollschema`.`paytype_interval` (
   `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
@@ -180,7 +180,7 @@ CREATE TABLE `payroll-schema`.`paytype_interval` (
 
 
 
-CREATE TABLE `payroll-schema`.`paytype_type` (
+CREATE TABLE `payrollschema`.`paytype_type` (
   `code` varchar(45) NOT NULL,
   `name` varchar(45) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -188,7 +188,7 @@ CREATE TABLE `payroll-schema`.`paytype_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `payroll-schema`.`payroll_struct_commonID` (
+CREATE TABLE `payrollschema`.`payroll_struct_commonID` (
   `commonID_id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
@@ -202,7 +202,7 @@ CREATE TABLE `payroll-schema`.`payroll_struct_commonID` (
 
 
 
-CREATE TABLE `payroll-schema`.`payroll_struct` (
+CREATE TABLE `payrollschema`.`payroll_struct` (
   `payroll_id` int(11) NOT NULL AUTO_INCREMENT,
   `commonID_id` int(11) NOT NULL,
   `interval` varchar(45) NOT NULL,
@@ -218,7 +218,7 @@ CREATE TABLE `payroll-schema`.`payroll_struct` (
 
 
 
-CREATE TABLE `payroll-schema`.`grading_salary_structure` (
+CREATE TABLE `payrollschema`.`grading_salary_structure` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
@@ -235,7 +235,7 @@ CREATE TABLE `payroll-schema`.`grading_salary_structure` (
 
 
 
-CREATE TABLE `payroll-schema`.`payroll_valuation` (
+CREATE TABLE `payrollschema`.`payroll_valuation` (
   `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
@@ -245,7 +245,7 @@ CREATE TABLE `payroll-schema`.`payroll_valuation` (
 
 
 
-CREATE TABLE `payroll-schema`.`taxes_lookup` (
+CREATE TABLE `payrollschema`.`taxes_lookup` (
   `code` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
