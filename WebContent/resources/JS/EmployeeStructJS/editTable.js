@@ -131,6 +131,7 @@ var controller = (function () {
         },
         error: function (xhr) {
         }
+
     });
 
     function showTheEmpStructTable() {
@@ -180,6 +181,7 @@ var controller = (function () {
             var cell7 = row.insertCell(6);
             if (arrangedArray[counter].hasParent == false) {
                 cell1.innerHTML = "Parent";
+                cell3.innerHTML = "N/A";
                 row.setAttribute('class', 'parent');
                 var theHrefForCopy = 'copyEmpStructData.html?code='
                     + arrangedArray[counter].code
@@ -205,7 +207,8 @@ var controller = (function () {
                     + "<a href=" + theHrefFordelete
                     + ">   Delete</a>"
                     +"<a href=" +theHrefForAddSub
-                    + ">Add</a>" ;               
+                    + ">Add</a>" ;       
+                    cell3.innerHTML = arrangedArray[counter].parentCode;        
             } else {
                 cell1.innerHTML = "Child";
                 cell7.innerHTML = "<a href=" + theHrefForEdit
@@ -213,9 +216,9 @@ var controller = (function () {
                     + theHrefFordelemit + ">   Delimit</a>"
                     + "<a href=" + theHrefFordelete
                     + ">   Delete</a>";
+                    cell3.innerHTML = arrangedArray[counter].parentCode;
             }
             cell2.innerHTML = arrangedArray[counter].code;
-            cell3.innerHTML = arrangedArray[counter].parentCode;
             cell4.innerHTML = arrangedArray[counter].name;
             cell5.innerHTML = arrangedArray[counter].startDate;
             cell6.innerHTML = arrangedArray[counter].endDate;

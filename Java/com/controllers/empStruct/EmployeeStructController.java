@@ -41,7 +41,8 @@ public class EmployeeStructController {
 	@RequestMapping(value = {
 			"/chaningChildToSubParent" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public void chaningChildToSubParent(@RequestBody List<EmployeeStructModel> employeeModel,@RequestParam("code") String code) throws Exception {
+	public void chaningChildToSubParent(@RequestBody List<EmployeeStructModel> employeeModel,
+			@RequestParam("code") String code) throws Exception {
 		empService.deleteChild(code);
 		for (Integer i = 0; i < employeeModel.size(); i++) {
 			empService.processTheIncommingModel(employeeModel.get(i));
@@ -73,6 +74,24 @@ public class EmployeeStructController {
 			} else {
 				myList.addAll(empService.getChildChain(code));
 			}
+			myMap.put("theChain", myList);
+
+		} catch (Exception e) {
+			myMap.put("theChain", null);
+			e.printStackTrace();
+		}
+
+		return myMap;
+	}
+
+	@RequestMapping(value = {
+			"/getAllTheEmployeeStructures" }, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Map<String, Object> getAllTheEmployeeStructures() {
+		Map<String, Object> myMap = new HashMap<String, Object>();
+		List<EmployeeStructModel> myList = new ArrayList<EmployeeStructModel>();
+		try {
+			myList.addAll(empService.getAllEmployeeStructure());
 			myMap.put("theChain", myList);
 
 		} catch (Exception e) {
