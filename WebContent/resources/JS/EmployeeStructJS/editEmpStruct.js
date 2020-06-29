@@ -42,42 +42,45 @@ $.ajax({
 });
 
 
-jQuery(document).ready(function ($) {
-    var code;
-    var oldID = null;
-    var newId;
-    $(".theTblRows").click(function () {
-        newId = $(this).attr('id');
-        if (oldID != null) {
-            theId = '#' + oldID;
-            $(theId).removeClass('bg-success');
-        }
-        oldID = newId;
-        console.log(oldID);
-        $(this).addClass('bg-success');
+$(document).ready(function () {
+        var code;
+        var oldID = null;
+        var newId;
+        $('#exampleModalCenter').on('show.bs.modal', function(e) {
+            $(" tr" ).on( "click", function( event ) {
+                newId = $(this).attr('id');
+                if (oldID != null) {
+                    theId = '#' + oldID;
+                    $(theId).removeClass('bg-success');
+                }
+                oldID = newId;
+                console.log(oldID);
+                $(this).addClass('bg-success');
+            });
+        });
+        
+        //$("#exampleModalCenter > #EmpStructTable tbody tr" ).trigger('click');
+        $("#chooseEmpStruct").click(function () {
+            if (oldID != null) {
+                $(".input--style-4").val(oldID);
+                $('#exampleModalCenter').modal('hide');
+            }
+        }); 
+
+        $("#buttonSubmit").mouseenter(function () {
+            $(this).removeClass('btn-primary');
+            $(this).addClass('bg-success');
+        });
+
+        $("#buttonSubmit").mouseout(function () {
+            $(this).removeClass('bg-success');
+            $(this).addClass('btn-primary');
+        });
+
+        $("#buttonSubmit").click(function () {
+            code = $(".input--style-4").val();
+            window.location = 'showEditTable.html?code=' + code;
+        });
+
+        
     });
-
-    $("#chooseEmpStruct").click(function () {
-        if (oldID != null) {
-            $(".input--style-4").val(oldID);
-            $('#exampleModalCenter').modal('hide');
-        }
-    }); 
-
-    $("#buttonSubmit").mouseenter(function () {
-        $(this).removeClass('btn-primary');
-        $(this).addClass('bg-success');
-    });
-
-    $("#buttonSubmit").mouseout(function () {
-        $(this).removeClass('bg-success');
-        $(this).addClass('btn-primary');
-    });
-
-    $("#buttonSubmit").click(function () {
-        code = $(".input--style-4").val();
-        window.location = 'showEditTable.html?code=' + code;
-    });
-
-    
-});
