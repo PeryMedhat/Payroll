@@ -2,6 +2,7 @@ package com.dao.empStruct;
 
 import java.util.List;
 
+import com.entities.empStruct.CommonID;
 import com.entities.empStruct.EmpStructChild;
 import com.entities.empStruct.EmpStructParent;
 import com.entities.empStruct.EmpStructSubparent;
@@ -41,6 +42,8 @@ public interface EmployeeStructDAO {
 	public void deleteParent(String code);
 	public void deleteSubParent(String code);
 	public void deleteChild(String code);
+
+	public List<CommonID> getAllEmployeeStructure();
 	
 
 }

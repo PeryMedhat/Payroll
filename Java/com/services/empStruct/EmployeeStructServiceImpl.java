@@ -146,6 +146,46 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 	@Override
 	@Transactional
+	public List<EmployeeStructModel> getAllEmployeeStructure() {
+		List<EmployeeStructModel> listOfEmpStructModels = new ArrayList<EmployeeStructModel>();
+		List<CommonID> empStructs = employeeDAO.getAllEmployeeStructure();
+		if (empStructs != null) {
+			for (Integer i = 0; i < empStructs.size(); i++) {
+				// create a model
+				EmployeeStructModel model = new EmployeeStructModel();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+				String startDate = dateFormat.format(empStructs.get(i).getStartDate());
+				String endDate = dateFormat.format(empStructs.get(i).getEndDate());
+
+				if(employeeDAO.isParent(empStructs.get(i).getCode())){
+					model.setHasChild(true);
+					model.setHasParent(false);
+				}else if(employeeDAO.isSubParent(empStructs.get(i).getCode())) {
+					model.setHasChild(true);
+					model.setHasParent(true);
+				}else {
+					model.setHasChild(false);
+					model.setHasParent(true);
+				}
+				model.setParentCode(null);
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
+				model.setCode(empStructs.get(i).getCode());
+				model.setName(empStructs.get(i).getName());
+				listOfEmpStructModels.add(model);
+
+			}
+		}
+		return listOfEmpStructModels;
+	}
+
+	
+	
+	
+	
+	@Override
+	@Transactional
 	public EmployeeStructModel getTheParent(String code) {
 		try {
 			EmpStructParent parent = employeeDAO.getParent(code);

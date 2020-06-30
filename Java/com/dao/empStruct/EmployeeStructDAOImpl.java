@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.entities.empStruct.CommonID;
 import com.entities.empStruct.EmpStructChild;
 import com.entities.empStruct.EmpStructParent;
 import com.entities.empStruct.EmpStructSubparent;
@@ -153,6 +154,7 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		}catch(Exception e) {return null;}
 		return empStructSubParents;
 	}
+	@Override
 	public List<EmpStructSubparent> getSubParentsOfParent(String parentCode) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
@@ -171,7 +173,17 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 						
 		return empStructSubParents;
 	}
-
+	@Override
+	public List<CommonID> getAllEmployeeStructure() {
+		// get the session
+		Session session = sessionFactory.getCurrentSession();
+		
+		// get all 
+		Query<CommonID> theQuery = session.createQuery("from CommonID", CommonID.class);
+		List<CommonID> allEmpStruct=theQuery.getResultList();
+						
+		return allEmpStruct;
+	}
 	@Override
 	public Boolean isParent(String parentCode) {
 		Boolean isParent;
