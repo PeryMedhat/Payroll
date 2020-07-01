@@ -3,7 +3,9 @@ package com.service.gradingandsalary;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -146,6 +148,43 @@ public class GradingAndSalaryServiceImpl implements GradingAndSalaryService{
 			
 		}
 		
+	}
+
+
+	@Override
+	@Transactional
+	public List<GradingAndSalaryModel> getAllGradingAndSalary() {
+		List<GradingAndSalary> GradingAndSalary;
+		List<GradingAndSalaryModel> GradingAndSalaryModel = new ArrayList<GradingAndSalaryModel>();
+		
+		try {
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			GradingAndSalary = GradingAndSalaryDAO.getAllGradingAndSalarys();
+			for(int i=0;i<GradingAndSalary.size();i++) {
+				GradingAndSalaryModel model = new GradingAndSalaryModel();
+				String startDate = dateFormat.format(GradingAndSalary.get(i).getStartDate());
+				String endDate = dateFormat.format(GradingAndSalary.get(i).getEndDate());
+				String max =Float.toString(GradingAndSalary.get(i).getMax());
+				String mid =Float.toString(GradingAndSalary.get(i).getMid());
+				String min =Float.toString(GradingAndSalary.get(i).getMin());
+				PayTypeModel payTypeForBasicSalary =payTypeService.getPayType(GradingAndSalary.get(i).getBasicSalary());
+
+				model.setEndDate(endDate);
+				model.setStartDate(startDate);
+				model.setLevel(GradingAndSalary.get(i).getLevel());
+				model.setGrade(GradingAndSalary.get(i).getGrade());
+				model.setBasicSalary(payTypeForBasicSalary.getName());
+				model.setMax(max);
+				model.setMid(mid);
+				model.setMin(min);
+				GradingAndSalaryModel.add(model);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return GradingAndSalaryModel;
 	}
 	
 }

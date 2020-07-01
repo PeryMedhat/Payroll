@@ -3,6 +3,7 @@ package com.controllers.payrollstruct;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,6 +35,14 @@ public class PayrollStructRestController {
 	public PayrollStructModel getPayrollStruct(@RequestParam("code") String code) {
 		return PayrollStructService.getPayrollStruct(code);	
 	}
+	
+	@RequestMapping(value = { "/getAllPayrollStruct" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<PayrollStructModel> getAllPayrollStruct() {
+		return PayrollStructService.getAllPayrollStruct();	
+	}
+	
+
 	
 	@RequestMapping(value = { "/updatePayrollStruct" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

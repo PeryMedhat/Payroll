@@ -136,7 +136,6 @@ var controller = (function () {
         }
     });
 
-
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -158,9 +157,6 @@ var controller = (function () {
             console.log(xhr);
         }
     });
-
-
-
 
     jQuery(document).ready(function ($) {
 
@@ -187,6 +183,15 @@ var controller = (function () {
             } 
           });
 
+        $('#payrollValuation').on('change', function (e) {
+            if($('#payrollValuation').val()=== "fixed") {
+                $('#fixedDays').removeAttr('hidden','');
+            } 
+            if(!($('#payrollValuation').val()=== "fixed")) {
+                $('#fixedDays').attr('hidden','');
+            } 
+          });
+
           
         $("#buttonSubmit").click(function (e) {
             var code = document.getElementById("payrollStruct_code");
@@ -197,42 +202,59 @@ var controller = (function () {
             var country = document.getElementById("country");
             var currency = document.getElementById("currency");
             var payrollValuation = document.getElementById("payrollValuation");
+            var noOfDays = document.getElementById('noOfDays');
+            var codeisEmpty = document.getElementById("codeisEmpty");
+            var nameisEmpty = document.getElementById("nameisEmpty");
+            var startDateisEmpty = document.getElementById("startDateisEmpty");
+            var endDateisEmpty = document.getElementById("endDateisEmpty");
+            var noOfDaysisEmpty = document.getElementById("noOfDaysisEmpty");
+           
+            code.setAttribute("class", "input--style-4");
+            name.setAttribute("class", "input--style-4");
+            startDate.setAttribute("class", "input--style-4");
+            endDate.setAttribute("class", "input--style-4");
+            payrollValuation.setAttribute("class", "input--style-4");
+            noOfDays.setAttribute("class", "input--style-4");
 
-            //validations 
+            document.getElementById('noOfDaysisEmpty').innerHTML ="* Required Field ";
+            codeisEmpty.setAttribute('hidden','');
+            nameisEmpty.setAttribute('hidden','');
+            startDateisEmpty.setAttribute('hidden','');
+            endDateisEmpty.setAttribute('hidden','');
+            noOfDaysisEmpty.setAttribute('hidden','');
+
             if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || country.value == '' || currency.value == '' || payrollValuation.value == '') {
-
                 if (code.value == '') {
-                    var codeisEmpty = document.getElementById("codeisEmpty");
                     codeisEmpty.removeAttribute('hidden');
                     code.setAttribute("class", "input--style-4-redBorder");
-
                 }
-
                 if (name.value == '') {
-                    var nameisEmpty = document.getElementById("nameisEmpty");
                     nameisEmpty.removeAttribute('hidden');
                     name.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (startDate.value == '') {
-                    var startDateisEmpty = document.getElementById("startDateisEmpty");
                     startDateisEmpty.removeAttribute('hidden');
                     startDate.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (endDate.value == '') {
-                    var endDateisEmpty = document.getElementById("endDateisEmpty");
                     endDateisEmpty.removeAttribute('hidden');
                     endDate.setAttribute("class", "input--style-4-redBorder");
                 }
 
-            } else {
+            }else if(($('#payrollValuation').val()=== "fixed")&&document.getElementById('noOfDays') =='' ){
+                noOfDaysisEmpty.removeAttribute('hidden');
+                noOfDays.setAttribute("class", "input--style-4-redBorder");
+            } else if(isNaN(noOfDays.value)){
+                $('#noOfDaysisEmpty').html('*should be a number');
+                noOfDays.setAttribute("class", "input--style-4-redBorder");
+                noOfDaysisEmpty.removeAttribute('hidden');
+            }else {
                 var taxSettlement;
-                if($('#annually').hasClass('active')){
+                if(document.getElementById('annually').checked){
                     taxSettlement = 'annually';
                 }else {
                     taxSettlement ='monthly';
                 }
-
-
                 var payrollStructModel = {
                     "code": code.value,
                     "name": name.value,
@@ -242,12 +264,10 @@ var controller = (function () {
                     "country": country.value,
                     "currency": currency.value,
                     "payrollValuation":payrollValuation.value,
-                    "taxSettlement":taxSettlement
+                    "taxSettlement":taxSettlement,
+                    "noOfDays":noOfDays.value
                 };
-
                 var formData = JSON.stringify(payrollStructModel);
-
-
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -268,13 +288,9 @@ var controller = (function () {
                         document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
                     }
                 });
-
             }
-
         });
     });
-
-
 })();       
 
 

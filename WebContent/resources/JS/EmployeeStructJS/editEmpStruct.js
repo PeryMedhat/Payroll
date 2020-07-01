@@ -9,7 +9,7 @@ $.ajax({
     type: "get", 
     url: "http://localhost:8080/Payroll/employeeStructure/getAllTheEmployeeStructures",
     success: function (response) {
-        if (response.theChain == null) {
+        if (response.theChain == null || response.theChain=='') {
             $('#chooseEmpStruct').attr('hidden', '');
             $('#tableIsEmptyMSG').removeAttr('hidden', '');
         } else {
@@ -40,7 +40,6 @@ $.ajax({
     error: function (xhr) {
     }
 });
-
 
 $(document).ready(function () {
         var code;

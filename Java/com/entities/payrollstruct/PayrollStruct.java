@@ -41,12 +41,17 @@ public class PayrollStruct {
 	@Column(name="payroll_valuation")
 	private String payrollValuation;
 	
+	@Column(name="noOfFixedDays")
+	private int noOfFixedDays;
+	
+	
 	public PayrollStruct() {
 		
 	}
 
-	public PayrollStruct(PayrollStructCommId commID, String interval, String country, String currency, String company,
-			String taxSettlement, String payrollValuation) {
+	public PayrollStruct(int id, PayrollStructCommId commID, String interval, String country, String currency,
+			String company, String taxSettlement, String payrollValuation, int noOfFixedDays) {
+		this.id = id;
 		this.commID = commID;
 		this.interval = interval;
 		this.country = country;
@@ -54,6 +59,7 @@ public class PayrollStruct {
 		this.company = company;
 		this.taxSettlement = taxSettlement;
 		this.payrollValuation = payrollValuation;
+		this.noOfFixedDays = noOfFixedDays;
 	}
 
 	public int getId() {
@@ -120,6 +126,15 @@ public class PayrollStruct {
 		this.payrollValuation = payrollValuation;
 	}
 
+	public int getNoOfFixedDays() {
+		return noOfFixedDays;
+	}
+
+	public void setNoOfFixedDays(int noOfFixedDays) {
+		this.noOfFixedDays = noOfFixedDays;
+	}
+
+	
 	
 
 }

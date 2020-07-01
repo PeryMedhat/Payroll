@@ -155,7 +155,7 @@
                       <div class="row row-space">
                         <div class="col-8">
                             <div class="input-group">
-                                <label class="label">Code</label>
+                                <label class="label">Grade</label>
                                 <input class="input--style-4" required  maxlength="15" type="text" id="gradingStruct_code" name="gradingStruct_code">
                             </div>
                         </div>
@@ -163,7 +163,49 @@
                            <button style="position: relative;top: 30%;" type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary" >Send</button>
                         </div>
                     </div>
+                    <div class="row row-space">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        Show All </button>
+                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Grading And Salary Structure Payroll</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
+                                <table class="table table-hover table-bordered" id="GradingStructTable" style="text-align: center;"
+                                  hidden>
+                                  <thead style="background-color:#f8b739;">
+                                    <tr>
+                                      <th>Grade</th>
+                                      <th>Level</th>
+                                    </tr>
+                                  </thead>
+                                </table>
+                                <div>
+                                  <div id="tableIsEmptyMSG" class="warning" hidden>
+                                    <div class="alert alert-warning">
+                                      <strong>Warning!</strong>There is no Grading And Salary structure created yet!
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" id="chooseGradingStruct">Choose</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                      
+      
+                    </div>
                       </div>
                   
                     </div>

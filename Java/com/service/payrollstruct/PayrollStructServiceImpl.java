@@ -3,7 +3,9 @@ package com.service.payrollstruct;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,7 @@ public class PayrollStructServiceImpl implements PayrollStructService{
 		
 		PayrollStructObj.setCommID(commId);
 		PayrollStructObj.setTaxSettlement(PayrollStructModel.getTaxSettlement());
+		PayrollStructObj.setNoOfFixedDays(Integer.parseInt(PayrollStructModel.getNoOfDays()));
 		PayrollStructObj.setCompany(null);	//integration
 		PayrollStructObj.setCountry(country.getCode());
 		PayrollStructObj.setCurrency(currency.getCode());
@@ -101,6 +104,7 @@ public class PayrollStructServiceImpl implements PayrollStructService{
 			PayrollStructModel.setPayrollValuation(payrollValuation.getName());
 			PayrollStructModel.setInterval(interval.getName());
 			PayrollStructModel.setTaxSettlement(PayrollStruct.getTaxSettlement());
+			PayrollStructModel.setNoOfDays( Integer.toString(PayrollStruct.getNoOfFixedDays()));
 		return PayrollStructModel;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -159,9 +163,48 @@ public class PayrollStructServiceImpl implements PayrollStructService{
 			PayrollStruct.setCurrency(currencyCode);
 			PayrollStruct.setPayrollValuation(payrollValCode);
 			PayrollStruct.setTaxSettlement(PayrollStructModel.getTaxSettlement());
+			PayrollStruct.setNoOfFixedDays( Integer.parseInt(PayrollStructModel.getNoOfDays()));
 	
 		}
 		
+	}
+
+
+	@Override
+	@Transactional
+	public List<PayrollStructModel> getAllPayrollStruct() {
+		try {
+			List<PayrollStructModel>  PayrollStructModel= new ArrayList<PayrollStructModel>();
+			List<PayrollStruct> PayrollStruct = payrollStructDAO.getAllPayrollStructs();
+			for(int i=0;i<PayrollStruct.size();i++) {
+				DateFormat dateFormat = new SimpleDateFormat();
+				PayrollStructModel model= new PayrollStructModel();
+				Interval interval =intervalDAO.getIntervalByCode(PayrollStruct.get(i).getInterval());
+				Country country = countryDAO.getCountryByCode(PayrollStruct.get(i).getCountry());
+				Currency currency =currencyDAO.getCurrencyByCode(PayrollStruct.get(i).getCurrency());
+				PayrollValuation payrollValuation =payrollValDAO.getPayrollValuationByCode(PayrollStruct.get(i).getPayrollValuation());
+				
+				
+				String startDate = dateFormat.format(PayrollStruct.get(i).getCommID().getStartDate());
+				String endDate = dateFormat.format(PayrollStruct.get(i).getCommID().getEndDate());
+				
+				model.setCode(PayrollStruct.get(i).getCommID().getCode());
+				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate.substring(0, 6));
+				model.setName(PayrollStruct.get(i).getCommID().getName());
+				model.setCountry(country.getName());
+				model.setCurrency(currency.getName());
+				model.setPayrollValuation(payrollValuation.getName());
+				model.setInterval(interval.getName());
+				model.setTaxSettlement(PayrollStruct.get(i).getTaxSettlement());
+				model.setNoOfDays( Integer.toString(PayrollStruct.get(i).getNoOfFixedDays()));
+				PayrollStructModel.add(model);
+			}
+			
+		return PayrollStructModel;
+		}catch(Exception e) {
+			e.printStackTrace();return null;
+		}
 	}
 	
 }

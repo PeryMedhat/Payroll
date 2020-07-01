@@ -3,6 +3,7 @@ package com.controllers.gradingandsalary;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -33,6 +34,12 @@ public class GradingAndSalaryRestController {
 	@ResponseBody
 	public GradingAndSalaryModel getGradingAndSalary(@RequestParam("grade") String grade) {
 		return GradingAndSalaryService.getGradingAndSalary(grade);	
+	}
+	
+	@RequestMapping(value = { "/getAllGradingAndSalary" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<GradingAndSalaryModel> getAllGradingAndSalary() {
+		return GradingAndSalaryService.getAllGradingAndSalary();	
 	}
 	
 	@RequestMapping(value = { "/updateGradingAndSalary" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)

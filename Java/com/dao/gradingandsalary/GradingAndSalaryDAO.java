@@ -9,5 +9,4 @@ public interface GradingAndSalaryDAO {
 	public GradingAndSalary getGradingAndSalary(String grade);
 	public GradingAndSalary getGradingAndSalaryById(int id);
 	public void deleteGradingAndSalary(String grade);
-	public List<GradingAndSalary> getAllGradingAndSalarys();
-}
+	public List<GradingAndSalary> getAllGradingAndSalarys();}

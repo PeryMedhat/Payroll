@@ -193,38 +193,37 @@ var controller = (function () {
             var inputValue = document.getElementById("inputValue");
             var unit = document.getElementById("unit");
             var taxes =document.getElementById("Taxes");
-
+            var unitisEmpty = document.getElementById("unitisEmpty");
+            var nameisEmpty = document.getElementById("nameisEmpty");
+            var codeisEmpty = document.getElementById("codeisEmpty");
+            var startDateisEmpty = document.getElementById("startDateisEmpty");
+            var endDateisEmpty = document.getElementById("endDateisEmpty");
+            var unitisEmpty = document.getElementById("unitisEmpty");
+            
             if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || type.value == '' || inputValue.value == ''||((inputValue.value==="unit"||inputValue.value=== "both")&&unit.value == '')) {
                 if (unit.value == '' ) {
-                    var unitisEmpty = document.getElementById("unitisEmpty");
                     unitisEmpty.removeAttribute('hidden');
                     unit.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (code.value == '') {
-                    var codeisEmpty = document.getElementById("codeisEmpty");
                     codeisEmpty.removeAttribute('hidden');
                     code.setAttribute("class", "input--style-4-redBorder");
-
                 }
 
                 if (name.value == '') {
-                    var nameisEmpty = document.getElementById("nameisEmpty");
                     nameisEmpty.removeAttribute('hidden');
                     name.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (startDate.value == '') {
-                    var startDateisEmpty = document.getElementById("startDateisEmpty");
                     startDateisEmpty.removeAttribute('hidden');
                     startDate.setAttribute("class", "input--style-4-redBorder");
                 }
                 if (endDate.value == '') {
-                    var endDateisEmpty = document.getElementById("endDateisEmpty");
                     endDateisEmpty.removeAttribute('hidden');
                     endDate.setAttribute("class", "input--style-4-redBorder");
-                }
+                 }
 
             }else if(isNaN(unit.value)){
-                var unitisEmpty = document.getElementById("unitisEmpty");
                 $('#unitisEmpty').html('*should be a number');
                 unit.setAttribute("class", "input--style-4-redBorder");
                 unitisEmpty.removeAttribute('hidden');

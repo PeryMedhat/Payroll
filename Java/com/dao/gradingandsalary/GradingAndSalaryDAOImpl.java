@@ -16,11 +16,11 @@ public class GradingAndSalaryDAOImpl implements GradingAndSalaryDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public void addGradingAndSalary(GradingAndSalary GradingAndSalary) {
-		// get the session 
-		Session session = sessionFactory.getCurrentSession();			
+		// get the session
+		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(GradingAndSalary);
 	}
 
@@ -28,44 +28,39 @@ public class GradingAndSalaryDAOImpl implements GradingAndSalaryDAO {
 	public GradingAndSalary getGradingAndSalary(String grade) {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
-		GradingAndSalary GradingAndSalary ;
-		Query<GradingAndSalary> theQuery = session.createQuery("From GradingAndSalary where grade =:grade", GradingAndSalary.class); 
-		theQuery.setParameter("grade",grade);
-		
+		GradingAndSalary GradingAndSalary;
+		Query<GradingAndSalary> theQuery = session.createQuery("From GradingAndSalary where grade =:grade",
+				GradingAndSalary.class);
+		theQuery.setParameter("grade", grade);
+
 		GradingAndSalary = theQuery.getSingleResult();
-		
-		return GradingAndSalary;		
+
+		return GradingAndSalary;
 	}
 
-	
 	@Override
 	public GradingAndSalary getGradingAndSalaryById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		GradingAndSalary GradingAndSalary = session.get(GradingAndSalary.class, id);
-		return GradingAndSalary;		
+		return GradingAndSalary;
 	}
-	
+
 	@Override
 	public void deleteGradingAndSalary(String grade) {
 		Session session = sessionFactory.getCurrentSession();
-		GradingAndSalary GradingAndSalary=getGradingAndSalary(grade);
+		GradingAndSalary GradingAndSalary = getGradingAndSalary(grade);
 		session.delete(GradingAndSalary);
 	}
-	
-	
-	
+
 	@Override
-	public List<GradingAndSalary> getAllGradingAndSalarys(){
+	public List<GradingAndSalary> getAllGradingAndSalarys() {
 		// get the session
 		Session session = sessionFactory.getCurrentSession();
 		List<GradingAndSalary> GradingAndSalarys = new ArrayList<GradingAndSalary>();
-		Query<GradingAndSalary> theQuery =session.createQuery("From GradingAndSalary",GradingAndSalary.class);
-		
+		Query<GradingAndSalary> theQuery = session.createQuery("From GradingAndSalary", GradingAndSalary.class);
+
 		GradingAndSalarys = theQuery.getResultList();
-		return GradingAndSalarys;		
+		return GradingAndSalarys;
 	}
-	
-	
-	
 
 }

@@ -201,7 +201,6 @@ CREATE TABLE `payrollschema`.`payroll_struct_commonID` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=big5;
 
 
-
 CREATE TABLE `payrollschema`.`payroll_struct` (
   `payroll_id` int(11) NOT NULL AUTO_INCREMENT,
   `commonID_id` int(11) NOT NULL,
@@ -211,10 +210,11 @@ CREATE TABLE `payrollschema`.`payroll_struct` (
   `company` varchar(45) DEFAULT NULL,
   `tax_settlement` varchar(45) DEFAULT NULL,
   `payroll_valuation` varchar(45) NOT NULL,
+  `noOfFixedDays` int(11) DEFAULT NULL,
   PRIMARY KEY (`payroll_id`),
   KEY `fk_payroll_struct_1_idx` (`commonID_id`),
   CONSTRAINT `fk_payroll_struct_1` FOREIGN KEY (`commonID_id`) REFERENCES `payroll_struct_commonID` (`commonID_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=big5;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=big5;
 
 
 

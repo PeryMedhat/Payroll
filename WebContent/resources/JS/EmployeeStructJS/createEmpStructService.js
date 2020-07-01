@@ -106,13 +106,10 @@ var newChildInSameLevel = false;
 function yesnoCheck() {
   if (document.getElementById('yesCheck').checked) {
   document.getElementById('buttonSubmit').innerHTML = 'Next';
+}
 
-  } 
 if (document.getElementById('noCheck').checked) {
   document.getElementById('buttonSubmit').innerHTML = 'Submit';
-
-
-
 }
 }
 
