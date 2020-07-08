@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.empStruct.EmployeeStructDAO;
+import com.dao.payType.PayTypeDAO;
 import com.entities.empStruct.CommonID;
 import com.entities.empStruct.EmpStructChild;
 import com.entities.empStruct.EmpStructParent;
 import com.entities.empStruct.EmpStructSubparent;
+import com.entities.payType.PayType;
+import com.entities.payType.PayTypeCommId;
 import com.models.empStuct.EmployeeStructModel;
 import com.rest.errorhandling.NotFoundException;
 import com.rest.errorhandling.UniqunessException;
@@ -25,6 +28,9 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 	@Autowired
 	private EmployeeStructDAO employeeDAO;
+	
+	@Autowired
+	private PayTypeDAO paytypeDAO;
 
 	@Override
 	@Transactional
@@ -715,6 +721,38 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		 * newModel.setParentCode(employeeStructModel.getParentCode()); }
 		 */
 		processTheIncommingModel(newModel);
+	}
+
+	@Override
+	@Transactional
+	public void assignPaytypeToEmployeeStruct(String empStructCode, List<String> paytypeCodes) {
+		CommonID empStruct = employeeDAO.getEmpStruct(empStructCode);
+		for(int i=0;i<paytypeCodes.size();i++) {
+			PayType paytype = paytypeDAO.getPayType(paytypeCodes.get(i));
+			PayTypeCommId payTypeCommId = paytype.getCommID();
+			empStruct.addPaytype(payTypeCommId);
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<String> getAllPaytypesAssignedToEmpStruct(String empStructCode) {
+		//returns list of payTypeCodes assigned to that employee structure
+		CommonID empStruct = employeeDAO.getEmpStruct(empStructCode);
+		List<PayTypeCommId> paytypes = empStruct.getPaytypes();
+		List<String> paytypeCodes=new ArrayList<String>();
+		for(int i =0;i<paytypes.size();i++) {
+			paytypeCodes.add(paytypes.get(i).getCode());
+		}
+		return paytypeCodes;
+	}
+
+	@Override
+	@Transactional
+	public void removePaytypeFromEmpStuct(String empStructCode) {
+		CommonID empStruct = employeeDAO.getEmpStruct(empStructCode);
+		List<PayTypeCommId> paytypes = empStruct.getPaytypes();
+		paytypes.clear();
 	}
 
 }

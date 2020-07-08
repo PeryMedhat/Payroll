@@ -255,6 +255,15 @@ CREATE TABLE `payrollschema`.`taxes_lookup` (
 
 
 
+CREATE TABLE `payrollschema`.`emp_paytype_assignment` (
+  `commonID_id` int(11) NOT NULL,
+  `paytype_commId_id` int(11) NOT NULL,
+  PRIMARY KEY (`commonID_id`,`paytype_commId_id`),
+  KEY `fk_emp_paytype_assignment_1_idx` (`commonID_id`),
+  KEY `fk_emp_paytype_assignment_2_idx` (`paytype_commId_id`),
+  CONSTRAINT `fk_emp_paytype_assignment_1` FOREIGN KEY (`commonID_id`) REFERENCES `commonID` (`commonID_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_emp_paytype_assignment_2` FOREIGN KEY (`paytype_commId_id`) REFERENCES `paytype_commId` (`paytype_commId_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
 

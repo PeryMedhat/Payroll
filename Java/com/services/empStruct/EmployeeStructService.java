@@ -60,6 +60,9 @@ public interface EmployeeStructService {
 
 	public List<EmployeeStructModel> getAllEmployeeStructure();
 	
-	
+	public void assignPaytypeToEmployeeStruct(String empStructCode , List<String> paytypeCodes);
+	public List<String> getAllPaytypesAssignedToEmpStruct(String empStructCode);
+	public void removePaytypeFromEmpStuct(String empStructCode);
+
 
 }

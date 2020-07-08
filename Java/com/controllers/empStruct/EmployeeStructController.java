@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.models.empStuct.EmployeeStructAssignmentModel;
 import com.models.empStuct.EmployeeStructModel;
 import com.rest.errorhandling.NotFoundException;
 import com.services.empStruct.EmployeeStructService;
@@ -184,4 +185,50 @@ public class EmployeeStructController {
 			empService.copyEmployeeStructure(employeeModel.get(i), todayDate);
 		}
 	}
+	
+	
+	@RequestMapping(value = {
+			"/assignPaytypeToEmployeeStruct" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public void assignPaytypeToEmployeeStruct(@RequestBody List<EmployeeStructAssignmentModel> assignmentModel) throws Exception {
+		removePaytypeFromEmpStuct(assignmentModel);
+		for (Integer i = 0; i < assignmentModel.size(); i++) {
+			empService.assignPaytypeToEmployeeStruct(assignmentModel.get(i).getCode(),assignmentModel.get(i).getPayTypeCodes());
+		}
+
+	}
+
+	
+	@RequestMapping(value = {
+			"/getAllPaytypesAssignedToEmpStruct" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<EmployeeStructAssignmentModel> getAllPaytypesAssignedToEmpStruct(@RequestBody List<String> empStructCodes)
+			throws Exception {
+		List<EmployeeStructAssignmentModel> paytypeCodes = new ArrayList<EmployeeStructAssignmentModel>();
+		for (Integer i = 0; i < empStructCodes.size(); i++) {
+			EmployeeStructAssignmentModel model =new EmployeeStructAssignmentModel();
+			String empCode = empStructCodes.get(i);
+			List<String> paytypes=empService.getAllPaytypesAssignedToEmpStruct(empCode);
+			model.setCode(empCode);
+			model.setPayTypeCodes(paytypes);
+			paytypeCodes.add(model);
+		}
+		return paytypeCodes;
+	}
+	
+	
+
+	@RequestMapping(value = {
+			"/removePaytypeFromEmpStuct" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public void removePaytypeFromEmpStuct(@RequestBody List<EmployeeStructAssignmentModel> unassignmentModel) throws Exception {
+		for (Integer i = 0; i < unassignmentModel.size(); i++) {
+			empService.removePaytypeFromEmpStuct(unassignmentModel.get(i).getCode());
+		
+		}
+
+	}
+
+	
+	
 }

@@ -258,7 +258,20 @@ public class EmployeeStructDAOImpl implements EmployeeStructDAO {
 		session.delete(child);
 		
 	}
-	
-	
+
+	@Override
+	public CommonID getEmpStruct(String empStructCode) {
+		// get the session
+		Session session = sessionFactory.getCurrentSession();
+
+		// get all empStruct by code
+		Query<CommonID> theQuery = session.createQuery(
+				"from CommonID where code =:code", CommonID.class);
+		theQuery.setParameter("code", empStructCode);
+
+		CommonID empStruct = (CommonID) theQuery.getSingleResult();
+
+		return empStruct;
+	}
 	
 }

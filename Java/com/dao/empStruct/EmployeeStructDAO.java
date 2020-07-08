@@ -24,6 +24,7 @@ public interface EmployeeStructDAO {
 	public EmpStructParent getParent(String code);
 	public EmpStructSubparent getSubParent(String code);
 	public EmpStructChild getChild(String code);
+	public CommonID getEmpStruct(String empStructCode);
 	
 	//Select all from subParent table that has parentCode of that parentCode
 	public List<EmpStructSubparent> getSubParentsOfSubParents(String parentCode);

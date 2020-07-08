@@ -42,8 +42,6 @@ public class PayrollStructRestController {
 		return PayrollStructService.getAllPayrollStruct();	
 	}
 	
-
-	
 	@RequestMapping(value = { "/updatePayrollStruct" }, method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public void updatePayrollStruct(@RequestBody PayrollStructModel PayrollStructModel) throws ParseException {
