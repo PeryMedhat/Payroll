@@ -41,16 +41,17 @@ var controller = (function () {
                             payTypes = null;
                         } else {
                             payTypes = response;
-                            $("tbody").remove();
-                            $('#EmpStructTable').append($('<tbody> <tr> </tr> </tbody>'));
-                            showTheEmpStructTable();
-                            $('#EmpStructTable').removeAttr('hidden');
+                            
 
                         }
                     },
                     error: function (xhr) {
                     }
                 });
+                $("tbody").remove();
+                            $('#EmpStructTable').append($('<tbody> <tr> </tr> </tbody>'));
+                            showTheEmpStructTable();
+                            $('#EmpStructTable').removeAttr('hidden');
             }
         },
         error: function (xhr) {
