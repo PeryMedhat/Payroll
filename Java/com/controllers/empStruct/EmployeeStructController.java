@@ -216,7 +216,6 @@ public class EmployeeStructController {
 		return paytypeCodes;
 	}
 	
-	
 
 	@RequestMapping(value = {
 			"/removePaytypeFromEmpStuct" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -224,11 +223,7 @@ public class EmployeeStructController {
 	public void removePaytypeFromEmpStuct(@RequestBody List<EmployeeStructAssignmentModel> unassignmentModel) throws Exception {
 		for (Integer i = 0; i < unassignmentModel.size(); i++) {
 			empService.removePaytypeFromEmpStuct(unassignmentModel.get(i).getCode());
-		
 		}
-
 	}
 
-	
-	
 }
