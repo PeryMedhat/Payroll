@@ -96,6 +96,7 @@ var controller = (function () {
             }
             cell2.innerHTML = arrangedArray[counter].code;
             cell4.innerHTML = arrangedArray[counter].name;
+
             if (payTypes == null) {
                 cell5.innerHTML = "No paytypes created yet";
             } else {
@@ -104,210 +105,232 @@ var controller = (function () {
                 var theAssignedPayTypes;
                 arrayOfEmpCodes = new Array();
                 arrayOfEmpCodes.push(arrangedArray[counter].code);
-                console.log(arrayOfEmpCodes);
                 EmpCodes = JSON.stringify(arrayOfEmpCodes);
 
-                // $.ajax({
-                //     headers: {
-                //         'Accept': 'application/json',
-                //         'Content-Type': 'application/json'
-                //     },
-                //     type: "POST",
-                //     url: "http://localhost:8080/Payroll/employeeStructure/getAllPaytypesAssignedToEmpStruct",
-                //     data: EmpCodes,
-                //     success: function (response) {
-                //         theAssignedPayTypes == new Array()
-                //         theAssignedPayTypes = response;
-                //         var p;
-                //         for (p = 0; p < payTypes.length; p++) {
-                //             if (theAssignedPayTypes[0].code.localeCompare(row.id) == 0
-                //                 && theAssignedPayTypes[0].payTypeCodes.includes(payTypes[p].code)) {
-                //                 payTypesCheckBoxs += "<label><input checked id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
-                //             }else {
-                //                 payTypesCheckBoxs += "<label><input id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
-                //             }
-                //         }
-                for (p = 0; p < payTypes.length; p++) {
+                theAssignedPayTypes == new Array();
 
-                    payTypesCheckBoxs += "<label><input id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    async: false,
+                    url: "http://localhost:8080/Payroll/employeeStructure/getAllPaytypesAssignedToEmpStruct",
+                    data: EmpCodes,
+                    success: function (response) {
+                        theAssignedPayTypes = response;
+                    },
+                    error: function (xhr) {
+                    }
+                });
 
+                for (var p = 0; p < payTypes.length; p++) {
+                    if (theAssignedPayTypes[0].code.localeCompare(row.id) == 0
+                        && theAssignedPayTypes[0].payTypeCodes.includes(payTypes[p].code)) {
+                        payTypesCheckBoxs += "<label><input checked id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
+                    } else {
+                        payTypesCheckBoxs += "<label><input id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
+                    }
                 }
-
                 cell5.innerHTML = payTypesCheckBoxs;
                 payTypesCheckBoxs = "";
-        //     },
-        //     error: function (xhr) {
-        //     }
-        // });
-    }
-}
+            }
+        }
         $('#theEmpStruct').removeAttr('hidden');
     }
 
-function arrangeTheTable() {
-    var noOfChildren;
-    var noOfSubParents;
-    var parentCode;
-    var oldParentCode;
-    var childFounded;
-    var parent_Code;
-    for (var b = 0; b < sortedArray.length; b++) {
-        if (sortedArray[b].hasParent == false) {
-            parent_Code = sortedArray[b].code;
-            var index = b;
-        }
-    }
-    for (; index < sortedArray.length; index++) {
-        parentCode = sortedArray[index].code;
-        arrangedArray.push(sortedArray[index]);
-        var isThisParent = sortedArray[index].hasChild;
-        sortedArray.splice(index, 1);
-        if (isThisParent) {
-            oldParentCode = parentCode;
-            noOfChildren = 0;
-            noOfSubParents = 0;
-            childFounded = false;
-            for (var i = 0; i < sortedArray.length; i++) {
-                if (parentCode.localeCompare(sortedArray[i].parentCode) == 0 && sortedArray[i].hasChild == false) {
-                    index = i - 1;
-                    noOfChildren++;
-                    childFounded = true;
-                }
-                if (parentCode.localeCompare(sortedArray[i].parentCode) == 0 && sortedArray[i].hasChild == true) {
-                    noOfSubParents++;
-                }
+    function arrangeTheTable() {
+        var noOfChildren;
+        var noOfSubParents;
+        var parentCode;
+        var oldParentCode;
+        var childFounded;
+        var parent_Code;
+        for (var b = 0; b < sortedArray.length; b++) {
+            if (sortedArray[b].hasParent == false) {
+                parent_Code = sortedArray[b].code;
+                var index = b;
             }
-            if (noOfChildren > 0) { noOfChildren--; }
-            if (!childFounded) {
+        }
+        for (; index < sortedArray.length; index++) {
+            parentCode = sortedArray[index].code;
+            arrangedArray.push(sortedArray[index]);
+            var isThisParent = sortedArray[index].hasChild;
+            sortedArray.splice(index, 1);
+            if (isThisParent) {
+                oldParentCode = parentCode;
+                noOfChildren = 0;
+                noOfSubParents = 0;
+                childFounded = false;
                 for (var i = 0; i < sortedArray.length; i++) {
-                    if (parentCode.localeCompare(sortedArray[i].parentCode) == 0) {
+                    if (parentCode.localeCompare(sortedArray[i].parentCode) == 0 && sortedArray[i].hasChild == false) {
                         index = i - 1;
+                        noOfChildren++;
+                        childFounded = true;
                     }
-                } if (noOfSubParents > 0) { noOfSubParents--; }
+                    if (parentCode.localeCompare(sortedArray[i].parentCode) == 0 && sortedArray[i].hasChild == true) {
+                        noOfSubParents++;
+                    }
+                }
+                if (noOfChildren > 0) { noOfChildren--; }
+                if (!childFounded) {
+                    for (var i = 0; i < sortedArray.length; i++) {
+                        if (parentCode.localeCompare(sortedArray[i].parentCode) == 0) {
+                            index = i - 1;
+                        }
+                    } if (noOfSubParents > 0) { noOfSubParents--; }
+                }
+
+            } else if (noOfChildren != 0) {
+                for (var i = 0; i < sortedArray.length; i++) {
+                    if (oldParentCode.localeCompare(sortedArray[i].parentCode) == 0 && sortedArray[i].hasChild == false) {
+                        index = i - 1;
+                        noOfChildren--;
+                        childFounded = true;
+                    }
+                }
+            } else if (noOfSubParents != 0) {
+                for (var i = 0; i < sortedArray.length; i++) {
+                    if (oldParentCode.localeCompare(sortedArray[i].parentCode) == 0) {
+                        index = i - 1;
+                        noOfSubParents--;
+                    }
+                }
+            } else {
+                for (var i = 0; i < sortedArray.length; i++) {
+                    if (parent_Code.localeCompare(sortedArray[i].parentCode) == 0) {
+                        index = i - 1;
+                        break;
+                    } else { index = -1; }
+                }
             }
 
-        } else if (noOfChildren != 0) {
-            for (var i = 0; i < sortedArray.length; i++) {
-                if (oldParentCode.localeCompare(sortedArray[i].parentCode) == 0 && sortedArray[i].hasChild == false) {
-                    index = i - 1;
-                    noOfChildren--;
-                    childFounded = true;
-                }
-            }
-        } else if (noOfSubParents != 0) {
-            for (var i = 0; i < sortedArray.length; i++) {
-                if (oldParentCode.localeCompare(sortedArray[i].parentCode) == 0) {
-                    index = i - 1;
-                    noOfSubParents--;
-                }
-            }
-        } else {
-            for (var i = 0; i < sortedArray.length; i++) {
-                if (parent_Code.localeCompare(sortedArray[i].parentCode) == 0) {
-                    index = i - 1;
-                    break;
-                } else { index = -1; }
-            }
         }
-
+        if (!sortedArray.length == 0) {
+            arrangeTheTable();
+        }
     }
-    if (!sortedArray.length == 0) {
-        arrangeTheTable();
+
+    var unassignedModel;
+    var listOfUnAssignedModel = new Array();
+    var y = 0;
+    var assignmentModel;
+    var listOfModels = new Array();
+    var x = 0;
+    var empStructCode;
+    var listOfAssignedPayTypes;
+    var j; var i;
+    function addUnAssignedModel(unassignedModel) {
+        listOfUnAssignedModel[y] = unassignedModel;
+        y++;
     }
-}
-
-var unassignedModel;
-var listOfUnAssignedModel = new Array();
-var y = 0;
-var assignmentModel;
-var listOfModels = new Array();
-var x = 0;
-var empStructCode;
-var listOfAssignedPayTypes;
-var j; var i;
-function addUnAssignedModel(unassignedModel) {
-    listOfUnAssignedModel[y] = unassignedModel;
-    y++;
-}
-function saveUnAssignedModelValues(code, listOfPayTypes) {
-    unassignedModel = {
-        "code": code,
-        "payTypeCodes": listOfPayTypes
+    function saveUnAssignedModelValues(code, listOfPayTypes) {
+        unassignedModel = {
+            "code": code,
+            "payTypeCodes": listOfPayTypes
+        }
+        addUnAssignedModel(unassignedModel);
     }
-    addUnAssignedModel(unassignedModel);
-}
-function addModel(assignmentModel) {
-    listOfModels[x] = assignmentModel;
-    x++;
-}
-function saveModelValues(code, listOfPayTypes) {
-    assignmentModel = {
-        "code": code,
-        "payTypeCodes": listOfPayTypes
+    function addModel(assignmentModel) {
+        listOfModels[x] = assignmentModel;
+        x++;
     }
-    addModel(assignmentModel);
-}
+    function saveModelValues(code, listOfPayTypes) {
+        assignmentModel = {
+            "code": code,
+            "payTypeCodes": listOfPayTypes
+        }
+        addModel(assignmentModel);
+    }
 
-jQuery(document).ready(function ($) {
+    jQuery(document).ready(function ($) {
 
-    $("#modalOkButton").click(function (e) {
-        location = 'assignPayTypeToEmpStruct.html';
+        $("#modalOkButton").click(function (e) {
+            location = 'assignPayTypeToEmpStruct.html';
 
-    });
+        });
 
-    $("#buttonSubmit").mouseenter(function () {
-        $(this).removeClass('btn-primary');
-        $(this).addClass('bg-success');
-    });
+        $("#buttonSubmit").mouseenter(function () {
+            $(this).removeClass('btn-primary');
+            $(this).addClass('bg-success');
+        });
 
-    $("#buttonSubmit").mouseout(function () {
-        $(this).removeClass('bg-success');
-        $(this).addClass('btn-primary');
-    });
+        $("#buttonSubmit").mouseout(function () {
+            $(this).removeClass('bg-success');
+            $(this).addClass('btn-primary');
+        });
 
-    $("#buttonSubmit").click(function () {
-        y = 0;
-        listOfUnAssignedModel = new Array();
-        x = 0;
-        listOfModels = new Array();
-        $('#EmpStructTable > tbody  > tr').each(function () {
-            empStructCode = this.id;
-            if (empStructCode != '' || empStructCode != null || empStructCode != "undefined") {
-                listOfAssignedPayTypes = new Array();
-                listOfUnAssigned = new Array();
-                for (i = 0; i < payTypes.length; i++) {
-                    if (document.getElementById(payTypes[i].code + "-" + empStructCode) != null
-                        && document.getElementById(payTypes[i].code + "-" + empStructCode).checked
-                    ) {
-                        listOfAssignedPayTypes.push(payTypes[i].code);
+        $("#buttonSubmit").click(function () {
+            y = 0;
+            listOfUnAssignedModel = new Array();
+            x = 0;
+            listOfModels = new Array();
+            $('#EmpStructTable > tbody  > tr').each(function () {
+                empStructCode = this.id;
+                if (empStructCode != '' || empStructCode != null || empStructCode != "undefined") {
+                    listOfAssignedPayTypes = new Array();
+                    listOfUnAssigned = new Array();
+                    for (i = 0; i < payTypes.length; i++) {
+                        if (document.getElementById(payTypes[i].code + "-" + empStructCode) != null
+                            && document.getElementById(payTypes[i].code + "-" + empStructCode).checked
+                        ) {
+                            listOfAssignedPayTypes.push(payTypes[i].code);
+                        } else if (document.getElementById(payTypes[i].code + "-" + empStructCode) != null
+                            && !document.getElementById(payTypes[i].code + "-" + empStructCode).checked
+                        ) {
+                            listOfUnAssigned.push(payTypes[i].code);
+                        }
                     }
-                }
-                saveUnAssignedModelValues(empStructCode, null);
-                saveModelValues(empStructCode, listOfAssignedPayTypes);
-            }
-        });
-        listOfModels.shift();
+                    saveUnAssignedModelValues(empStructCode, listOfUnAssigned);
+                    saveModelValues(empStructCode, listOfAssignedPayTypes);
 
-        var formData = JSON.stringify(listOfModels);
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            type: "POST",
-            url: "http://localhost:8080/Payroll/employeeStructure/assignPaytypeToEmployeeStruct",
-            data: formData,
-            success: function (response) {
-                $('#ResultOfEmployeeStructAssignment').modal('show');
-                $('#success_msg').removeAttr('hidden');
-            },
-            error: function (xhr) {
-                var errorMessage = xhr.responseJSON;
-                $('#ResultOfEmployeeStructAssignment').modal('show');
-                $('#fail_msg').removeAttr('hidden');
-                document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
-            }
+                }
+            });
+            listOfModels.shift();
+            listOfUnAssignedModel.shift();
+            var formData = JSON.stringify(listOfModels);
+            var data = JSON.stringify(listOfUnAssignedModel);
+            console.log(listOfModels);
+            console.log(listOfUnAssignedModel);
+
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                url: "http://localhost:8080/Payroll/employeeStructure/removePaytypeFromEmpStuct",
+                data: data,
+                success: function (response) {
+                    $.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        type: "POST",
+                        url: "http://localhost:8080/Payroll/employeeStructure/assignPaytypeToEmployeeStruct",
+                        data: formData,
+                        success: function (response) {
+                            $('#ResultOfEmployeeStructAssignment').modal('show');
+                            $('#success_msg').removeAttr('hidden');
+                        },
+                        error: function (xhr) {
+                            var errorMessage = xhr.responseJSON;
+                            $('#ResultOfEmployeeStructAssignment').modal('show');
+                            $('#fail_msg').removeAttr('hidden');
+                            document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
+                        }
+                    });
+                },
+                error: function (xhr) {
+                    var errorMessage = xhr.responseJSON;
+                    $('#ResultOfEmployeeStructAssignment').modal('show');
+                    $('#fail_msg').removeAttr('hidden');
+                    document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
+                }
+            });
         });
+
     });
-});
-}) ();
+})();

@@ -730,7 +730,10 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 		for(int i=0;i<paytypeCodes.size();i++) {
 			PayType paytype = paytypeDAO.getPayType(paytypeCodes.get(i));
 			PayTypeCommId payTypeCommId = paytype.getCommID();
-			empStruct.addPaytype(payTypeCommId);
+			if(!empStruct.getPaytypes().contains(payTypeCommId)) {
+				empStruct.addPaytype(payTypeCommId);
+			}
+			
 		}
 	}
 
@@ -749,10 +752,16 @@ public class EmployeeStructServiceImpl implements EmployeeStructService {
 
 	@Override
 	@Transactional
-	public void removePaytypeFromEmpStuct(String empStructCode) {
+	public void removePaytypeFromEmpStuct(String empStructCode,List<String> unassignedPaytypes) {
 		CommonID empStruct = employeeDAO.getEmpStruct(empStructCode);
 		List<PayTypeCommId> paytypes = empStruct.getPaytypes();
-		paytypes.clear();
+		for(int i=0;i<unassignedPaytypes.size();i++) {
+			for(int j=0;j<paytypes.size();j++) {
+				if(unassignedPaytypes.get(i).equals(paytypes.get(j).getCode())) {
+					paytypes.remove(paytypes.get(j));
+				}
+			}
+		}
 	}
 
 }

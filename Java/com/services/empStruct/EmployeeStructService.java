@@ -62,7 +62,7 @@ public interface EmployeeStructService {
 	
 	public void assignPaytypeToEmployeeStruct(String empStructCode , List<String> paytypeCodes);
 	public List<String> getAllPaytypesAssignedToEmpStruct(String empStructCode);
-	public void removePaytypeFromEmpStuct(String empStructCode);
+	public void removePaytypeFromEmpStuct(String empStructCode,List<String> unassignedPaytypes);
 
 
 }

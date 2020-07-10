@@ -191,7 +191,6 @@ public class EmployeeStructController {
 			"/assignPaytypeToEmployeeStruct" }, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public void assignPaytypeToEmployeeStruct(@RequestBody List<EmployeeStructAssignmentModel> assignmentModel) throws Exception {
-		removePaytypeFromEmpStuct(assignmentModel);
 		for (Integer i = 0; i < assignmentModel.size(); i++) {
 			empService.assignPaytypeToEmployeeStruct(assignmentModel.get(i).getCode(),assignmentModel.get(i).getPayTypeCodes());
 		}
@@ -222,7 +221,7 @@ public class EmployeeStructController {
 	@ResponseBody
 	public void removePaytypeFromEmpStuct(@RequestBody List<EmployeeStructAssignmentModel> unassignmentModel) throws Exception {
 		for (Integer i = 0; i < unassignmentModel.size(); i++) {
-			empService.removePaytypeFromEmpStuct(unassignmentModel.get(i).getCode());
+			empService.removePaytypeFromEmpStuct(unassignmentModel.get(i).getCode(),unassignmentModel.get(i).getPayTypeCodes());
 		}
 	}
 
