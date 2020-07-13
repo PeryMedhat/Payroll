@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Assign Paytype to Employee Structure</title>
+  	<title>Assign Paytype to Company Structure</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
@@ -132,13 +132,13 @@
         <div class="wrapper wrapper--w800">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">Assign Paytype to Employee Structure</h2>
+                    <h2 class="title">Assign Paytype to Company Structure</h2>
                    
                       <div class="row row-space paddingtop">
                         <div class="col-8">
                             <div class="input-group">
                                 <label class="label">Code</label>
-                                <input class="input--style-4" required  maxlength="6" type="text" id="empstruct_code" name="empstruct_code">
+                                <input class="input--style-4" required  maxlength="6" type="text" id="Companystruct_code" name="Companystruct_code">
                             </div>
                         </div>
                         <div class="col-4" style=" padding-top: 30px;">
@@ -155,14 +155,14 @@
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLongTitle">Employee Structure Payroll</h5>
+                              <h5 class="modal-title" id="exampleModalLongTitle">Company Structure Payroll</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
                             <div class="modal-body">
                               <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
-                                <table class="table table-hover table-bordered" id="EmpStructTable" style="text-align: center;"
+                                <table class="table table-hover table-bordered" id="CompanyStructTable" style="text-align: center;"
                                   hidden>
                                   <thead style="background-color:#f8b739;">
                                     <tr>
@@ -177,7 +177,7 @@
                                 <div>
                                   <div id="tableIsEmptyMSG" class="warning" hidden>
                                     <div class="alert alert-warning">
-                                      <strong>Warning!</strong>There is no Employee structure created yet!
+                                      <strong>Warning!</strong>There is no Company structure created yet!
                                     </div>
                                   </div>
                                 </div>
@@ -185,7 +185,7 @@
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" id="chooseEmpStruct">Choose</button>
+                              <button type="button" class="btn btn-primary" id="chooseCompanyStruct">Choose</button>
                             </div>
                           </div>
                         </div>
@@ -212,5 +212,5 @@
     <script src="../../resources/JS/moment.min.js"></script>
     <script src="../../resources/JS/daterangepicker.js"></script>
 
-<script src="../../resources/JS/EmployeeStructJS/AssignPaytypetoEmpStructService.js"></script>
+<script src="../../resources/JS/CompanyStructJS/assignPayTypeToCompanyStruct.js"></script>
 </body>

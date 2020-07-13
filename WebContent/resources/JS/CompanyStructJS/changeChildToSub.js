@@ -1,4 +1,3 @@
-
 var queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const code = urlParams.get('code');
@@ -15,14 +14,14 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get",
-    url: "http://localhost:8080/Payroll/employeeStructure/getEmployeeStructureElement",
+    url: "http://localhost:8080/Payroll/companyStructure/getCompanyStructureElement",
     data: {
         code: code
     },
     success: function (response) {
         model = response.theModel;
-        $("#empstruct_code").val(model.code);
-        $("#empstruct_name").val(model.name);
+        $("#Companystruct_code").val(model.code);
+        $("#Companystruct_name").val(model.name);
         $("#start_date").val(model.startDate);
         $("#end_date").val(model.endDate);
 
@@ -33,7 +32,7 @@ $.ajax({
                 'Content-Type': 'application/json'
             },
             type: "get",
-            url: "http://localhost:8080/Payroll/employeeStructure/getEmployeeStructureElement?code="+model.parentCode,
+            url: "http://localhost:8080/Payroll/companyStructure/getCompanyStructureElement?code="+model.parentCode,
             success: function (response) {
                 var parentModel = response.theModel;
                 var empObject = {
@@ -136,17 +135,17 @@ $.ajax({
                 'Content-Type': 'application/json'
             },
             type: "POST",
-            url: "http://localhost:8080/Payroll/employeeStructure/chaningChildToSubParent?code=" + code,
+            url: "http://localhost:8080/Payroll/companyStructure/chaningChildToSubParent?code=" + code,
             data: formData,
             success: function (response) {
 
-                $('#ResultOfEmployeeStructCreation').modal('show');
+                $('#ResultOfCompanyStructCreation').modal('show');
                 $('#success_msg').removeAttr('hidden');
 
             },
             error: function (xhr) {
                 var errorMessage = xhr.responseJSON.message;
-                $('#ResultOfEmployeeStructCreation').modal('show');
+                $('#ResultOfCompanyStructCreation').modal('show');
                 $('#fail_msg').removeAttr('hidden');
                 document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
             }
@@ -175,8 +174,8 @@ function NextOrSubmit() {
     // in case of the next condition
 
     if (document.getElementById('yesCheck').checked) {
-        var code = document.getElementById("empstruct_code");
-        var name = document.getElementById("empstruct_name");
+        var code = document.getElementById("Companystruct_code");
+        var name = document.getElementById("Companystruct_name");
         var startDate = document.getElementById("start_date");
         var endDate = document.getElementById("end_date");
 
@@ -227,8 +226,8 @@ function NextOrSubmit() {
     if (document.getElementById('noCheck').checked) {
         var lastParent;
         var lastParentValue
-        var code = document.getElementById("empstruct_code");
-        var name = document.getElementById("empstruct_name");
+        var code = document.getElementById("Companystruct_code");
+        var name = document.getElementById("Companystruct_name");
         var startDate = document.getElementById("start_date");
         var endDate = document.getElementById("end_date");
     
@@ -315,17 +314,17 @@ function addEmpObject(hasParent, parentCode, hasChild, code, name, startDate, en
     }
     empObjectsArray[x] = empObject;
     x++;
-    document.getElementById("empstruct_code").value = "";
-    document.getElementById("empstruct_name").value = "";
+    document.getElementById("Companystruct_code").value = "";
+    document.getElementById("Companystruct_name").value = "";
     document.getElementById("start_date").value = "";
     document.getElementById("end_date").value = "";
-    $("#empstruct_code").removeAttr('disabled', '');
-    $("#empstruct_name").removeAttr('disabled', '');
+    $("#Companystruct_code").removeAttr('disabled', '');
+    $("#Companystruct_name").removeAttr('disabled', '');
     $("#start_date").removeAttr('disabled', '');
     $("#end_date").removeAttr('disabled', '');
 
-    $("#empstruct_code").attr('style','background:#0000;');
-    $("#empstruct_name").attr('style','background:#0000;');
+    $("#Companystruct_code").attr('style','background:#0000;');
+    $("#Companystruct_name").attr('style','background:#0000;');
     $("#start_date").attr('style','background:#0000;');
     $("#end_date").attr('style','background:#0000;');
            
@@ -350,7 +349,7 @@ function sendToDB() {
         }
     };
 
-    xhttp.open("POST", "http://localhost:8080/Payroll/employeeStructure/chaningChildToSubParent?code=" + code, true);
+    xhttp.open("POST", "http://localhost:8080/Payroll/companyStructure/chaningChildToSubParent?code=" + code, true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     for (var i = 0; i < empObjectsArray.length; i++) {
@@ -362,8 +361,8 @@ function sendToDB() {
 
 
 function resetForm() {
-    document.getElementById("empstruct_code").value = "";
-    document.getElementById("empstruct_name").value = "";
+    document.getElementById("Companystruct_code").value = "";
+    document.getElementById("Companystruct_name").value = "";
     document.getElementById("start_date").value = "";
     document.getElementById("end_date").value = "";
     newChildInSameLevel = true;
@@ -379,6 +378,6 @@ function BackToCreateStructureClean() {
 jQuery(document).ready(function ($) {
 
     $("#modalOkButton").click(function (e) {
-        location='showEditTable.html?code='+theCode;
+        location=`showEditTableCompany.html?code=${theCode}`;
     });
-})();
+})

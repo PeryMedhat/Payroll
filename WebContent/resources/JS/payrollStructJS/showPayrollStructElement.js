@@ -30,6 +30,11 @@ var controller = (function () {
                 $('#taxSettlementID').attr('hidden','');
              }
 
+             if(response.payrollValuation==='fixed'){
+                $('#noOfDays').val(response.noOfDays);
+                $('#fixedDays').removeAttr('hidden','');
+            }
+
             
             $('#showPayrollStruct').removeAttr('hidden');
 

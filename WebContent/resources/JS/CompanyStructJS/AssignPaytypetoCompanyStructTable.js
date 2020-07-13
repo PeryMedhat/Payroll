@@ -1,6 +1,6 @@
 var controller = (function () {
 
-    var table = document.getElementById("EmpStructTable");
+    var table = document.getElementById("CompanyStructTable");
     var sortedArray = new Array();
     var children = new Array();
     var subs = new Array();
@@ -19,13 +19,13 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get", //send it through get method
-        url: "http://localhost:8080/Payroll/employeeStructure/showEmployeeStructure",
+        url: "http://localhost:8080/Payroll/companyStructure/showCompanyStructure",
         data: {
             code: code
         },
         success: function (response) {
             if (response.theChain == null) {
-                $('#employeeStructModal').modal('show');
+                $('#CompanyStructModal').modal('show');
             } else {
                 arrayOfTotalChain = response.theChain;
 
@@ -43,9 +43,9 @@ var controller = (function () {
                             payTypes = response;
                         }
                         $("tbody").remove();
-                        $('#EmpStructTable').append($('<tbody> <tr> </tr> </tbody>'));
+                        $('#CompanyStructTable').append($('<tbody> <tr> </tr> </tbody>'));
                         showTheEmpStructTable();
-                        $('#EmpStructTable').removeAttr('hidden');
+                        $('#CompanyStructTable').removeAttr('hidden');
                     },
                     error: function (xhr) {
                     }
@@ -115,7 +115,7 @@ var controller = (function () {
                     },
                     type: "POST",
                     async: false,
-                    url: "http://localhost:8080/Payroll/employeeStructure/getAllPaytypesAssignedToEmpStruct",
+                    url: "http://localhost:8080/Payroll/companyStructure/getAllPaytypesAssignedToCompanyStruct",
                     data: EmpCodes,
                     success: function (response) {
                         theAssignedPayTypes = response;
@@ -136,7 +136,7 @@ var controller = (function () {
                 payTypesCheckBoxs = "";
             }
         }
-        $('#theEmpStruct').removeAttr('hidden');
+        $('#theCompanyStruct').removeAttr('hidden');
     }
 
     function arrangeTheTable() {
@@ -246,7 +246,7 @@ var controller = (function () {
     jQuery(document).ready(function ($) {
 
         $("#modalOkButton").click(function (e) {
-            location = 'assignPayTypeToEmpStruct.html';
+            location = 'assignPayTypeToCompanyStruct.html';
 
         });
 
@@ -265,7 +265,7 @@ var controller = (function () {
             listOfUnAssignedModel = new Array();
             x = 0;
             listOfModels = new Array();
-            $('#EmpStructTable > tbody  > tr').each(function () {
+            $('#CompanyStructTable > tbody  > tr').each(function () {
                 empStructCode = this.id;
                 if (empStructCode != '' || empStructCode != null || empStructCode != "undefined") {
                     listOfAssignedPayTypes = new Array();
@@ -299,7 +299,7 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "POST",
-                url: "http://localhost:8080/Payroll/employeeStructure/removePaytypeFromEmpStuct",
+                url: "http://localhost:8080/Payroll/companyStructure/removePaytypeFromCompanyStuct",
                 data: data,
                 success: function (response) {
                     $.ajax({
@@ -308,15 +308,15 @@ var controller = (function () {
                             'Content-Type': 'application/json'
                         },
                         type: "POST",
-                        url: "http://localhost:8080/Payroll/employeeStructure/assignPaytypeToEmployeeStruct",
+                        url: "http://localhost:8080/Payroll/companyStructure/assignPaytypeToCompanyStruct",
                         data: formData,
                         success: function (response) {
-                            $('#ResultOfEmployeeStructAssignment').modal('show');
+                            $('#ResultOfCompanyStructAssignment').modal('show');
                             $('#success_msg').removeAttr('hidden');
                         },
                         error: function (xhr) {
                             var errorMessage = xhr.responseJSON;
-                            $('#ResultOfEmployeeStructAssignment').modal('show');
+                            $('#ResultOfCompanyStructAssignment').modal('show');
                             $('#fail_msg').removeAttr('hidden');
                             document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
                         }
@@ -324,7 +324,7 @@ var controller = (function () {
                 },
                 error: function (xhr) {
                     var errorMessage = xhr.responseJSON;
-                    $('#ResultOfEmployeeStructAssignment').modal('show');
+                    $('#ResultOfCompanyStructAssignment').modal('show');
                     $('#fail_msg').removeAttr('hidden');
                     document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
                 }

@@ -1,6 +1,8 @@
 var arrayOfTotalChain;
 var table = document.getElementById("EmpStructTable");
 var row;
+
+
 $.ajax({
     headers: {
         'Accept': 'application/json',

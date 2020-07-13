@@ -40,6 +40,11 @@ $.ajax({
             }
         } 
 
+        if(response.payrollValuation=== "fixed") {
+            $('#fixedDays').removeAttr('hidden','');
+            $('#noOfDays').val(response.noOfDays);
+        } 
+
     },
     error: function (xhr) {
         console.log(xhr);
@@ -237,18 +242,19 @@ var controller = (function () {
             var countryName = document.getElementById("country");
             var currencyName = document.getElementById("currency");
             var payrollValuationName = document.getElementById("payrollValuation");
-
+            var numberOfFixedDays =  document.getElementById("noOfDays");
+            var noOfDaysEmpty = document.getElementById("noOfDaysEmpty");
+            noOfDaysEmpty.setAttribute('hidden','');
+            numberOfFixedDays.setAttribute("class", "input--style-4");;
+            document.getElementById('noOfDaysEmpty').innerHTML ="* Required Field ";
 
             //validations 
             if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' ) {
-
                 if (code.value == '') {
                     var codeisEmpty = document.getElementById("codeisEmpty");
                     codeisEmpty.removeAttribute('hidden');
                     code.setAttribute("class", "input--style-4-redBorder");
-
                 }
-
                 if (name.value == '') {
                     var nameisEmpty = document.getElementById("nameisEmpty");
                     nameisEmpty.removeAttribute('hidden');
@@ -264,8 +270,15 @@ var controller = (function () {
                     endDateisEmpty.removeAttribute('hidden');
                     endDate.setAttribute("class", "input--style-4-redBorder");
                 }
+            } else if(payrollValuationName.value == "fixed" && numberOfFixedDays.value ==''){
+                noOfDaysEmpty.removeAttribute('hidden','');
+                numberOfFixedDays.setAttribute("class", "input--style-4-redBorder");
+            }else if(payrollValuationName.value == "fixed" && isNaN(numberOfFixedDays.value)){
+                noOfDaysEmpty.removeAttribute('hidden','');
+                numberOfFixedDays.setAttribute("class", "input--style-4-redBorder");
+                document.getElementById('noOfDaysEmpty').innerHTML ="Should be a number";
 
-            } else {
+            }else {
                 var taxSettlementName;
                 if($('#annually').hasClass('active')){
                     taxSettlementName = 'annually';
@@ -283,7 +296,8 @@ var controller = (function () {
                     "country": countryName.value,
                     "currency": currencyName.value,
                     "payrollValuation":payrollValuationName.value,
-                    "taxSettlement":taxSettlementName
+                    "taxSettlement":taxSettlementName,
+                    "noOfDays":numberOfFixedDays.value
                 };
                 var formData = JSON.stringify(payrollStructModel);
 

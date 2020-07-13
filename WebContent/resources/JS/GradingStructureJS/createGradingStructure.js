@@ -8,7 +8,6 @@ var controller = (function () {
                 format: 'DD/MM/YYYY'
             },
         });
-
         var myCalendar = $('.js-datepicker');
         var isClick = 0;
 
@@ -75,12 +74,16 @@ var controller = (function () {
 
         success: function (response) {
             payTypes = response;
-            for (var i = 0; i < payTypes.length; i++) {
-                if (i == 0) {
-                    $('#basicSalary').append($('<option selected>').val(payTypes[i].name).text(payTypes[i].name));
-                } else {
-                    
-                    $('#basicSalary').append($('<option>').val(payTypes[i].name).text(payTypes[i].name));
+            if(payTypes==null || payTypes =='' || payTypes ==[]){
+                $('#basicSalary').append($('<option id="Null" selected>').val('No Paytypes available').text('No Paytypes available'));
+            }else{
+                for (var i = 0; i < payTypes.length; i++) {
+                    if (i == 0) {
+                        $('#basicSalary').append($('<option selected>').val(payTypes[i].name).text(payTypes[i].name));
+                    } else {
+                        
+                        $('#basicSalary').append($('<option>').val(payTypes[i].name).text(payTypes[i].name));
+                    }
                 }
             }
         },
@@ -121,6 +124,8 @@ var controller = (function () {
             var minisEmpty = document.getElementById("minisEmpty");
             var midisEmpty = document.getElementById("midisEmpty");
             var maxisEmpty = document.getElementById("maxisEmpty");
+            var basicSalaryisEmpty = document.getElementById("basicSalaryisEmpty");
+            var basicSalaryfield =  document.getElementById("basicSalary");
 
             grade.setAttribute("class", "input--style-4");
             level.setAttribute("class", "input--style-4");
@@ -129,9 +134,14 @@ var controller = (function () {
             min.setAttribute("class", "input--style-4");
             mid.setAttribute("class", "input--style-4");
             max.setAttribute("class", "input--style-4");
+            basicSalaryfield.setAttribute("class", "input--style-4");
+
+
             document.getElementById('minisEmpty').innerHTML ="* Required Field ";
             document.getElementById('midisEmpty').innerHTML ="* Required Field ";
             document.getElementById('maxisEmpty').innerHTML ="* Required Field ";
+            document.getElementById('basicSalaryisEmpty').innerHTML ="* Required Field ";
+            
             gradeisEmpty.setAttribute('hidden','');
             levelisEmpty.setAttribute('hidden','');
             startDateisEmpty.setAttribute('hidden','');
@@ -139,6 +149,7 @@ var controller = (function () {
             minisEmpty.setAttribute('hidden','');
             midisEmpty.setAttribute('hidden','');
             maxisEmpty.setAttribute('hidden','');
+            basicSalaryisEmpty.setAttribute('hidden','');
 
             //validations 
             if (grade.value == '' || level.value == '' || startDate.value == '' || endDate.value == '' || min.value == '' || mid.value == '' || max.value == ''|| basicSalary.value == '') {
@@ -190,6 +201,10 @@ var controller = (function () {
                     
                 }
 
+            }else if(basicSalary.value== "No Paytypes available"){
+                basicSalaryisEmpty.removeAttribute('hidden');
+                basicSalaryfield.setAttribute("class", "input--style-4-redBorder");
+                
             }else {
                 var gradingModel = {
                     "grade": grade.value,

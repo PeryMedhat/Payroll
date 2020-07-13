@@ -1,6 +1,8 @@
 var arrayOfTotalChain;
 var table = document.getElementById("CompanyStructTable");
 var row;
+
+
 $.ajax({
     headers: {
         'Accept': 'application/json',
@@ -10,10 +12,10 @@ $.ajax({
     url: "http://localhost:8080/Payroll/companyStructure/getAllTheCompanyStructures",
     success: function (response) {
         if (response.theChain == null || response.theChain=='') {
-            $('#chooseComapnyStruct').attr('hidden', '');
+            $('#chooseCompanyStruct').attr('hidden', '');
             $('#tableIsEmptyMSG').removeAttr('hidden', '');
         } else {
-            $('#chooseComapnyStruct').removeAttr('hidden', '');
+            $('#chooseCompanyStruct').removeAttr('hidden', '');
             arrayOfTotalChain = response.theChain;
             $('#CompanyStructTable').append($('<tbody> <tr> </tr> </tbody>'));
 
@@ -58,7 +60,6 @@ $(document).ready(function () {
             });
         });
         
-        //$("#exampleModalCenter > #EmpStructTable tbody tr" ).trigger('click');
         $("#chooseCompanyStruct").click(function () {
             if (oldID != null) {
                 $(".input--style-4").val(oldID);
@@ -78,12 +79,8 @@ $(document).ready(function () {
 
         $("#buttonSubmit").click(function () {
             code = $(".input--style-4").val();
-            window.location = 'showEditTableCompany.html?code=' + code;
+            window.location = 'showAssignmentTableCompany.html?code=' + code;
         });
 
         
-    }); 
-
-
-
-
+    });

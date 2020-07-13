@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.entities.companyStruct.CompanyCommonID;
 import com.entities.companyStruct.CompanyStructChild;
 import com.entities.companyStruct.CompanyStructParent;
 import com.entities.companyStruct.CompanyStructSubparent;
@@ -253,5 +254,31 @@ public class CompanyStructDAOImpl implements CompanyStructDAO{
 		return isDeleted.toString();
 	}
 	
+	@Override
+	public List<CompanyCommonID> getAllCompanyStructure() {
+		// get the session
+		Session session = sessionFactory.getCurrentSession();
+				
+				
+		Query<CompanyCommonID> theQuery = session.createQuery("from CompanyCommonID", CompanyCommonID.class);
+	 	List<CompanyCommonID> allCompanyStruct=theQuery.getResultList();
+								
+		return allCompanyStruct;
+	}
+	
+	@Override
+	public CompanyCommonID getCompanyStruct(String companyStructCode) {
+		// get the session
+		Session session = sessionFactory.getCurrentSession();
+
+		// get all empStruct by code
+		Query<CompanyCommonID> theQuery = session.createQuery(
+				"from CompanyCommonID where code =:code", CompanyCommonID.class);
+		theQuery.setParameter("code", companyStructCode);
+
+		CompanyCommonID companyStruct = (CompanyCommonID) theQuery.getSingleResult();
+
+		return companyStruct;
+	}
 	
 }

@@ -76,6 +76,8 @@ var controller = (function () {
     const theCode = urlParams.get('theCode');
     var model;
 
+
+    
     $.ajax({
         headers: {
             'Accept': 'application/json',

@@ -2,6 +2,7 @@ package com.dao.companyStruct;
 
 import java.util.List;
 
+import com.entities.companyStruct.CompanyCommonID;
 import com.entities.companyStruct.CompanyStructChild;
 import com.entities.companyStruct.CompanyStructParent;
 import com.entities.companyStruct.CompanyStructSubparent;
@@ -41,6 +42,10 @@ public interface CompanyStructDAO {
 	public String deleteParent(String code);
 	public String deleteSubParent(String code);
 	public String deleteChild(String code);
+
+	public List<CompanyCommonID> getAllCompanyStructure();
+
+	public CompanyCommonID getCompanyStruct(String companyStructCode);
 	
 
 }

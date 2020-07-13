@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <title>Edit Company Structure Payroll</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -149,7 +150,7 @@
         </div>
       </nav>
 
-      <div class="modal fade" id="employeeStructModal" tabindex="-1" role="dialog">
+      <div class="modal fade" id="CompanyStructModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -169,35 +170,68 @@
           </div>
         </div>
       </div>
+
+
       <div id="theCompanyStruct" hidden>
-        <h1>The Company Structure</h1>
-          <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
-            <table class="table table-hover table-bordered" id="CompanyStructTable">
-              <thead style="background-color:#f8b739;">
-                <tr>
-                  <th style="text-align:center;">Type</th>
-                  <th style="text-align:center;">Code</th>
-                  <th style="text-align:center;">Name</th>
-                  <th style="text-align:center;">Start Date</th>
-                  <th style="text-align:center;">End Date</th>
-                  <th style="width: 30%;text-align:center;">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-               
-                </tr>
-              </tbody>
-            </table>
+       
+        <div class="row row-space paddingtop">
+          <div class="col-8">
+            <h1>The Company Structure</h1>
+
+          </div>
+          <div class="col-4">
+            <div class="input-group">
+              <label class="label" style="font-size: 20px;
+              color: #555;
+              text-transform: capitalize;
+              display: block;
+              margin-bottom: 5px;
+              margin-top: auto;
+              margin-right: 11px;">Valid from<h class="rq" id="validDateisEmpty" hidden>*
+                  Required Field </h>
+              </label>
+              <div class="input-group-icon">
+                <input readonly='true' class="input--style-4 js-datepicker" id="valid_date" type="text"
+                  name="valid_date">
+                <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+              </div>
+            </div>
           </div>
         </div>
-  
+        <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
+          <table class="table table-hover table-bordered" id="CompanyStructTable" style="text-align: center;">
+            <thead style="background-color:#f8b739;">
+              <tr>
+                <th>Type</th>
+                <th>Code</th>
+                <th>Parent Code</th>
+                <th>Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody >
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="tableIsEmptyMSG" class="warning" hidden>
+        <div class="alert alert-warning">
+          <strong>Warning!</strong>There is no Company structure valid from that date.
         </div>
       </div>
 
 
 
-   
+    </div>
+  </div>
+
+
+
+
   </div>
 
 

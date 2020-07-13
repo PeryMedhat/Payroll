@@ -87,10 +87,15 @@ var controller = (function () {
         },
         success: function (response) {
             model=response.theModel;  
-            $("#companystruct_code").val(model.code);    
+            $("#Companystruct_code").val(model.code);    
             $("#companystruct_name").val(model.name); 
             $("#start_date").val(model.startDate); 
             $("#end_date").val(model.endDate); 
+            var hasParent=model.hasParent; 
+            var hasChild=model.hasChild;
+            if(hasParent && !hasChild){
+                $('#changeToSubParentBtn').removeAttr('hidden','')
+            }
         },
         error: function (xhr) {
             console.log(xhr);
@@ -111,6 +116,21 @@ var controller = (function () {
         $("#modalOkButton").click(function (e) {
             location='showEditTableCompany.html?code='+theCode;
         });
+
+        $("#changeToSubParentBtn").mouseenter(function () {
+            $(this).removeClass('btn-primary');
+            $(this).addClass('bg-success');
+        });
+
+        $("#changeToSubParentBtn").mouseout(function () {
+            $(this).removeClass('bg-success');
+            $(this).addClass('btn-primary');
+        });
+
+        $("#changeToSubParentBtn").click(function (e) {
+            location='changeToSubCompany.html?code='+code+'&theCode='+theCode;
+        });
+       
        
         $("#buttonSubmit").click(function (e) {
            

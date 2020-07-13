@@ -58,4 +58,12 @@ public interface CompanyStructService {
 
 	public void copyCompanyStructure(CompanyStructModel employeeStructModel, String todayDate) throws ParseException, Exception;
 
+	public List<CompanyStructModel> getAllCompanyStructure();
+
+	public void assignPaytypeToCompanyStruct(String code, List<String> payTypeCodes);
+
+	public List<String> getAllPaytypesAssignedToCompanyStruct(String companyCode);
+
+	public void removePaytypeFromCompanyStuct(String code, List<String> payTypeCodes);
+
 }

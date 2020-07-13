@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dao.companyStruct.CompanyStructDAO;
+import com.dao.payType.PayTypeDAO;
 import com.entities.companyStruct.CompanyCommonID;
 import com.entities.companyStruct.CompanyStructChild;
 import com.entities.companyStruct.CompanyStructParent;
 import com.entities.companyStruct.CompanyStructSubparent;
+import com.entities.payType.PayType;
+import com.entities.payType.PayTypeCommId;
 import com.models.companyStruct.CompanyStructModel;
 import com.rest.errorhandling.NotFoundException;
 import com.rest.errorhandling.UniqunessException;
@@ -25,6 +28,9 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 
 	@Autowired
 	private CompanyStructDAO companyDAO;
+	
+	@Autowired
+	private PayTypeDAO paytypeDAO;
 
 	@Override
 	@Transactional
@@ -118,7 +124,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 			for (Integer i = 0; i < subParents.size(); i++) {
 				// create a model
 				CompanyStructModel model = new CompanyStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 				String startDate = dateFormat.format(subParents.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(subParents.get(i).getCommID().getEndDate());
@@ -126,8 +132,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 				model.setParentCode(parentCode);
 				model.setHasChild(true);
 				model.setHasParent(true);
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(subParents.get(i).getCommID().getCode());
 				model.setName(subParents.get(i).getCommID().getName());
 				listOfSubParents.add(model);
@@ -150,7 +156,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		try {
 			CompanyStructParent parent = companyDAO.getParent(code);
 			CompanyStructModel model = new CompanyStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 			String startDate = dateFormat.format(parent.getCommID().getStartDate());
 			String endDate = dateFormat.format(parent.getCommID().getEndDate());
@@ -158,8 +164,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 			model.setHasChild(true);
 			model.setHasParent(false);
 			model.setParentCode(null);
-			model.setStartDate(startDate.substring(0, 6));
-			model.setEndDate(endDate.substring(0, 6));
+			model.setStartDate(startDate);
+			model.setEndDate(endDate);
 			model.setCode(parent.getCommID().getCode());
 			model.setName(parent.getCommID().getName());
 
@@ -175,7 +181,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		try {
 			CompanyStructSubparent subParent = companyDAO.getSubParent(code);
 			CompanyStructModel model = new CompanyStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 			String startDate = dateFormat.format(subParent.getCommID().getStartDate());
 			String endDate = dateFormat.format(subParent.getCommID().getEndDate());
@@ -187,8 +193,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 			} else {
 				model.setParentCode(subParent.getParentCode());
 			}
-			model.setStartDate(startDate.substring(0, 6));
-			model.setEndDate(endDate.substring(0, 6));
+			model.setStartDate(startDate);
+			model.setEndDate(endDate);
 			model.setCode(subParent.getCommID().getCode());
 			model.setName(subParent.getCommID().getName());
 
@@ -202,7 +208,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		try {
 			CompanyStructChild child = companyDAO.getChild(code);
 			CompanyStructModel model = new CompanyStructModel();
-			DateFormat dateFormat = new SimpleDateFormat();
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 			String startDate = dateFormat.format(child.getCommID().getStartDate());
 			String endDate = dateFormat.format(child.getCommID().getEndDate());
@@ -218,8 +224,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 				model.setParentCode(child.getSubParent().getCommID().getCode());
 			}
 
-			model.setStartDate(startDate.substring(0, 6));
-			model.setEndDate(endDate.substring(0, 6));
+			model.setStartDate(startDate);
+			model.setEndDate(endDate);
 			model.setCode(child.getCommID().getCode());
 			model.setName(child.getCommID().getName());
 
@@ -239,7 +245,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		if (subParentsOfParent != null) {
 			for (Integer i = 0; i < subParentsOfParent.size(); i++) {
 				CompanyStructModel model = new CompanyStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 				String startDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(subParentsOfParent.get(i).getCommID().getEndDate());
@@ -248,8 +254,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 				model.setParentCode(code);
 				model.setHasChild(true);
 
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(subParentsOfParent.get(i).getCommID().getCode());
 				model.setName(subParentsOfParent.get(i).getCommID().getName());
 
@@ -270,7 +276,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		if (childrenOfSub != null) {
 			for (Integer i = 0; i < childrenOfSub.size(); i++) {
 				CompanyStructModel model = new CompanyStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 				String startDate = dateFormat.format(childrenOfSub.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(childrenOfSub.get(i).getCommID().getEndDate());
@@ -279,8 +285,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 				model.setParentCode(subCode);
 				model.setHasChild(false);
 
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(childrenOfSub.get(i).getCommID().getCode());
 				model.setName(childrenOfSub.get(i).getCommID().getName());
 				listOfChildren.add(model);
@@ -303,7 +309,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		if (childrenOfParent != null) {
 			for (Integer i = 0; i < childrenOfParent.size(); i++) {
 				CompanyStructModel model = new CompanyStructModel();
-				DateFormat dateFormat = new SimpleDateFormat();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 				String startDate = dateFormat.format(childrenOfParent.get(i).getCommID().getStartDate());
 				String endDate = dateFormat.format(childrenOfParent.get(i).getCommID().getEndDate());
@@ -312,8 +318,8 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 				model.setParentCode(parentCode);
 				model.setHasChild(false);
 
-				model.setStartDate(startDate.substring(0, 6));
-				model.setEndDate(endDate.substring(0, 6));
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
 				model.setCode(childrenOfParent.get(i).getCommID().getCode());
 				model.setName(childrenOfParent.get(i).getCommID().getName());
 				listOfChildren.add(model);
@@ -676,6 +682,83 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		 * newModel.setParentCode(employeeStructModel.getParentCode()); }
 		 */
 		processTheIncommingModel(newModel);
+	}
+
+	@Override
+	@Transactional
+	public List<CompanyStructModel> getAllCompanyStructure() {
+		List<CompanyStructModel> listOfCompanyStructModels = new ArrayList<CompanyStructModel>();
+		List<CompanyCommonID> companyStructs = companyDAO.getAllCompanyStructure();
+		if (companyStructs != null) {
+			for (Integer i = 0; i < companyStructs.size(); i++) {
+				// create a model
+				CompanyStructModel model = new CompanyStructModel();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+				String startDate = dateFormat.format(companyStructs.get(i).getStartDate());
+				String endDate = dateFormat.format(companyStructs.get(i).getEndDate());
+
+				if(companyDAO.isParent(companyStructs.get(i).getCode())){
+					model.setHasChild(true);
+					model.setHasParent(false);
+				}else if(companyDAO.isSubParent(companyStructs.get(i).getCode())) {
+					model.setHasChild(true);
+					model.setHasParent(true);
+				}else {
+					model.setHasChild(false);
+					model.setHasParent(true);
+				}
+				model.setParentCode(null);
+				model.setStartDate(startDate);
+				model.setEndDate(endDate);
+				model.setCode(companyStructs.get(i).getCode());
+				model.setName(companyStructs.get(i).getName());
+				listOfCompanyStructModels.add(model);
+
+			}
+		}
+		return listOfCompanyStructModels;
+	}
+
+	@Override
+	@Transactional
+	public void assignPaytypeToCompanyStruct(String code, List<String> payTypeCodes) {
+	CompanyCommonID companyStruct = companyDAO.getCompanyStruct(code);
+		for(int i=0;i<payTypeCodes.size();i++) {
+			PayType paytype = paytypeDAO.getPayType(payTypeCodes.get(i));
+			PayTypeCommId payTypeCommId = paytype.getCommID();
+			if(!companyStruct.getPaytypes().contains(payTypeCommId)) {
+				companyStruct.addPaytype(payTypeCommId);
+			}
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<String> getAllPaytypesAssignedToCompanyStruct(String companyCode) {
+		//returns list of payTypeCodes assigned to that employee structure
+		CompanyCommonID companyStruct = companyDAO.getCompanyStruct(companyCode);
+		List<PayTypeCommId> paytypes = companyStruct.getPaytypes();
+		List<String> paytypeCodes=new ArrayList<String>();
+		for(int i =0;i<paytypes.size();i++) {
+			paytypeCodes.add(paytypes.get(i).getCode());
+		}
+		return paytypeCodes;
+	}
+
+	@Override
+	@Transactional
+	public void removePaytypeFromCompanyStuct(String code, List<String> payTypeCodes) {
+		CompanyCommonID companyStruct = companyDAO.getCompanyStruct(code);
+		List<PayTypeCommId> paytypes = companyStruct.getPaytypes();
+		for(int i=0;i<payTypeCodes.size();i++) {
+			for(int j=0;j<paytypes.size();j++) {
+				if(payTypeCodes.get(i).equals(paytypes.get(j).getCode())) {
+					paytypes.remove(paytypes.get(j));
+				}
+			}
+		}
+		
 	}
 
 }

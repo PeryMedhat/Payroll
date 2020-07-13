@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.entities.companyStruct.CompanyCommonID;
 import com.entities.empStruct.CommonID;
 
 @Entity
@@ -51,7 +52,16 @@ public class PayTypeCommId {
 			joinColumns=@JoinColumn(name="paytype_commId_id"),
 			inverseJoinColumns=@JoinColumn(name="commonID_id")			
 			)
-	private List<CommonID> employees; 
+	private List<CommonID> employees;
+	
+	@ManyToMany(fetch=FetchType.LAZY,
+			cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(
+			name="company_paytype_assignment",
+			joinColumns=@JoinColumn(name="paytype_commId_id"),
+			inverseJoinColumns=@JoinColumn(name="companyCommonID_id")			
+			)
+	private List<CompanyCommonID> companies; 	
 	
 	
 	public PayTypeCommId() {
@@ -125,6 +135,22 @@ public class PayTypeCommId {
 			employees =new ArrayList<CommonID>();
 		}
 		employees.add(employee);
+		
+	}
+	
+	public List<CompanyCommonID> getCompanies() {
+		return companies;
+	}
+
+	public void setCompanies(List<CompanyCommonID> companies) {
+		this.companies = companies;
+	}
+	
+	public void addCompanies(CompanyCommonID company) {
+		if(companies == null) {
+			companies =new ArrayList<CompanyCommonID>();
+		}
+		companies.add(company);
 		
 	}
 

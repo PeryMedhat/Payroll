@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Assign Paytype to Employee Structure</title>
+  	<title>Assign Paytype to Company Structure</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../resources/CSS/style.css">
     <link rel="stylesheet" href="../../resources/CSS/stylesheet.css">
   </head>
+
 
   <body>
 		
@@ -128,81 +129,99 @@
         </div>
       </div>
     </nav>
-    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
-        <div class="wrapper wrapper--w800">
-            <div class="card card-4">
-                <div class="card-body">
-                    <h2 class="title">Assign Paytype to Employee Structure</h2>
-                   
-                      <div class="row row-space paddingtop">
-                        <div class="col-8">
-                            <div class="input-group">
-                                <label class="label">Code</label>
-                                <input class="input--style-4" required  maxlength="6" type="text" id="empstruct_code" name="empstruct_code">
-                            </div>
-                        </div>
-                        <div class="col-4" style=" padding-top: 30px;">
-                           <button  type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary" >Send</button>
-                        </div>
-                    </div>
-
-                 
-                    <div class="row row-space">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                        Show All </button>
-                      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLongTitle">Employee Structure Payroll</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
-                                <table class="table table-hover table-bordered" id="EmpStructTable" style="text-align: center;"
-                                  hidden>
-                                  <thead style="background-color:#f8b739;">
-                                    <tr>
-                                      <th>Type</th>
-                                      <th>Code</th>
-                                      <th>Name</th>
-                                    </tr>
-                                  </thead>
-           
-                                  
-                                </table>
-                                <div>
-                                  <div id="tableIsEmptyMSG" class="warning" hidden>
-                                    <div class="alert alert-warning">
-                                      <strong>Warning!</strong>There is no Employee structure created yet!
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" id="chooseEmpStruct">Choose</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                     
-      
-                    </div>
-                
-                  </div>
+    <div class="modal fade" id="CompanyStructModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Company Structure Payroll</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger " id="fail_msg">
+                <strong>Fail!</strong>There is no Company structure with that code.
               </div>
-          </div>        
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="modalOkButton" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
       </div>
 
+
+
+      <div id="theCompanyStruct" hidden>
+       
+        <div class="row row-space paddingtop">
+          <div class="col-8">
+            <h1>Assignment The Company Structure</h1>
+
+          </div>
+          
+        </div>
+        <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
+          <table class="table table-hover table-bordered" id="CompanyStructTable" style="text-align: center;">
+            <thead style="background-color:#f8b739;">
+              <tr>
+                <th>Type</th>
+                <th>Code</th>
+                <th>Parent Code</th>
+                <th>Name</th>
+                <th>Paytypes</th>
+              </tr>
+            </thead>
+            <tbody >
+              
+            </tbody>
+          </table>
+        </div>
+        <div class="row row-space paddingtop">
+          <div class="col-8" style=" padding-top: 30px;">
+            <button  type="submit" id="buttonSubmit" class="btn  submitbtn btn-primary" >SAVE</button>
+         </div>
+
+        </div>
+
+        <div class="modal fade" id="ResultOfCompanyStructAssignment" tabindex="-1" role="dialog">
+          <div class="modal-dialog" style=" padding-top: 170px" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Create Company Structure</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="height: 67px;">
+                <div id="success_msg" hidden>
+                 The Company structure is Assigned successfully.
+                </div>
+                <div  id="fail_msg" hidden>
+                  
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="modalOkButton" class="btn btn-secondary"  data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      
+
+
+    
   </div>
 
+
     </div>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</div>
+    </div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
     <script src="../../resources/JS/popper.js"></script>
     <script src="../../resources/JS/bootstrap.min.js"></script>
@@ -212,5 +231,5 @@
     <script src="../../resources/JS/moment.min.js"></script>
     <script src="../../resources/JS/daterangepicker.js"></script>
 
-<script src="../../resources/JS/EmployeeStructJS/AssignPaytypetoEmpStructService.js"></script>
+<script src="../../resources/JS/CompanyStructJS/AssignPaytypetoCompanyStructTable.js"></script>
 </body>

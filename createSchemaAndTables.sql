@@ -267,6 +267,14 @@ CREATE TABLE `payrollschema`.`emp_paytype_assignment` (
 
 
 
+CREATE TABLE `payrollschema`.`company_paytype_assignment` (
+  `companyCommonID_id` int(11) NOT NULL,
+  `paytype_commId_id` int(11) NOT NULL,
+  PRIMARY KEY (`companyCommonID_id`,`paytype_commId_id`),
+  KEY `fk_company_paytype_assignment_2_idx` (`paytype_commId_id`),
+  CONSTRAINT `fk_company_paytype_assignment_1` FOREIGN KEY (`companyCommonID_id`) REFERENCES `companyCommonID` (`companyCommonID_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_company_paytype_assignment_2` FOREIGN KEY (`paytype_commId_id`) REFERENCES `paytype_commId` (`paytype_commId_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
 

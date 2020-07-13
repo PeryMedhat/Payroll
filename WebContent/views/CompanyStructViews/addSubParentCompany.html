@@ -1,11 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Create Employee Structure Payroll</title>
+  	<title>Add Company Structure Payroll</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    
  
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link href="../../resources/CSS/select2.min.css" rel="stylesheet" media="all">
@@ -140,7 +139,7 @@
           <div class="wrapper wrapper--w800">
               <div class="card card-4 ">
                   <div class="card-body">
-                      <h2 class="title">Employee Structure</h2>
+                      <h2 class="title">Add Company Structure</h2>
                      
                         <div class="row row-space paddingtop">
 
@@ -149,7 +148,7 @@
                               <div class="input-group">
                                   <label  class="label"> Code  <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
                                  
-                                  <input style="background:#0000;"class="input--style-4"   maxlength="15" type="text" id="empstruct_code" name="empstruct_code" >
+                                  <input style="background:#0000;"class="input--style-4"   maxlength="15" type="text" id="Companystruct_code" name="Companystruct_code" >
                                   
                               </div>
                           </div>
@@ -157,7 +156,7 @@
                               <div class="input-group">
                                 
                                   <label class="label">Name<h class="rq" id="nameisEmpty" hidden>* Required Field </h></label>
-                                  <input style="background:#0000;" class="input--style-4"   maxlength="60"   type="text" id="empstruct_name" name="empstruct_name">
+                                  <input style="background:#0000;" class="input--style-4"   maxlength="60"   type="text" id="Companystruct_name" name="Companystruct_name">
                               </div>
                           </div>
                       </div>
@@ -232,18 +231,18 @@
                 </div>
               </div>
             </div>
-            <div class="modal fade" id="ResultOfEmployeeStructCreation" tabindex="-1" role="dialog">
+            <div class="modal fade" id="ResultOfCompanyStructCreation" tabindex="-1" role="dialog">
               <div class="modal-dialog" style=" padding-top: 170px" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title"> Employee Structure</h5>
+                    <h5 class="modal-title"> Company Structure</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body" style="height: 67px;">
                     <div id="success_msg" hidden>
-                     The Employee structure is Changed successfully.
+                     The Company structure is Added successfully.
                     </div>
                     <div  id="fail_msg" hidden>
                       
@@ -277,6 +276,6 @@
     <script src="../../resources/JS/moment.min.js"></script>
     <script src="../../resources/JS/daterangepicker.js"></script>
 
-    <script src="../../resources/JS/EmployeeStructJS/changeEmpStructChildToSub.js"></script>
+    <script src="../../resources/JS/CompanyStructJS/addSubParent.js"></script>
   </body>
 </html>
