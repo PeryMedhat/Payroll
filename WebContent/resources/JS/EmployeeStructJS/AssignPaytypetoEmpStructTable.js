@@ -101,13 +101,11 @@ var controller = (function () {
             } else {
                 var arrayOfEmpCodes;
                 var EmpCodes;
-                var theAssignedPayTypes;
+                
                 arrayOfEmpCodes = new Array();
                 arrayOfEmpCodes.push(arrangedArray[counter].code);
                 EmpCodes = JSON.stringify(arrayOfEmpCodes);
-
-                theAssignedPayTypes == new Array();
-
+               
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -118,22 +116,26 @@ var controller = (function () {
                     url: "http://localhost:8080/Payroll/employeeStructure/getAllPaytypesAssignedToEmpStruct",
                     data: EmpCodes,
                     success: function (response) {
+                        var theAssignedPayTypes;
+                        theAssignedPayTypes == new Array();
+        
                         theAssignedPayTypes = response;
+                        for (var p = 0; p < payTypes.length; p++) {
+                            if (theAssignedPayTypes[0].code.localeCompare(row.id) == 0
+                                && theAssignedPayTypes[0].payTypeCodes.includes(payTypes[p].code)) {
+                                payTypesCheckBoxs += "<label><input checked id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
+                            } else {
+                                payTypesCheckBoxs += "<label><input id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
+                            }
+                        }
+                        cell5.innerHTML = payTypesCheckBoxs;
+                        payTypesCheckBoxs = "";
                     },
                     error: function (xhr) {
                     }
                 });
 
-                for (var p = 0; p < payTypes.length; p++) {
-                    if (theAssignedPayTypes[0].code.localeCompare(row.id) == 0
-                        && theAssignedPayTypes[0].payTypeCodes.includes(payTypes[p].code)) {
-                        payTypesCheckBoxs += "<label><input checked id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
-                    } else {
-                        payTypesCheckBoxs += "<label><input id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
-                    }
-                }
-                cell5.innerHTML = payTypesCheckBoxs;
-                payTypesCheckBoxs = "";
+                
             }
         }
         $('#theEmpStruct').removeAttr('hidden');
