@@ -27,14 +27,14 @@ $.ajax({
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
                 if (arrayOfTotalChain[counter].hasParent == false) {
-                    cell1.innerHTML = "Parent";
+                    cell3.innerHTML = "Parent";
                 } else if (arrayOfTotalChain[counter].hasChild == true) {
-                    cell1.innerHTML = "SubParent";
+                    cell3.innerHTML = "SubParent";
                 } else {
-                    cell1.innerHTML = "Child";
+                    cell3.innerHTML = "Child";
                 }
-                cell2.innerHTML = arrayOfTotalChain[counter].code;
-                cell3.innerHTML = arrayOfTotalChain[counter].name;
+                cell1.innerHTML = arrayOfTotalChain[counter].code;
+                cell2.innerHTML = arrayOfTotalChain[counter].name;
             } $('#EmpStructTable').removeAttr('hidden');
         }
 
