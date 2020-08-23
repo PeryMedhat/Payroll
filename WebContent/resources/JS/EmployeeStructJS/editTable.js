@@ -181,8 +181,8 @@ var controller = (function () {
             var cell6 = row.insertCell(5);
             var cell7 = row.insertCell(6);
             if (arrangedArray[counter].hasParent == false) {
-                cell1.innerHTML = "Parent";
-                cell3.innerHTML = "N/A";
+                cell3.innerHTML = "Parent";
+                cell4.innerHTML = "N/A";
                 row.setAttribute('class', 'parent');
                 var theHrefForCopy = 'copyEmpStructData.html?code='
                     + arrangedArray[counter].code
@@ -201,7 +201,7 @@ var controller = (function () {
                     +"<a href=" +theHrefForAddSub+ ">Add </a>" ;
                     row.removeAttribute('hidden');
             } else if (arrangedArray[counter].hasChild == true) {
-                cell1.innerHTML = "SubParent";
+                cell3.innerHTML = "SubParent";
                 cell7.innerHTML = "<a href=" + theHrefForEdit
                     + ">Edit    </a>" + "<a href="
                     + theHrefFordelemit + ">   Delimit</a>"
@@ -209,18 +209,18 @@ var controller = (function () {
                     + ">   Delete</a>"
                     +"<a href=" +theHrefForAddSub
                     + ">Add</a>" ;       
-                    cell3.innerHTML = arrangedArray[counter].parentCode;        
+                    cell4.innerHTML = arrangedArray[counter].parentCode;        
             } else {
-                cell1.innerHTML = "Child";
+                cell3.innerHTML = "Child";
                 cell7.innerHTML = "<a href=" + theHrefForEdit
                     + ">Edit    </a>" + "<a href="
                     + theHrefFordelemit + ">   Delimit</a>"
                     + "<a href=" + theHrefFordelete
                     + ">   Delete</a>";
-                    cell3.innerHTML = arrangedArray[counter].parentCode;
+                    cell4.innerHTML = arrangedArray[counter].parentCode;
             }
-            cell2.innerHTML = arrangedArray[counter].code;
-            cell4.innerHTML = arrangedArray[counter].name;
+            cell1.innerHTML = arrangedArray[counter].code;
+            cell2.innerHTML = arrangedArray[counter].name;
             cell5.innerHTML = arrangedArray[counter].startDate;
             cell6.innerHTML = arrangedArray[counter].endDate;
 

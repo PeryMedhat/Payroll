@@ -71,11 +71,11 @@ $(document).ready(function () {
                 newId = $(this).attr('id');
                 if (oldID != null) {
                     theId = '#' + oldID;
-                    $(theId).removeClass('bg-success');
+                    $(theId).removeClass('bg-warning');
                 }
                 oldID = newId;
                 console.log(oldID);
-                $(this).addClass('bg-success');
+                $(this).addClass('bg-warning');
             });
         });
         
