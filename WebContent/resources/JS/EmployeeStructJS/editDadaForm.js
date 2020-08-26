@@ -84,7 +84,7 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/employeeStructure/getEmployeeStructureElement",
+        url: location.href.split('/Payroll')[0]+"/Payroll/employeeStructure/getEmployeeStructureElement",
         data: {
             code:code
         },
@@ -151,7 +151,7 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "put",
-                url:"http://localhost:8080/Payroll/employeeStructure/updateEmployeeStructure",
+                url:location.href.split('/Payroll')[0]+"/Payroll/employeeStructure/updateEmployeeStructure",
                 data :formData,
                 success: function (response) {
                     $('#success_msg').removeAttr('hidden');
