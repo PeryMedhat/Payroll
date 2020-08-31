@@ -19,7 +19,7 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get", //send it through get method
-        url: "http://localhost:8080/Payroll/companyStructure/showCompanyStructure",
+        url: location.href.split('/Payroll')[0]+"/Payroll/companyStructure/showCompanyStructure",
         data: {
             code: code
         },
@@ -35,12 +35,15 @@ var controller = (function () {
                         'Content-Type': 'application/json'
                     },
                     type: "get", //send it through get method
-                    url: "http://localhost:8080/Payroll/payType/getAllPayTypes",
+                    url: location.href.split('/Payroll')[0]+"/Payroll/payType/getAllPayTypes",
                     success: function (response) {
                         if (response == null || response == '') {
                             payTypes = null;
                         } else {
                             payTypes = response;
+                            for (var p = 0; p < payTypes.length; p++) {
+                                $("#CompanyStructTable>thead>tr").append("<th>Paytype/"+payTypes[p].code+"</th>");
+                            }
                         }
                         $("tbody").remove();
                         $('#CompanyStructTable').append($('<tbody> <tr> </tr> </tbody>'));
@@ -83,31 +86,28 @@ var controller = (function () {
             var cell5 = row.insertCell(4); //payTypes check boxes XD
 
             if (arrangedArray[counter].hasParent == false) {
-                cell1.innerHTML = "Parent";
-                cell3.innerHTML = "N/A";
+                cell3.innerHTML = "Parent";
+                cell4.innerHTML = "N/A";
                 row.setAttribute('class', 'parent');
             } else if (arrangedArray[counter].hasChild == true) {
-                cell1.innerHTML = "SubParent";
-                cell3.innerHTML = arrangedArray[counter].parentCode;
+                cell3.innerHTML = "SubParent";
+                cell4.innerHTML = arrangedArray[counter].parentCode;
             } else {
-                cell1.innerHTML = "Child";
-                cell3.innerHTML = arrangedArray[counter].parentCode;
+                cell3.innerHTML = "Child";
+                cell4.innerHTML = arrangedArray[counter].parentCode;
             }
-            cell2.innerHTML = arrangedArray[counter].code;
-            cell4.innerHTML = arrangedArray[counter].name;
+            cell1.innerHTML = arrangedArray[counter].code;
+            cell2.innerHTML = arrangedArray[counter].name;
 
             if (payTypes == null) {
                 cell5.innerHTML = "No paytypes created yet";
             } else {
                 var arrayOfEmpCodes;
                 var EmpCodes;
-                var theAssignedPayTypes;
+
                 arrayOfEmpCodes = new Array();
                 arrayOfEmpCodes.push(arrangedArray[counter].code);
                 EmpCodes = JSON.stringify(arrayOfEmpCodes);
-
-                theAssignedPayTypes == new Array();
-
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -115,25 +115,29 @@ var controller = (function () {
                     },
                     type: "POST",
                     async: false,
-                    url: "http://localhost:8080/Payroll/companyStructure/getAllPaytypesAssignedToCompanyStruct",
+                    url:location.href.split('/Payroll')[0]+"/Payroll/companyStructure/getAllPaytypesAssignedToCompanyStruct",
                     data: EmpCodes,
                     success: function (response) {
+                        var theAssignedPayTypes;
+                        theAssignedPayTypes == new Array();
                         theAssignedPayTypes = response;
+                        for (var p = 0; p < payTypes.length; p++) {
+                            if (theAssignedPayTypes[0].code.localeCompare(row.id) == 0
+                                && theAssignedPayTypes[0].payTypeCodes.includes(payTypes[p].code)) {
+                                    var cell5 = row.insertCell(4+p);
+                                    cell5.innerHTML= "<input checked id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " ;
+                            } else {
+                                var cell5 = row.insertCell(4+p);
+                                cell5.innerHTML= "<input id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> "  ;
+                            }
+                            
+                        }
+                        $(row).find('td:last-child').remove();
                     },
                     error: function (xhr) {
                     }
                 });
 
-                for (var p = 0; p < payTypes.length; p++) {
-                    if (theAssignedPayTypes[0].code.localeCompare(row.id) == 0
-                        && theAssignedPayTypes[0].payTypeCodes.includes(payTypes[p].code)) {
-                        payTypesCheckBoxs += "<label><input checked id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
-                    } else {
-                        payTypesCheckBoxs += "<label><input id=\"" + payTypes[p].code + "-" + row.id + "\"" + "type=\"checkbox\"  autocomplete=\"off\"> " + payTypes[p].code + "</label> ";
-                    }
-                }
-                cell5.innerHTML = payTypesCheckBoxs;
-                payTypesCheckBoxs = "";
             }
         }
         $('#theCompanyStruct').removeAttr('hidden');
@@ -299,7 +303,7 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "POST",
-                url: "http://localhost:8080/Payroll/companyStructure/removePaytypeFromCompanyStuct",
+                url: location.href.split('/Payroll')[0]+"/Payroll/companyStructure/removePaytypeFromCompanyStuct",
                 data: data,
                 success: function (response) {
                     $.ajax({
@@ -308,7 +312,7 @@ var controller = (function () {
                             'Content-Type': 'application/json'
                         },
                         type: "POST",
-                        url: "http://localhost:8080/Payroll/companyStructure/assignPaytypeToCompanyStruct",
+                        url: location.href.split('/Payroll')[0]+"/Payroll/companyStructure/assignPaytypeToCompanyStruct",
                         data: formData,
                         success: function (response) {
                             $('#ResultOfCompanyStructAssignment').modal('show');

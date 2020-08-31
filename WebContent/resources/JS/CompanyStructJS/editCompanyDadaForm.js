@@ -87,7 +87,7 @@ var controller = (function () {
         },
         success: function (response) {
             model=response.theModel;  
-            $("#Companystruct_code").val(model.code);    
+            $("#companystruct_code").val(model.code);    
             $("#companystruct_name").val(model.name); 
             $("#start_date").val(model.startDate); 
             $("#end_date").val(model.endDate); 

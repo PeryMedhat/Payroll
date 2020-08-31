@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
   <head>
   	<title>Edit PayType Payroll</title>
     <meta charset="utf-8">
@@ -102,7 +103,19 @@
                    </li>
                 </ul>
                </li>
+<li>
+            <a href="#gradingStructureSubmenu" data-toggle="collapse" aria-expanded="false"
+              class="dropdown-toggle">Grading and Salary Structure</a>
+            <ul class="collapse list-unstyled" id="gradingStructureSubmenu">
+              <li>
+                <a href="../GradingAndSalaryViews/createGradingStructure.html">Create Grading and Salary Structure</a>
+              </li>
+              <li>
+                <a href="../GradingAndSalaryViews/editGradingStructure.html">Edit Grading and Salary Structure</a>
+              </li>
 
+            </ul>
+          </li>
 	        </ul>
 
 	        <div class="footer">
@@ -165,7 +178,7 @@
                         </div>
                     </div>
                     <div class="row row-space">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                      <button type="button"style="position:absolute; left:65px;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                         Show All </button>
                       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -178,7 +191,13 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
+                              <div class="table-responsive shadow-lg " style="
+                              overflow-x: auto; overflow-y: auto; max-height: 300px;
+                              background-color:white;width:100%;">
+                              <label style="position:relative;left:20px;">Search for codes: 
+                              </label>
+                              <input class="input--style-4" type="text" id="myInput" onkeyup="myFunction()" style="position:relative;left:10%; width:50%;">
+      
                                 <table class="table table-hover table-bordered" id="PayTypeTable" style="text-align: center;"
                                   hidden>
                                   <thead style="background-color:#f8b739;">

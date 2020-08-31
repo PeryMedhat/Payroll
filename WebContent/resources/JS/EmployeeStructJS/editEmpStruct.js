@@ -1,3 +1,4 @@
+
 var arrayOfTotalChain;
 var table = document.getElementById("EmpStructTable");
 var row;
@@ -40,6 +41,8 @@ $.ajax({
     error: function (xhr) {
     }
 });
+
+
 function myFunction() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("myInput");
