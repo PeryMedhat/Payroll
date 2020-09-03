@@ -14,7 +14,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get",
-    url: "http://localhost:8080/Payroll/companyStructure/getCompanyStructureElement",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/companyStructure/getCompanyStructureElement",
     data: {
         code: code
     },
@@ -32,7 +33,8 @@ $.ajax({
                 'Content-Type': 'application/json'
             },
             type: "get",
-            url: "http://localhost:8080/Payroll/companyStructure/getCompanyStructureElement?code="+model.parentCode,
+            url: location.href.split('/Payroll')[0]
+            +"/Payroll/companyStructure/getCompanyStructureElement?code="+model.parentCode,
             success: function (response) {
                 var parentModel = response.theModel;
                 var empObject = {
@@ -135,7 +137,8 @@ $.ajax({
                 'Content-Type': 'application/json'
             },
             type: "POST",
-            url: "http://localhost:8080/Payroll/companyStructure/chaningChildToSubParent?code=" + code,
+            url: location.href.split('/Payroll')[0]
+            +"/Payroll/companyStructure/chaningChildToSubParent?code=" + code,
             data: formData,
             success: function (response) {
 
@@ -349,7 +352,8 @@ function sendToDB() {
         }
     };
 
-    xhttp.open("POST", "http://localhost:8080/Payroll/companyStructure/chaningChildToSubParent?code=" + code, true);
+    xhttp.open("POST", location.href.split('/Payroll')[0]
+    +"/Payroll/companyStructure/chaningChildToSubParent?code=" + code, true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     for (var i = 0; i < empObjectsArray.length; i++) {

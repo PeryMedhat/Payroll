@@ -85,7 +85,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get", //send it through get method
-        url: "http://localhost:8080/Payroll/companyStructure/showCompanyStructure",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/companyStructure/showCompanyStructure",
         data: {
             code: code
         },
@@ -107,19 +108,29 @@ var controller = (function () {
                 $('#CompanyStructTable').append($('<tbody> <tr> </tr> </tbody>'));
                 showTheEmpStructTable();
                 $('#CompanyStructTable').removeAttr('hidden');
-                for (var a = 0; a < arrangedArray.length; a++) {
-                    var startDateString = arrangedArray[a].startDate;
+                for (var c = 0; c < arrangedArray.length; c++) {
+                    var startDateString = arrangedArray[c].startDate;
                     var sday = startDateString.slice(0, 3);
                     var smo = startDateString.slice(3, 6);
                     var syear = startDateString.slice(6, 11);
                     var modifiedStartDate = new Date(smo + '/' + sday + '/' + syear);
+    
+                    var endDateString = arrangedArray[c].endDate;
+                    var eday = endDateString.slice(0, 3);
+                    var emo = endDateString.slice(3, 6);
+                    var eyear = endDateString.slice(6, 11);
+                    var modifiedEndDate = new Date(emo + '/' + eday + '/' + eyear);
+    
                     var validDate = $("#valid_date").val();
-                    var  vday = validDate.slice(0, 3);
+                    var vday = validDate.slice(0, 3);
                     var vmo = validDate.slice(3, 6);
                     var vyear = validDate.slice(6, 11);
                     var modifiedValidDate = new Date(vmo + '/' + vday + '/' + vyear);
-                    if (modifiedStartDate < modifiedValidDate) {
-                        var trCode = arrangedArray[a].code;
+    
+                    if (((modifiedStartDate > modifiedValidDate) && (modifiedEndDate <
+                        modifiedValidDate)) || (modifiedStartDate > modifiedValidDate)  ||(modifiedEndDate <
+                            modifiedValidDate) ) {
+                        var trCode = arrangedArray[c].code;
                         $('#' + trCode).remove();
                     }
                 }
@@ -321,12 +332,22 @@ var controller = (function () {
                 var smo = startDateString.slice(3, 6);
                 var syear = startDateString.slice(6, 11);
                 var modifiedStartDate = new Date(smo + '/' + sday + '/' + syear);
+
+                var endDateString = arrangedArray[c].endDate;
+                var eday = endDateString.slice(0, 3);
+                var emo = endDateString.slice(3, 6);
+                var eyear = endDateString.slice(6, 11);
+                var modifiedEndDate = new Date(emo + '/' + eday + '/' + eyear);
+
                 var validDate = $("#valid_date").val();
                 var vday = validDate.slice(0, 3);
                 var vmo = validDate.slice(3, 6);
                 var vyear = validDate.slice(6, 11);
                 var modifiedValidDate = new Date(vmo + '/' + vday + '/' + vyear);
-                if (modifiedStartDate < modifiedValidDate) {
+
+                if (((modifiedStartDate > modifiedValidDate) && (modifiedEndDate <
+                    modifiedValidDate)) || (modifiedStartDate > modifiedValidDate)  ||(modifiedEndDate <
+                        modifiedValidDate) ) {
                     var trCode = arrangedArray[c].code;
                     $('#' + trCode).remove();
                 }
@@ -340,6 +361,7 @@ var controller = (function () {
         $("#modalOkButton").click(function (e) {
             location = 'editCompanyStruct.html';
         });
+
 
     });
 })();

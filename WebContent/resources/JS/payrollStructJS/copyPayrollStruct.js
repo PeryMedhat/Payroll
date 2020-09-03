@@ -76,7 +76,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getCountries",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getCountries",
 
         success: function (response) {
             countries = response;
@@ -98,7 +99,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getIntervals",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getIntervals",
         success: function (response) {
             intervals = response;
             for (var i = 0; i < intervals.length; i++) {
@@ -119,7 +121,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getCurrencies",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getCurrencies",
         success: function (response) {
             currencies = response;
             for (var i = 0; i < currencies.length; i++) {
@@ -142,7 +145,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getPayrollValuations",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getPayrollValuations",
         success: function (response) {
             payrollValuation = response;
             for (var i = 0; i < payrollValuation.length; i++) {
@@ -264,7 +268,8 @@ var controller = (function () {
                         'Content-Type': 'application/json'
                     },
                     type: "post",
-                    url: "http://localhost:8080/Payroll/PayrollStruct/copyPayrollStruct?code="+code,
+                    url: location.href.split('/Payroll')[0]
+                    +"/Payroll/PayrollStruct/copyPayrollStruct?code="+code,
                     data: formData,
                     success: function (response) {
                         $('#ResultOfpayrollStructCreation').modal('show');

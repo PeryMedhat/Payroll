@@ -70,7 +70,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/payType/getAllPayTypes",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/payType/getAllPayTypes",
 
         success: function (response) {
             payTypes = response;
@@ -224,7 +225,8 @@ var controller = (function () {
                         'Content-Type': 'application/json'
                     },
                     type: "post",
-                    url: "http://localhost:8080/Payroll/GradingStruct/addGradingAndSalary",
+                    url: location.href.split('/Payroll')[0]
+                    +"/Payroll/GradingStruct/addGradingAndSalary",
                     data: formData,
                     success: function (response) {
                         $('#ResultOfGradingStructureCreation').modal('show');

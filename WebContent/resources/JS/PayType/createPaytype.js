@@ -74,7 +74,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getInputVals",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getInputVals",
 
         success: function (response) {
             inputVals = response;
@@ -96,7 +97,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getIntervals",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getIntervals",
         success: function (response) {
             intervals = response;
             for (var i = 0; i < intervals.length; i++) {
@@ -118,7 +120,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/gettaxes",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/gettaxes",
         success: function (response) {
             Taxes = response;
             for (var i = 0; i < Taxes.length; i++) {
@@ -141,7 +144,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getTypes",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getTypes",
         success: function (response) {
             types = response;
             for (var i = 0; i < types.length; i++) {
@@ -247,7 +251,8 @@ var controller = (function () {
                         'Content-Type': 'application/json'
                     },
                     type: "post",
-                    url: "http://localhost:8080/Payroll/payType/addPayType",
+                    url: location.href.split('/Payroll')[0]
+                    +"/Payroll/payType/addPayType",
                     data: formData,
                     success: function (response) {
                         $('#ResultOfPayTypeCreation').modal('show');

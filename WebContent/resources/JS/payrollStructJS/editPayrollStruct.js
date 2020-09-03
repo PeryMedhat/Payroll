@@ -7,7 +7,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get", 
-    url: "http://localhost:8080/Payroll/PayrollStruct/getAllPayrollStruct",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/PayrollStruct/getAllPayrollStruct",
     success: function (response) {
         if (response == null || response=='') {
             $('#choosePayrollStruct').attr('hidden', '');

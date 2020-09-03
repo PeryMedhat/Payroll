@@ -81,7 +81,8 @@
               'Content-Type': 'application/json'
           },
           type: "POST",
-          url:"http://localhost:8080/Payroll/companyStructure/copyCompanyStructure?code="+code,
+          url:location.href.split('/Payroll')[0]
+          +"/Payroll/companyStructure/copyCompanyStructure?code="+code,
           data :formData,
           success: function (response) {
            
@@ -342,7 +343,8 @@
     }
     };
   
-    xhttp.open("POST", "http://localhost:8080/Payroll/companyStructure/copyCompanyStructure", true);
+    xhttp.open("POST", location.href.split('/Payroll')[0]
+    +"/Payroll/companyStructure/copyCompanyStructure", true);
     xhttp.setRequestHeader("Content-type", "application/json");
   
     xhttp.send(JSON.stringify(CompanyObjectsArray));

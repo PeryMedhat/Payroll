@@ -99,7 +99,8 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "get", 
-                url: "http://localhost:8080/Payroll/GradingStruct/delemitGradingAndSalary",
+                url: location.href.split('/Payroll')[0]
+                +"/Payroll/GradingStruct/delemitGradingAndSalary",
                 data: {
                     grade: grade,
                     endDate:endDate

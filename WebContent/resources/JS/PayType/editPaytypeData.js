@@ -12,7 +12,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get",
-    url: "http://localhost:8080/Payroll/payType/getPayType",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/payType/getPayType",
     data: {
         code: code
     },
@@ -117,7 +118,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/gettaxes",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/gettaxes",
 
         success: function (response) {
             taxes = response;
@@ -140,7 +142,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getInputVals",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getInputVals",
 
         success: function (response) {
             inputVals = response;
@@ -163,7 +166,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getIntervals",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getIntervals",
         success: function (response) {
             intervals = response;
             for (var i = 0; i < intervals.length; i++) {
@@ -185,7 +189,8 @@ var controller = (function () {
             'Content-Type': 'application/json'
         },
         type: "get",
-        url: "http://localhost:8080/Payroll/lookUps/getTypes",
+        url: location.href.split('/Payroll')[0]
+        +"/Payroll/lookUps/getTypes",
         success: function (response) {
             types = response;
             for (var i = 0; i < types.length; i++) {
@@ -294,7 +299,8 @@ var controller = (function () {
                         'Content-Type': 'application/json'
                     },
                     type: "put",
-                    url: "http://localhost:8080/Payroll/payType/updatePayType",
+                    url: location.href.split('/Payroll')[0]
+                    +"/Payroll/payType/updatePayType",
                     data: formData,
                     success: function (response) {
                         $('#ResultOfPayTypeCreation').modal('show');

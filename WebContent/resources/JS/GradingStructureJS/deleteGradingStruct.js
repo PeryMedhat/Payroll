@@ -27,7 +27,8 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "get", 
-                url: "http://localhost:8080/Payroll/GradingStruct/deleteGradingAndSalary",
+                url: location.href.split('/Payroll')[0]
+                +"/Payroll/GradingStruct/deleteGradingAndSalary",
                 data: {
                     grade: grade
                 },

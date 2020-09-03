@@ -99,7 +99,8 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "get", 
-                url: "http://localhost:8080/Payroll/PayrollStruct/delemitPayrollStruct",
+                url: location.href.split('/Payroll')[0]
+                +"/Payroll/PayrollStruct/delemitPayrollStruct",
                 data: {
                     code: code,
                     endDate:endDate

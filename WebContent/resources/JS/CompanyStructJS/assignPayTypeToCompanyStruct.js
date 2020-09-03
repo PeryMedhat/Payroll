@@ -9,7 +9,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get", 
-    url: "http://localhost:8080/Payroll/companyStructure/getAllTheCompanyStructures",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/companyStructure/getAllTheCompanyStructures",
     success: function (response) {
         if (response.theChain == null || response.theChain=='') {
             $('#chooseCompanyStruct').attr('hidden', '');

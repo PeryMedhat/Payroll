@@ -27,7 +27,8 @@ var controller = (function () {
                     'Content-Type': 'application/json'
                 },
                 type: "get", 
-                url: "http://localhost:8080/Payroll/payType/deletePayType",
+                url: location.href.split('/Payroll')[0]
+                +"/Payroll/payType/deletePayType",
                 data: {
                     code: code
                 },

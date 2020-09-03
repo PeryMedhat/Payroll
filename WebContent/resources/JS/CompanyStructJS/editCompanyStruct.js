@@ -7,7 +7,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get", 
-    url: "http://localhost:8080/Payroll/companyStructure/getAllTheCompanyStructures",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/companyStructure/getAllTheCompanyStructures",
     success: function (response) {
         if (response.theChain == null || response.theChain=='') {
             $('#chooseComapnyStruct').attr('hidden', '');
@@ -50,6 +51,7 @@ function myFunction() {
     tr = table.getElementsByTagName("tr");
   
     // Loop through all table rows, and hide those who don't match the search query
+    
     for (i = 0; i < tr.length; i++) {
       td = tr[i].getElementsByTagName("td")[0];
       if (td) {

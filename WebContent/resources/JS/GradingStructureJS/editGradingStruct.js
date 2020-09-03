@@ -7,7 +7,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get", 
-    url: "http://localhost:8080/Payroll/GradingStruct/getAllGradingAndSalary",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/GradingStruct/getAllGradingAndSalary",
     success: function (response) {
         if (response == null || response=='') {
             $('#chooseGradingStruct').attr('hidden', '');

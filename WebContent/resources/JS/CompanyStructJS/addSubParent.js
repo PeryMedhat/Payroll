@@ -13,7 +13,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get",
-    url: "http://localhost:8080/Payroll/companyStructure/getCompanyStructureElement",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/companyStructure/getCompanyStructureElement",
     data: {
         code: code
     },
@@ -114,7 +115,8 @@ $.ajax({
                 'Content-Type': 'application/json'
             },
             type: "POST",
-            url: "http://localhost:8080/Payroll/companyStructure/addCompanyStructure",
+            url: location.href.split('/Payroll')[0]
+            +"/Payroll/companyStructure/addCompanyStructure",
             data: formData,
             success: function (response) {
 
@@ -323,7 +325,8 @@ function sendToDB() {
         }
     };
 
-    xhttp.open("POST", "http://localhost:8080/Payroll/companyStructure/addCompanyStructure", true);
+    xhttp.open("POST", location.href.split('/Payroll')[0]
+    +"/Payroll/companyStructure/addCompanyStructure", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     for (var i = 0; i < empObjectsArray.length; i++) {

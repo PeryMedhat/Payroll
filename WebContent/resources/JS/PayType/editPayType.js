@@ -8,7 +8,8 @@ $.ajax({
         'Content-Type': 'application/json'
     },
     type: "get", 
-    url: "http://localhost:8080/Payroll/payType/getAllPayTypes",
+    url: location.href.split('/Payroll')[0]
+    +"/Payroll/payType/getAllPayTypes",
     success: function (response) {
         if (response == null || response=='') {
             $('#choosePaytype').attr('hidden', '');
