@@ -69,8 +69,6 @@ var controller = (function () {
     var currencies;
     var countries;
 
-
-
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -212,12 +210,13 @@ var controller = (function () {
             var startDateisEmpty = document.getElementById("startDateisEmpty");
             var endDateisEmpty = document.getElementById("endDateisEmpty");
             var noOfDaysisEmpty = document.getElementById("noOfDaysisEmpty");
-           
+            var taxSettlement;
+            var noOfDaysValue =noOfDays.value;
+
             code.setAttribute("class", "input--style-4");
             name.setAttribute("class", "input--style-4");
             startDate.setAttribute("class", "input--style-4");
             endDate.setAttribute("class", "input--style-4");
-            payrollValuation.setAttribute("class", "input--style-4");
             noOfDays.setAttribute("class", "input--style-4");
 
             document.getElementById('noOfDaysisEmpty').innerHTML ="* Required Field ";
@@ -245,20 +244,28 @@ var controller = (function () {
                     endDate.setAttribute("class", "input--style-4-redBorder");
                 }
 
-            }else if(($('#payrollValuation').val()=== "fixed")&&document.getElementById('noOfDays') =='' ){
+            }else if((payrollValuation.value.localeCompare("fixed")==0)&&document.getElementById('noOfDays').value =='' ){
                 noOfDaysisEmpty.removeAttribute('hidden');
                 noOfDays.setAttribute("class", "input--style-4-redBorder");
-            } else if(isNaN(noOfDays.value)){
+            } else if((payrollValuation.value.localeCompare("fixed")==0)&&isNaN(noOfDays.value)){
                 $('#noOfDaysisEmpty').html('*should be a number');
                 noOfDays.setAttribute("class", "input--style-4-redBorder");
                 noOfDaysisEmpty.removeAttribute('hidden');
             }else {
-                var taxSettlement;
-                if(document.getElementById('annually').checked){
-                    taxSettlement = 'annually';
-                }else {
-                    taxSettlement ='monthly';
+                if(country.value.localeCompare("Egypt")==0){
+                    if(document.getElementById('annually').checked){
+                        taxSettlement = 'annually';
+                    }else if(document.getElementById('monthly').checked) {
+                        taxSettlement ='monthly';
+                    }
+                }else{
+                    taxSettlement =null;
                 }
+
+                if(payrollValuation.value =='calendar'){
+                    noOfDaysValue == null;
+                }
+
                 var payrollStructModel = {
                     "code": code.value,
                     "name": name.value,
@@ -269,7 +276,7 @@ var controller = (function () {
                     "currency": currency.value,
                     "payrollValuation":payrollValuation.value,
                     "taxSettlement":taxSettlement,
-                    "noOfDays":noOfDays.value
+                    "noOfDays":noOfDaysValue
                 };
                 var formData = JSON.stringify(payrollStructModel);
                 $.ajax({

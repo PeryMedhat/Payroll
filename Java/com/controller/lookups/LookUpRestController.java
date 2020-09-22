@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.entities.lookups.Country;
 import com.entities.lookups.Currency;
 import com.entities.lookups.InputValue;
 import com.entities.lookups.Interval;
+import com.entities.lookups.PaymentMethodLookup;
 import com.entities.lookups.PayrollValuation;
 import com.entities.lookups.TaxesLookUp;
 import com.entities.lookups.Type;
@@ -68,6 +70,12 @@ public class LookUpRestController {
 	@ResponseBody
 	public List<TaxesLookUp> gettaxes() {	
 		return lookUpsService.getAllTaxesLookUps();
+	}
+	
+	@RequestMapping(value = { "/getPaymentMethods" }, method = RequestMethod.GET,consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<PaymentMethodLookup> getPaymentMethods() {	
+		return lookUpsService.getListOfPaymentMethodLookup();	
 	}
 		
 }

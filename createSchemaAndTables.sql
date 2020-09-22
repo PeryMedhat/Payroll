@@ -13,7 +13,7 @@ CREATE TABLE `payrollschema`.`commonID` (
   UNIQUE KEY `commonID_id_UNIQUE` (`commonID_id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=big5;
-
+	
 
 CREATE TABLE `payrollschema`.`companyCommonID` (
   `companyCommonID_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -277,6 +277,56 @@ CREATE TABLE `payrollschema`.`company_paytype_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
+CREATE TABLE `banks` (
+  `bank_id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `country` varchar(45) DEFAULT NULL,
+  `branch` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`bank_id`),
+  UNIQUE KEY `bank_id_UNIQUE` (`bank_id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=big5;
+
+
+
+CREATE TABLE `payrollschema`.`cost_center_structure` (
+  `cost_center_structure_id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`cost_center_structure_id`),
+  UNIQUE KEY `cost_center_structure_id_UNIQUE` (`cost_center_structure_id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=big5;
+
+
+
+CREATE TABLE `payrollschema`.`payment_methods_lookup` (
+  `code` varchar(45) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+CREATE TABLE `payrollschema`.`payment_method` (
+  `paymentmethod_id` int(11) NOT NULL AUTO_INCREMENT,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `payment_method` varchar(45) NOT NULL,
+  PRIMARY KEY (`paymentmethod_id`),
+  UNIQUE KEY `paymentmethod_id_UNIQUE` (`paymentmethod_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
+
+
+CREATE TABLE `payrollschema`.`gl_accounts` (
+  `gl_accounts_id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) NOT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `type` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`gl_accounts_id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
 

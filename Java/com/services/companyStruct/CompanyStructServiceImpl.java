@@ -691,6 +691,7 @@ public class CompanyStructServiceImpl implements CompanyStructService {
 		List<CompanyCommonID> companyStructs = companyDAO.getAllCompanyStructure();
 		if (companyStructs != null) {
 			for (Integer i = 0; i < companyStructs.size(); i++) {
+				
 				// create a model
 				CompanyStructModel model = new CompanyStructModel();
 				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

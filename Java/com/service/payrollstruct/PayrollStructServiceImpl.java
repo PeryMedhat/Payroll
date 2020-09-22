@@ -60,10 +60,16 @@ public class PayrollStructServiceImpl implements PayrollStructService{
 		Country country = countryDAO.getCountryByName(PayrollStructModel.getCountry());
 		Currency currency =currencyDAO.getCurrencyByName(PayrollStructModel.getCurrency());
 		PayrollValuation payrollValuation =payrollValDAO.getPayrollValuationByName(PayrollStructModel.getPayrollValuation());
+		Integer numberOfDays ;
+		if(PayrollStructModel.getNoOfDays() != "") {
+			numberOfDays=Integer.parseInt(PayrollStructModel.getNoOfDays());
+		}else {
+			numberOfDays=0;
+		}
 		
 		PayrollStructObj.setCommID(commId);
 		PayrollStructObj.setTaxSettlement(PayrollStructModel.getTaxSettlement());
-		PayrollStructObj.setNoOfFixedDays(Integer.parseInt(PayrollStructModel.getNoOfDays()));
+		PayrollStructObj.setNoOfFixedDays(numberOfDays);
 		PayrollStructObj.setCompany(null);	//integration
 		PayrollStructObj.setCountry(country.getCode());
 		PayrollStructObj.setCurrency(currency.getCode());
