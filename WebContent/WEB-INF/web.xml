@@ -24,41 +24,5 @@
   </servlet-mapping>
 
 
-  
-  
-  
-  
-  
-  <login-config>
-    <auth-method>FORM</auth-method>
-  </login-config>
-  
-  <session-config>
-    <session-timeout>20</session-timeout>
-</session-config>
 
-<security-role>
-    <description>All SAP Cloud Platform users</description>
-    <role-name>Everyone</role-name>
-  </security-role>
-  
-<security-role>
-    <role-name>Consultant</role-name>
-</security-role>
-
-<security-role>
-    <role-name>HrUser</role-name>
-</security-role>
-
-<security-constraint>
-    <web-resource-collection>
-        <web-resource-name>Only for Consultants</web-resource-name>
-        <url-pattern>EmpStructureViews/**</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-        <role-name>Consultant</role-name>
-    </auth-constraint>
-</security-constraint>
-  
-  
 </web-app>
