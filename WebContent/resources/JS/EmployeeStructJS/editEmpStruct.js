@@ -35,6 +35,7 @@ $.ajax({
                 cell1.innerHTML = arrayOfTotalChain[counter].code;
                 cell2.innerHTML = arrayOfTotalChain[counter].name;
             } $('#EmpStructTable').removeAttr('hidden');
+            
         }
 
     },
@@ -74,11 +75,13 @@ $(document).ready(function () {
                 newId = $(this).attr('id');
                 if (oldID != null) {
                     theId = '#' + oldID;
-                    $(theId).removeClass('bg-warning');
+                    $(theId).removeClass('bg-dark');
+                    $(theId).removeClass('text-light');
                 }
                 oldID = newId;
                 console.log(oldID);
-                $(this).addClass('bg-warning');
+                $(this).addClass('bg-dark');
+                $(this).addClass('text-light');
             });
         });
         

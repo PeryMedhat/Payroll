@@ -13,11 +13,8 @@
     <link rel="stylesheet" href="resources/CSS/style.css">
     <link rel="stylesheet" href="resources/CSS/stylesheet.css">
   </head>
-  <body>
-		
+  <body>		
 		<div class=" sidebarContainer wrapper d-flex align-items-stretch">
-     
-      
 			<nav id="sidebar">
 				<div class="p-4 pt-5">
           <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(logo.jpg);"></a>
@@ -38,7 +35,6 @@
                 </li>
 	            </ul>
 	          </li>
-	       
 	          <li>
               <a href="#compStructSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Company Structure</a>
               <ul class="collapse list-unstyled" id="compStructSubmenu">
@@ -46,14 +42,13 @@
                   <a href="views/CompanyStructViews/createCompanyStruct.html">Create Company Structure</a>
               </li>
               <li>
-                  <a href="views/CompanyStructViews/editCompanyStruct.html">Edit Company Structure</a>
+                <a href="views/CompanyStructViews/editCompanyStruct.html">Edit Company Structure</a>
               </li>
               <li>
-                  <a href="views/CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
+                <a href="views/CompanyStructViews/assignPayTypeToCompanyStruct.html">Assign Paytype to Company Structure</a>
               </li>
               </ul>
 	          </li>
-          
              <li>
                <a href="#payTypeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pay Types</a>
                <ul class="collapse list-unstyled" id="payTypeSubmenu">
@@ -66,7 +61,6 @@
             
                </ul>
               </li>
-
 
 
 

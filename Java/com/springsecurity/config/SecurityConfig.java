@@ -34,12 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin()
 			.and()
 	        .httpBasic();
-		
 	}
 	
 	@Bean
-	   public PasswordEncoder passwordEncoder() {
-	       return new BCryptPasswordEncoder();
-	   } 
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	} 
 
 }

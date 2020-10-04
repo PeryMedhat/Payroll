@@ -184,7 +184,7 @@
             <div class="card-body">
               <h2 class="title">Edit Employee Structure</h2>
               <div class="row row-space">
-                <div class="col-8">
+                <div class="col-sm-8">
                   <div class="input-group">
                     <label class="label">Code</label>
                     <input class="input--style-4" required maxlength="15" type="text" id="empstruct_code"
@@ -192,15 +192,17 @@
                   </div>
 
                 </div>
-                <div class="col-4">
+                <div class="col-sm-4">
                   <button style="position: relative;top: 30%;" type="submit" id="buttonSubmit"
                     class="btn  submitbtn btn-primary">Send</button>
                 </div>
               </div>
               
               <div class="row row-space">
-                <button type="button" style="position:absolute; left:65px;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                <div class="col-sm-4">
+                <button type="button" style="width: 60%;position:relative; top:60%; "  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                   Show All </button>
+                </div>
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -212,20 +214,28 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <div class="table-responsive shadow-lg " style="
-                        overflow-x: auto; overflow-y: auto; max-height: 300px;
-                        background-color:white;width:100%;">
-                        <label style="position:relative;left:20px;">Search for codes: 
-                        </label>
-                        <input class="input--style-4" type="text" id="myInput" onkeyup="myFunction()" style="position:relative;left:10%; width:50%;">
 
+                        <div class="row row-space">
+                          <div class="col-sm-6"></div>
+                            <div class="col-sm-6">
+                              <label style="color: black;">Search: 
+                              </label>
+                              <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" style="position: relative; top: -53%; left:30%; width:60%;" >
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <div class="table-responsive shadow-lg " style="position:relative;top:-5%;
+                        overflow-x: auto; overflow-y: auto; max-height: 350px;
+                        background-color:white;width:100%;">
                           <table class="table table-hover table-bordered" id="EmpStructTable" style="text-align: center;"
                             hidden>
-                            <thead style="background-color:#f8b739;">
+                            <thead style="position: sticky; top: 0;"class="bg-dark text-light" >
                               <tr>
-                                <th>Code</th>
-                                <th>Name</th>
-                                <th>Type</th>
+                                <th class="th-sm">Code</th>
+                                <th class="th-sm">Name</th>
+                                <th class="th-sm">Type</th>
                                 
                               </tr>
                             </thead>
