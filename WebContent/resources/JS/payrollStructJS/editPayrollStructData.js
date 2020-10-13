@@ -35,9 +35,9 @@ $.ajax({
         if(theCountry=== "Egypt") {
             $('#taxSettlementId').removeAttr('hidden','');
             if(taxSettlement==='monthly'){
-                $('#monthly').addClass('active');
+                $('#monthly').attr('checked',"");
             }else{
-                $('#annually').addClass('active');
+                $('#annually').attr('checked',"");
             }
         } 
 
@@ -217,9 +217,19 @@ var controller = (function () {
         }
     });
 
-
-
     jQuery(document).ready(function ($) {
+
+        $('input[type="radio"]').click(function(){
+            if ($(this).is(':checked'))
+            {
+                if(document.getElementById($(this).attr('id')).getAttribute('id').localeCompare("monthly")==0){
+                    $("#annually").prop('checked', false);
+                }else{
+                    $("#monthly").prop('checked', false);
+                }
+              
+            }
+          });
 
         $("#buttonSubmit").mouseenter(function () {
             $(this).removeClass('btn-primary');
@@ -285,13 +295,11 @@ var controller = (function () {
 
             }else {
                 var taxSettlementName;
-                if($('#annually').hasClass('active')){
+                if(document.getElementById('annually').checked){
                     taxSettlementName = 'annually';
                 }else {
                     taxSettlementName ='monthly';
                 }
-
-
                 var payrollStructModel = {
                     "code": code.value,
                     "name": name.value,
@@ -305,8 +313,6 @@ var controller = (function () {
                     "noOfDays":numberOfFixedDays.value
                 };
                 var formData = JSON.stringify(payrollStructModel);
-
-
                 $.ajax({
                     headers: {
                         'Accept': 'application/json',
@@ -328,14 +334,8 @@ var controller = (function () {
                         document.getElementById('fail_msg').innerHTML = "Error!!" + errorMessage;
                     }
                 });
-
             }
-
         });
-
-
-
-
     });
 })();
 

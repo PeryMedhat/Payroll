@@ -13,6 +13,7 @@ $.ajax({
         if (response.theChain == null || response.theChain=='') {
             $('#chooseEmpStruct').attr('hidden', '');
             $('#tableIsEmptyMSG').removeAttr('hidden', '');
+            $('#searchDiv').attr('hidden', '');
         } else {
             $('#chooseEmpStruct').removeAttr('hidden', '');
             arrayOfTotalChain = response.theChain;
@@ -42,7 +43,6 @@ $.ajax({
     error: function (xhr) {
     }
 });
-
 
 function myFunction() {
     var input, filter, table, tr, td, i, txtValue;

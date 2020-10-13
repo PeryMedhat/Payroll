@@ -228,16 +228,15 @@
         <div class="wrapper wrapper--w800">
           <div class="card card-4">
             <div class="card-body">
-              <h2 class="title"> GL Accounts </h2>
+              <h3 class="title"> GL Accounts </h3>
               <div class="row row-space">
                 <div class="col-sm-8">
-                  <h3 style="position:relative;left:10%;margin-bottom:30px;">GL Accounts are retrieved from integration</h3>
+                  <h2 style="position:relative;left:10%;margin-bottom:30px;color:#0009;">GL Accounts are retrieved from integration</h2>
                 </div></div>
-             
-
-                
               <div  class="row h-50">
-                <div class="col-sm-12 my-auto">
+                <div class="col-sm-6"></div>
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-4 my-auto">
                   <button id="getglAccountsBtn" style="width: 100%;" class="btn btn-warning">Get GL Accounts</button>
                 </div>
               </div>
@@ -252,9 +251,9 @@
           </div>
         </div>
 
-        <div class="table-responsive shadow-lg " style="background-color:white;width:100%;">
+        <div class="table-responsive shadow-lg " style="background-color:white;width:100%;overflow-x: auto; overflow-y: auto; max-height: 300px;">
           <table class="table table-hover table-bordered" id="glAccountsTable" style="text-align: center;">
-            <thead style="background-color:#f8b739;">
+            <thead style="background-color:#f8b739;position: sticky; top: 0;">
               <tr>
                 <th>Code</th>
                 <th>Name</th>
@@ -268,8 +267,11 @@
         </div>
 
         <div id="divforSave" class="row">
-          <div class="col-sm-12 my-auto">
-            <button id="saveglAccountsBtn" style="width: 100%;" class="btn btn-warning">Save GL Accounts to DB</button>
+          <div class="col-sm-6"></div>
+                <div class="col-sm-3 "></div>
+                <div class="col-sm-1 "></div>
+                <div class="col-sm-2 my-auto">
+            <button id="saveglAccountsBtn" style="width: 100%;margin-top:10px;" class="btn btn-warning">Save GL Accounts to DB</button>
           </div>
         </div>
 

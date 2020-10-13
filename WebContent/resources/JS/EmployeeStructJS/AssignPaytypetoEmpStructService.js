@@ -14,6 +14,7 @@ $.ajax({
         if (response.theChain == null || response.theChain=='') {
             $('#chooseEmpStruct').attr('hidden', '');
             $('#tableIsEmptyMSG').removeAttr('hidden', '');
+            $('#searchDiv').attr('hidden', '');
         } else {
             $('#chooseEmpStruct').removeAttr('hidden', '');
             arrayOfTotalChain = response.theChain;
@@ -73,11 +74,13 @@ $(document).ready(function () {
                 newId = $(this).attr('id');
                 if (oldID != null) {
                     theId = '#' + oldID;
-                    $(theId).removeClass('bg-warning');
+                    $(theId).removeClass('bg-dark');
+                    $(theId).removeClass('text-light');
                 }
                 oldID = newId;
                 console.log(oldID);
-                $(this).addClass('bg-warning');
+                $(this).addClass('bg-dark');
+                $(this).addClass('text-light');
             });
         });
         

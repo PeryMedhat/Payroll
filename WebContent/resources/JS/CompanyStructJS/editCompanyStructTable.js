@@ -104,6 +104,7 @@ var controller = (function () {
                 today = dd + '/' + mm + '/' + yyyy;
                 $("#valid_date").val(today);
 
+                
                 $("tbody").remove();
                 $('#CompanyStructTable').append($('<tbody> <tr> </tr> </tbody>'));
                 showTheEmpStructTable();

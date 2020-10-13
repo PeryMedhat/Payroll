@@ -181,29 +181,28 @@ src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></scri
           </div>
         </div>
       </nav>
-
-
       <div class="page-wrapper editEmp bg-gra-02 p-t-130 p-b-100 font-poppins">
         <div class="wrapper wrapper--w800">
           <div class="card card-4">
             <div class="card-body">
               <h2 class="title">Edit Company Structure</h2>
               <div class="row row-space">
-                <div class="col-8">
+                <div class="col-sm-8">
                   <div class="input-group">
                     <label class="label">Code</label>
-                    <input class="input--style-4" required maxlength="9" type="text" id="companystruct_code"
+                    <input class="input--style-4" required maxlength="15" type="text" id="companystruct_code"
                       name="companystruct_code">
                   </div>
                 </div>
-                <div class="col-4">
-                  <button style="position: relative;top: 30%;" type="submit" id="buttonSubmit"
+                <div class="col-sm-4">
+                  <button style="position: relative;top: 30%;width: 100%;" type="submit" id="buttonSubmit"
                     class="btn  submitbtn btn-primary">Send</button>
                 </div>
               </div>
               <div class="row row-space">
-                <button type="button" class="btn btn-primary" style="position:absolute; left:65px;"  data-toggle="modal" data-target="#exampleModalCenter">
-                  Show All </button>
+                <div class="col-sm-3">
+                <button type="button" class="btn btn-primary" style="width: 100%;position:relative; top:60%; "   data-toggle="modal" data-target="#exampleModalCenter">
+                  Show All </button></div></div>
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -215,16 +214,25 @@ src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></scri
                         </button>
                       </div>
                       <div class="modal-body">
-                        <div class="table-responsive shadow-lg " style="
-                        overflow-x: auto; overflow-y: auto; max-height: 300px;
-                        background-color:white;width:100%;">
-                        <label style="position:relative;left:20px;">Search for codes: 
+                        <div class="row row-space" id="searchDiv">
+                          <div class="col-sm-6"></div>
+                            
+                      <div class="col-sm-2" style="padding:0px; text-align: center;"> 
+                          <label style="color: black;">Search: 
                         </label>
-                        <input class="input--style-4" type="text" id="myInput" onkeyup="myFunction()" style="position:relative;left:10%; width:50%;">
-
+                      </div>
+                      <div class="col-sm-3"
+                      style="padding:0px; position:relative;top:-5px;"><input class="form-control" type="text" id="myInput" onkeyup="myFunction()" ></div>
+                      <div class="col-sm-1"></div>
+                    </div>
+                    
+                        <div class="table-responsive shadow-lg " style="position:relative;top:-5%;
+                        overflow-x: auto; overflow-y: auto; max-height: 350px;
+                        background-color:white;width:100%;">
+                        
                           <table class="table table-hover table-bordered" id="CompanyStructTable" style="text-align: center;"
                             hidden>
-                            <thead style="background-color:#f8b739;">
+                            <thead style="position: sticky; top: 0;"class="bg-dark text-light">
                               <tr>
                                 <th>Code</th>
                                 <th>Name</th>
@@ -249,29 +257,13 @@ src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></scri
                     </div>
                   </div>
                 </div>
-               
-
               </div>
-
-
-
-
-
             </div>
-
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
-
-
-
-
-
-
   </div>
  
   <script src="../../resources/JS/main.js"></script>

@@ -177,7 +177,6 @@
         </div>
       </nav>
 
-
       <div class="page-wrapper editEmp bg-gra-02 p-t-130 p-b-100 font-poppins">
         <div class="wrapper wrapper--w800">
           <div class="card card-4">
@@ -190,19 +189,19 @@
                     <input class="input--style-4" required maxlength="15" type="text" id="empstruct_code"
                       name="empstruct_code">
                   </div>
-
                 </div>
                 <div class="col-sm-4">
-                  <button style="position: relative;top: 30%;" type="submit" id="buttonSubmit"
+                  <button style="position: relative;top: 30%;width: 100%;" type="submit" id="buttonSubmit"
                     class="btn  submitbtn btn-primary">Send</button>
                 </div>
               </div>
               
               <div class="row row-space">
-                <div class="col-sm-4">
-                <button type="button" style="width: 60%;position:relative; top:60%; "  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                <div class="col-sm-3">
+                <button type="button" style="width: 100%;position:relative; top:60%; "  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                   Show All </button>
-                </div>
+                </div></div>
+                
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -214,17 +213,17 @@
                         </button>
                       </div>
                       <div class="modal-body">
-
-                        <div class="row row-space">
+                        <div class="row row-space" id="searchDiv">
                           <div class="col-sm-6"></div>
-                            <div class="col-sm-6">
-                              <label style="color: black;">Search: 
-                              </label>
-                              <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" style="position: relative; top: -53%; left:30%; width:60%;" >
-                            </div>
                             
+                      <div class="col-sm-2" style="padding:0px; text-align: center;"> 
+                          <label style="color: black;">Search: 
+                        </label>
+                      </div>
+                              <div class="col-sm-3"
+                              style="padding:0px; position:relative;top:-5px;"><input class="form-control" type="text" id="myInput" onkeyup="myFunction()" ></div>
+                              <div class="col-sm-1"></div>
                         </div>
-                        
                         
                         <div class="table-responsive shadow-lg " style="position:relative;top:-5%;
                         overflow-x: auto; overflow-y: auto; max-height: 350px;
@@ -233,14 +232,15 @@
                             hidden>
                             <thead style="position: sticky; top: 0;"class="bg-dark text-light" >
                               <tr>
+                                
                                 <th class="th-sm">Code</th>
                                 <th class="th-sm">Name</th>
                                 <th class="th-sm">Type</th>
-                                
                               </tr>
                             </thead>
                        
                           </table>
+                          
                           <div>
                             <div id="tableIsEmptyMSG" class="warning" hidden>
                               <div class="alert alert-warning">

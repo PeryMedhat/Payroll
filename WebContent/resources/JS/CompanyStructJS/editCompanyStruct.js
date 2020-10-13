@@ -12,6 +12,7 @@ $.ajax({
     success: function (response) {
         if (response.theChain == null || response.theChain=='') {
             $('#chooseComapnyStruct').attr('hidden', '');
+            $('#searchDiv').attr('hidden', '');
             $('#tableIsEmptyMSG').removeAttr('hidden', '');
         } else {
             $('#chooseComapnyStruct').removeAttr('hidden', '');
@@ -77,11 +78,13 @@ $(document).ready(function () {
                 newId = $(this).attr('id');
                 if (oldID != null) {
                     theId = '#' + oldID;
-                    $(theId).removeClass('bg-success');
+                    $(theId).removeClass('bg-dark');
+                    $(theId).removeClass('text-light');
                 }
                 oldID = newId;
                 console.log(oldID);
-                $(this).addClass('bg-success');
+                $(this).addClass('bg-dark');
+                $(this).addClass('text-light');
             });
         });
         

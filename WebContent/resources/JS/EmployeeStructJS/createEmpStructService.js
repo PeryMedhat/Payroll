@@ -303,5 +303,5 @@ newChildInSameLevel = true;
 
 
 function BackToCreateStructureClean(){
-  window.location = '../../index.html'; 
+  window.location = '../../index.jsp'; 
 }

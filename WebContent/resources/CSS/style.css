@@ -8551,7 +8551,7 @@ input {
   background: #fafafa;
   -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
-  box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.66);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
