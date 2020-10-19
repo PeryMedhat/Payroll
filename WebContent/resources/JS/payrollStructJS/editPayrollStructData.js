@@ -1,7 +1,8 @@
 
 queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const code = urlParams.get('code');
+var code = urlParams.get('code');
+
 var theInterval;
 var theCountry;
 var theCurrency;
@@ -170,6 +171,7 @@ var controller = (function () {
             console.log(xhr);
         }
     });
+
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -218,16 +220,31 @@ var controller = (function () {
     });
 
     jQuery(document).ready(function ($) {
+        $('#country').on('change', function (e) {
+            if($('#country').val()=== "Egypt") {
+                $('#taxSettlementId').removeAttr('hidden','');
+            } 
+            if(!($('#country').val()=== "Egypt")) {
+                $('#taxSettlementId').attr('hidden','');
+            } 
+        });
+
+        $('#payrollValuation').on('change', function (e) {
+            if($('#payrollValuation').val()=== "fixed") {
+                $('#fixedDays').removeAttr('hidden','');
+            } 
+            if(!($('#payrollValuation').val()=== "fixed")) {
+                $('#fixedDays').attr('hidden','');
+            } 
+        });
 
         $('input[type="radio"]').click(function(){
-            if ($(this).is(':checked'))
-            {
+            if ($(this).is(':checked')){
                 if(document.getElementById($(this).attr('id')).getAttribute('id').localeCompare("monthly")==0){
                     $("#annually").prop('checked', false);
                 }else{
                     $("#monthly").prop('checked', false);
                 }
-              
             }
           });
 
@@ -242,9 +259,6 @@ var controller = (function () {
         });
         
         $("#modalOkButton").click(function (e) {
-            queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            const code = urlParams.get('code');
             window.location ='showPayrollStructElement.html?code='+code;
         });
 
@@ -300,7 +314,10 @@ var controller = (function () {
                 }else {
                     taxSettlementName ='monthly';
                 }
-                var payrollStructModel = {
+                if($('#country').val() != "Egypt"){
+                    taxSettlement =null;
+                }
+                var payrollStructModel = { 
                     "code": code.value,
                     "name": name.value,
                     "startDate": startDate.value,

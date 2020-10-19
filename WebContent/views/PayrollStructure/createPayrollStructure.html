@@ -180,20 +180,20 @@
               <div class="row row-space paddingtop">
 
 
-                <div class="col-sm-4">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label"> Code <h class="rq" id="codeisEmpty" hidden>* Required Field </h></label>
 
-                    <input style="background:#0000;" class="input--style-4" maxlength="15" type="text"
+                    <input class="input--style-4" maxlength="15" type="text"
                       id="payrollStruct_code" name="payrollStruct_code">
 
                   </div>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-5">
                   <div class="input-group">
 
                     <label class="label">Name<h class="rq" id="nameisEmpty" hidden>* Required Field </h></label>
-                    <input style="background:#0000;" class="input--style-4" maxlength="60" type="text"
+                    <input class="input--style-4" maxlength="60" type="text"
                       id="payrollStruct_name" name="payrollStruct_name">
                   </div>
                 </div>
@@ -201,12 +201,12 @@
 
               <div class="row row-space paddingtop">
 
-                <div class="col-sm-5">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label">Start Date<h class="rq" id="startDateisEmpty" hidden>* Required Field </h>
                     </label>
                     <div class="input-group-icon">
-                      <input style="background:#0000;" readonly='true' class="input--style-4 js-datepicker"
+                      <input  readonly='true' class="input--style-4 js-datepicker"
                         id="start_date" type="text" name="start_date">
                       <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                     </div>
@@ -214,11 +214,11 @@
                 </div>
 
 
-                <div class="col-sm-5">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label">End Date <h class="rq" id="endDateisEmpty" hidden>* Required Field </h></label>
                     <div class="input-group-icon">
-                      <input style="background:#0000;" readonly='true' class="input--style-4 js-datepicker"
+                      <input  readonly='true' class="input--style-4 js-datepicker"
                         id="end_date" type="text" name="birthday">
                       <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                     </div>
@@ -228,7 +228,7 @@
               </div>
               <div class="row row-space paddingtop">
 
-                <div class="col-sm-4">
+                <div class="col-5">
                   <div class="dropdown">
                     <label class="label">Interval<h class="rq" id="intervalisEmpty" hidden>* Required Field </h></label>
                     <select class="custom-select" style="height: 50px;" id="interval">
@@ -237,7 +237,7 @@
                   </div>
                 </div>
 
-                <div class="col-sm-4">
+                <div class="col-5">
                   <div class="dropdown">
                     <label class="label" for="country">Country <h class="rq" id="countryisEmpty" hidden>* Required Field
                       </h>
@@ -249,7 +249,12 @@
                   </div>
                 </div>
 
-                <div class="col-sm-4">
+              
+
+              </div>
+
+              <div class="row row-space paddingtop">
+                <div class="col-5">
                   <div class="dropdown">
                     <label class="label">Currency<h class="rq" id="currencyisEmpty" hidden>* Required Field </h>
                     </label>
@@ -260,12 +265,7 @@
 
                   </div>
                 </div>
-
-              </div>
-
-              <div class="row row-space paddingtop">
-
-                <div class="col-sm-6 col-md-4">
+                <div class="col-5 ">
                   <div class="dropdown">
                     <label class="label" for="payrollValuation">Payroll Valuation <h class="rq"
                         id="payrollValuationisEmpty" hidden>* Required Field </h>
@@ -278,7 +278,13 @@
                 </div>
 
 
-                <div class="col-sm-5 col-md-4">
+           
+              </div>
+
+
+              <div class="row row-space">
+
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label"> Company <h class="rq" id="companyisEmpty" hidden>* Required Field </h></label>
 
@@ -288,7 +294,7 @@
                   </div>
                 </div>
 
-                <div class="col-4 input-group" id="taxSettlementId" hidden>
+                <div class="col-5" id="taxSettlementId" hidden>
                   <label class="label"> Tax Settlement <h class="rq" id="companyisEmpty" hidden>* Required Field </h>
                   </label>
 
@@ -302,18 +308,14 @@
                       checked>
                     <label class="custom-control-label" for="monthly">Monthly</label>
                   </div>
-
-
                 </div>
+
               </div>
-
-
-              
               <div class="row row-space paddingtop" id="fixedDays" hidden>
-                <div class="col-4">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label"> Number Of Days <h class="rq" id="noOfDaysisEmpty" hidden>* Required Field </h></label>
-                    <input style="background:#0000;" class="input--style-4" maxlength="15" type="text"
+                    <input class="input--style-4" maxlength="15" type="text"
                       id="noOfDays" name="noOfDays">
 
                   </div>
@@ -323,10 +325,9 @@
 
 
               <div class="row row-space paddingtop">
-                <div class="col-sm-6"></div>
-                <div class="col-sm-2"></div>
-                <div class="col-sm-4">
-                  <button type="submit" style="width: 100%;" id="buttonSubmit" class="btn  submitbtn btn-primary">submit</button>
+                
+                <div class="col-12">
+                  <button type="submit" style="float: right; padding-left:20px;padding-right:20px;"  id="buttonSubmit" class="btn  submitbtn btn-primary">submit</button>
 
                 </div>
               </div>

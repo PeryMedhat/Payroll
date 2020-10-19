@@ -18,7 +18,7 @@ $.ajax({
         } else {
             $('#choosePaytype').removeAttr('hidden', '');
             arrayOfTotalChain = response;
-            $('#PayTypeTable').append($('<tbody> <tr> </tr> </tbody>'));
+            $('#PayTypeTable').append($('<tbody  style="line-height:10px;"> <tr> </tr> </tbody>'));
 
             for (var counter = 0; counter < arrayOfTotalChain.length; counter++) {
                 row = table.insertRow(-1);
@@ -70,13 +70,11 @@ var controller = (function () {
                 newId = $(this).attr('id');
                 if (oldID != null) {
                     theId = '#' + oldID;
-                    $(theId).removeClass('bg-dark');
-                    $(theId).removeClass('text-light');
                 }
                 oldID = newId;
                 console.log(oldID);
-                $(this).addClass('bg-dark');
-                $(this).addClass('text-light');
+                $(".input--style-4").val(oldID);
+                $('#exampleModalCenter').modal('hide');
             });
         });
         

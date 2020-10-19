@@ -173,7 +173,7 @@ var controller = (function () {
         });
 
         $("#modalOkButton").click(function (e) {
-            location = '../../index.html';
+            location = '../../index.jsp';
         });
 
         $('#country').on('change', function (e) {

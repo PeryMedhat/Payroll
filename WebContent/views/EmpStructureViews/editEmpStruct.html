@@ -178,34 +178,36 @@
       </nav>
 
       <div class="page-wrapper editEmp bg-gra-02 p-t-130 p-b-100 font-poppins">
-        <div class="wrapper wrapper--w800">
+        <div class="wrapper wrapper--w800" style="max-width:30rem;">
           <div class="card card-4">
             <div class="card-body">
               <h2 class="title">Edit Employee Structure</h2>
               <div class="row row-space">
-                <div class="col-sm-8">
+                <div class="col-12" style="max-width:83%;margin:auto;">
                   <div class="input-group">
                     <label class="label">Code</label>
                     <input class="input--style-4" required maxlength="15" type="text" id="empstruct_code"
                       name="empstruct_code">
                   </div>
                 </div>
-                <div class="col-sm-4">
-                  <button style="position: relative;top: 30%;width: 100%;" type="submit" id="buttonSubmit"
-                    class="btn  submitbtn btn-primary">Send</button>
-                </div>
               </div>
               
-              <div class="row row-space">
-                <div class="col-sm-3">
-                <button type="button" style="width: 100%;position:relative; top:60%; "  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+              <div class="row row-space"style="max-width:90%;margin:auto;">
+                <div class="col-8">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                   Show All </button>
-                </div></div>
+                </div>
+                <div class="col-4 ">
+                  <button type="submit" style="float: right; padding-left:20px;padding-right:20px;" id="buttonSubmit"
+                    class="btn btn-primary">Send</button>
+                </div>
+              </div>
                 
+              
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content"style="width:400px;max-height:400px;">
                       <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Employee Structure Payroll</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -214,25 +216,24 @@
                       </div>
                       <div class="modal-body">
                         <div class="row row-space" id="searchDiv">
-                          <div class="col-sm-6"></div>
+                          <div class="col-4"></div>
                             
-                      <div class="col-sm-2" style="padding:0px; text-align: center;"> 
-                          <label style="color: black;">Search: 
+                      <div class="col-2" style="padding:0px; text-align: center;"> 
+                          <label style="color: black; font-weight:bold;">Search: 
                         </label>
                       </div>
-                              <div class="col-sm-3"
-                              style="padding:0px; position:relative;top:-5px;"><input class="form-control" type="text" id="myInput" onkeyup="myFunction()" ></div>
+                              <div class="col-5"
+                              style="padding:0px; margin-bottom:7px;"><input style="height:30px; padding-left:0px;" class="form-control" type="text" id="myInput" onkeyup="myFunction()" ></div>
                               <div class="col-sm-1"></div>
                         </div>
                         
-                        <div class="table-responsive shadow-lg " style="position:relative;top:-5%;
-                        overflow-x: auto; overflow-y: auto; max-height: 350px;
+                        <div class="table-responsive" style="
+                        overflow-x: auto; overflow-y: auto; max-height: 200px;
                         background-color:white;width:100%;">
                           <table class="table table-hover table-bordered" id="EmpStructTable" style="text-align: center;"
-                            hidden>
-                            <thead style="position: sticky; top: 0;"class="bg-dark text-light" >
-                              <tr>
-                                
+                            hidden> 
+                            <thead style="line-height:10px; ">
+                              <tr style="background-color:#ededed;">
                                 <th class="th-sm">Code</th>
                                 <th class="th-sm">Name</th>
                                 <th class="th-sm">Type</th>

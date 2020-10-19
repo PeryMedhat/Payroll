@@ -178,13 +178,33 @@ var controller = (function () {
     $('#payrollStruct_code').val(newCode);
 
     jQuery(document).ready(function ($) {
-
         $('#country').on('change', function (e) {
             if($('#country').val()=== "Egypt") {
                 $('#taxSettlementId').removeAttr('hidden','');
             } 
-          });
+            if(!($('#country').val()=== "Egypt")) {
+                $('#taxSettlementId').attr('hidden','');
+            } 
+        });
 
+        $('#payrollValuation').on('change', function (e) {
+            if($('#payrollValuation').val()=== "fixed") {
+                $('#fixedDays').removeAttr('hidden','');
+            } 
+            if(!($('#payrollValuation').val()=== "fixed")) {
+                $('#fixedDays').attr('hidden','');
+            } 
+        });
+
+        $('input[type="radio"]').click(function(){
+            if ($(this).is(':checked')){
+                if(document.getElementById($(this).attr('id')).getAttribute('id').localeCompare("monthly")==0){
+                    $("#annually").prop('checked', false);
+                }else{
+                    $("#monthly").prop('checked', false);
+                }
+            }
+          });
 
         $("#buttonSubmit").mouseenter(function () {
             $(this).removeClass('btn-primary');
@@ -209,7 +229,12 @@ var controller = (function () {
             var country = document.getElementById("country");
             var currency = document.getElementById("currency");
             var payrollValuation = document.getElementById("payrollValuation");
-
+            var payrollValuationName = document.getElementById("payrollValuation");
+            var numberOfFixedDays =  document.getElementById("noOfDays");
+            var noOfDaysEmpty = document.getElementById("noOfDaysEmpty");
+            noOfDaysEmpty.setAttribute('hidden','');
+            numberOfFixedDays.setAttribute("class", "input--style-4");;
+            document.getElementById('noOfDaysEmpty').innerHTML ="* Required Field ";
             //validations 
             if (code.value == '' || name.value == '' || startDate.value == '' || endDate.value == '' || interval.value == '' || country.value == '' || currency.value == '' || payrollValuation.value == '') {
 
@@ -236,13 +261,27 @@ var controller = (function () {
                     endDate.setAttribute("class", "input--style-4-redBorder");
                 }
 
+            } else if(payrollValuationName.value == "fixed" && numberOfFixedDays.value ==''){
+                noOfDaysEmpty.removeAttribute('hidden','');
+                numberOfFixedDays.setAttribute("class", "input--style-4-redBorder");
+            }else if(payrollValuationName.value == "fixed" && isNaN(numberOfFixedDays.value)){
+                noOfDaysEmpty.removeAttribute('hidden','');
+                numberOfFixedDays.setAttribute("class", "input--style-4-redBorder");
+                document.getElementById('noOfDaysEmpty').innerHTML ="Should be a number";
+
             } else {
                 var taxSettlement;
-                if($('#annually').hasClass('active')){
+                if(document.getElementById('annually').checked){
                     taxSettlement = 'annually';
                 }else {
                     taxSettlement ='monthly';
                 }
+
+                if($('#country').val() != "Egypt"){
+                    taxSettlement =null;
+                }
+
+
                 var thecode = document.getElementById("payrollStruct_code");
 
                 var payrollStructModel = {
@@ -254,7 +293,8 @@ var controller = (function () {
                     "country": country.value,
                     "currency": currency.value,
                     "payrollValuation":payrollValuation.value,
-                    "taxSettlement":taxSettlement
+                    "taxSettlement":taxSettlement,
+                    "noOfDays":numberOfFixedDays.value
                 };
 
                 var formData = JSON.stringify(payrollStructModel);

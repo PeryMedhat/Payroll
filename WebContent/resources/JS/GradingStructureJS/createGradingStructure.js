@@ -106,7 +106,7 @@ var controller = (function () {
         });
 
         $("#modalOkButton").click(function (e) {
-            location = '../../index.html';
+            location = '../../index.jsp';
         });
 
         $("#buttonSubmit").click(function (e) {

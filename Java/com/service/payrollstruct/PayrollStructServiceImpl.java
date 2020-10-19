@@ -159,7 +159,12 @@ public class PayrollStructServiceImpl implements PayrollStructService{
 			String currencyCode = currencyDAO.getCurrencyByName(PayrollStructModel.getCurrency()).getCode();
 			String countryCode = countryDAO.getCountryByName(PayrollStructModel.getCountry()).getCode();
 			String payrollValCode = payrollValDAO.getPayrollValuationByName(PayrollStructModel.getPayrollValuation()).getCode();
-			
+			Integer numberOfDays ;
+			if(PayrollStructModel.getNoOfDays() != "") {
+				numberOfDays=Integer.parseInt(PayrollStructModel.getNoOfDays());
+			}else {
+				numberOfDays=0;
+			}
 			//Update the data of this payrollStruct 
 			PayrollStruct.getCommID().setName(PayrollStructModel.getName());
 			PayrollStruct.getCommID().setStartDate(startDate);
@@ -169,7 +174,7 @@ public class PayrollStructServiceImpl implements PayrollStructService{
 			PayrollStruct.setCurrency(currencyCode);
 			PayrollStruct.setPayrollValuation(payrollValCode);
 			PayrollStruct.setTaxSettlement(PayrollStructModel.getTaxSettlement());
-			PayrollStruct.setNoOfFixedDays( Integer.parseInt(PayrollStructModel.getNoOfDays()));
+			PayrollStruct.setNoOfFixedDays( numberOfDays);
 	
 		}
 		

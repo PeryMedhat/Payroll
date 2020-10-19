@@ -204,9 +204,17 @@ var controller = (function () {
         error: function (xhr) {
             console.log(xhr);
         }
-    });
+    }); 
 
     jQuery(document).ready(function ($) {
+        $('#inputValue').on('change', function (e) {
+            if($('#inputValue').val()=== "unit"||$('#inputValue').val()=== "both") {
+                $('#payTypeUnit').removeAttr('hidden','');
+            } 
+            if(!($('#inputValue').val()=== "unit"||$('#inputValue').val()=== "both")) {
+                $('#payTypeUnit').attr('hidden','');
+            } 
+        });
 
 
         if(inputValue.value==="unit"||inputValue.value=== "both"){
@@ -280,7 +288,11 @@ var controller = (function () {
                 unit.setAttribute("class", "input--style-4-redBorder");
                 unitisEmpty.removeAttribute('hidden');
             } else {
+                
                 var percentageUnit = unit.value /100;
+                if(inputValue.value=== "calculated" || inputValue.value=== "value"){
+                    percentageUnit = null;
+                }
                 var payTypeModel = {
                     "code": code.value,
                     "name": name.value,

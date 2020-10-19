@@ -24,7 +24,7 @@ var controller = (function () {
             $('#inputValue').val(response.inputValue);
             $('#Taxes').val(response.taxes);
 
-            if(response.unit !=null){
+            if(response.unit !=null && response.unit !=0){
                 var newUnit=response.unit*100;
                 $('#unit').val(newUnit);
                 $('#payTypeUnit').removeAttr('hidden');

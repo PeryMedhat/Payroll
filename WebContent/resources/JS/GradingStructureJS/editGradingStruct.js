@@ -17,7 +17,7 @@ $.ajax({
         } else {
             $('#chooseGradingStruct').removeAttr('hidden', '');
             arrayOfTotalChain = response;
-            $('#GradingStructTable').append($('<tbody> <tr> </tr> </tbody>'));
+            $('#GradingStructTable').append($('<tbody style="line-height:10px;"> <tr> </tr> </tbody>'));
 
             for (var counter = 0; counter < arrayOfTotalChain.length; counter++) {
                 row = table.insertRow(-1);
@@ -58,7 +58,6 @@ function myFunction() {
 
 
 
-
 var controller = (function () {
     jQuery(document).ready(function ($) {
         var grade;
@@ -69,13 +68,11 @@ var controller = (function () {
                 newId = $(this).attr('id');
                 if (oldID != null) {
                     theId = '#' + oldID;
-                    $(theId).removeClass('bg-dark');
-                    $(theId).removeClass('text-light');
                 }
                 oldID = newId;
                 console.log(oldID);
-                $(this).addClass('bg-dark');
-                $(this).addClass('text-light');
+                $(".input--style-4").val(oldID);
+                $('#exampleModalCenter').modal('hide');
             });
         });
         

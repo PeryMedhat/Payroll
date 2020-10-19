@@ -2,7 +2,6 @@ var arrayOfTotalChain;
 var table = document.getElementById("CompanyStructTable");
 var row;
 
-
 $.ajax({
     headers: {
         'Accept': 'application/json',
@@ -19,7 +18,7 @@ $.ajax({
         } else {
             $('#chooseCompanyStruct').removeAttr('hidden', '');
             arrayOfTotalChain = response.theChain;
-            $('#CompanyStructTable').append($('<tbody> <tr> </tr> </tbody>'));
+            $('#CompanyStructTable').append($('<tbody style="line-height:10px;"> <tr> </tr> </tbody>'));
 
             for (var counter = 0; counter < arrayOfTotalChain.length; counter++) {
                 row = table.insertRow(-1);
@@ -79,13 +78,11 @@ $(document).ready(function () {
                 newId = $(this).attr('id');
                 if (oldID != null) {
                     theId = '#' + oldID;
-                    $(theId).removeClass('bg-dark');
-                    $(theId).removeClass('text-light');
                 }
                 oldID = newId;
                 console.log(oldID);
-                $(this).addClass('bg-dark');
-                $(this).addClass('text-light');
+                $(".input--style-4").val(oldID);
+                $('#exampleModalCenter').modal('hide');
             });
         });
         

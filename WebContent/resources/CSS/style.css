@@ -3340,6 +3340,8 @@ input[type="button"].btn-block {
 .custom-control-label::before,
 .custom-file-label,
 .custom-select {
+  text-overflow: ellipsis;
+  margin-bottom:20px;
   -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   -o-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -8547,8 +8549,9 @@ input {
   font-family: inherit;
 }
 .input--style-4 {
+  text-overflow: ellipsis;
   line-height: 50px;
-  background: #fafafa;
+  background: #e8e4e4;
   -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.66);
@@ -8611,6 +8614,9 @@ input {
 }
 
 .label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 16px;
   color: #555;
   text-transform: capitalize;

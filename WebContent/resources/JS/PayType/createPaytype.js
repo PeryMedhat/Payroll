@@ -175,7 +175,7 @@ var controller = (function () {
         });
 
         $("#modalOkButton").click(function (e) {
-            location = '../../index.html';
+            location = '../../index.jsp';
         });
 
         $('#inputValue').on('change', function (e) {

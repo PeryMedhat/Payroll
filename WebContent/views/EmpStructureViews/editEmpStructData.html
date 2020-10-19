@@ -186,21 +186,21 @@
             <div class="card-body">
               <div class="row row-space paddingtop">
                 <h2 class="title  col-8">Edit Employee Structure</h2>
-                <button class=" btn btn-warning col-4" style="height:min-content; position:relative;right:10px;background-color: #f8b739c9;"
+                <button class=" btn btn-warning col-4" style="height:min-content; position:relative;right:10px;background-color: #f8b739c9; font-size:small;"
                 id="changeToSubParentBtn" hidden>Change To SubParent</button>
               </div>
               <div class="row row-space paddingtop">
-                <div class="col-sm-5">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label">Code</label>
                     <input class="input--style-4" disabled maxlength="15" type="text" id="empstruct_code"
                       name="empstruct_code">
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label">Name</label>
-                    <input style="background:#0000;" class="input--style-4" maxlength="60" requiredtype="text" id="empstruct_name"
+                    <input class="input--style-4" maxlength="60" requiredtype="text" id="empstruct_name"
                       name="empstruct_name">
                   </div>
                 </div>
@@ -208,22 +208,22 @@
 
               <div class="row row-space paddingtop">
 
-                <div class="col-sm-5">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label">Start Date</label>
                     <div class="input-group-icon">
-                      <input style="background:#0000;" readonly='true' class="input--style-4 js-datepicker " id="start_date" type="text"
+                      <input readonly='true' class="input--style-4 js-datepicker " id="start_date" type="text"
                         name="start_date">
                       <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                     </div>
                   </div>
                 </div>
 
-                <div class="col-sm-5">
+                <div class="col-5">
                   <div class="input-group">
                     <label class="label">End Date</label>
                     <div class="input-group-icon">
-                      <input style="background:#0000;" readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
+                      <input  readonly='true' class="input--style-4 js-datepicker" id="end_date" type="text"
                         name="birthday">
                       <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                     </div>
@@ -256,10 +256,8 @@
                 </div>
               </div>
               <div class="row row-space">
-                <div class="col-sm-6"></div>
-                <div class="col-sm-2"></div>
-                  <div class="col-sm-4">
-                    <button style="width: 100%;" type="submit" id="buttonSubmit" class="btn submitbtn btn-primary" data-toggle="modal" data-target="#employeeStructModal" >Edit</button>
+                  <div class="col-12 ">
+                    <button style="float:right;padding-right: 20px;padding-left: 20px;" type="submit" id="buttonSubmit" class="btn submitbtn btn-primary" data-toggle="modal" data-target="#employeeStructModal" >Edit</button>
                 </div>
               </div>
               
