@@ -36,11 +36,12 @@ $.ajax({
 
 
 function myFunction() {
-    var input, filter, table, tr, td, i, txtValue;
+    var input, filter, table, tr, td, i, txtValue,noOfhiddenTr;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("PayrollStructTable");
     tr = table.getElementsByTagName("tr");
+    noOfhiddenTr=0;
   
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
@@ -51,11 +52,18 @@ function myFunction() {
           tr[i].style.display = "";
         } else {
           tr[i].style.display = "none";
+          noOfhiddenTr++;
         }
       }
+      if(tr.length-2 == noOfhiddenTr){
+        $("#PayrollStructTable").attr('hidden','');
+        console.log(true);
+      }else{
+        $("#PayrollStructTable").removeAttr('hidden')
+      }
     }
+    
   }
-
 
 var controller = (function () {
     jQuery(document).ready(function ($) {

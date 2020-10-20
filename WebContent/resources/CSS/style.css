@@ -8551,7 +8551,7 @@ input {
 .input--style-4 {
   text-overflow: ellipsis;
   line-height: 50px;
-  background: #e8e4e4;
+  background: #dcdcdc;
   -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
   box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.66);
