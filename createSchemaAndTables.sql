@@ -277,7 +277,7 @@ CREATE TABLE `payrollschema`.`company_paytype_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=big5;
 
 
-CREATE TABLE `banks` (
+CREATE TABLE `payrollschema`.`banks` (
   `bank_id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(45) NOT NULL,
   `name` varchar(60) DEFAULT NULL,

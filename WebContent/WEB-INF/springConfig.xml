@@ -33,8 +33,8 @@
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/payrollschema?useSSL=false&amp;allowPublicKeyRetrieval=true"/>
-		<property name="user" value="payrollUser" />
-		<property name="password" value="PayrollUser1234" />
+		<property name="user" value="root" />
+		<property name="password" value="Aya22371920" />
 
 		<!-- these are connection pool properties for C3P0 -->
 		<property name="minPoolSize" value="5" />
